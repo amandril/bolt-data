@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/amandril/data-bolt/static/css/main.073c9b0a.css",
-    "main.js": "/amandril/data-bolt/static/js/main.a7c316f8.js",
-    "static/js/787.0c892879.chunk.js": "/amandril/data-bolt/static/js/787.0c892879.chunk.js",
-    "static/media/logo.svg": "/amandril/data-bolt/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
-    "index.html": "/amandril/data-bolt/index.html",
-    "main.073c9b0a.css.map": "/amandril/data-bolt/static/css/main.073c9b0a.css.map",
-    "main.a7c316f8.js.map": "/amandril/data-bolt/static/js/main.a7c316f8.js.map",
-    "787.0c892879.chunk.js.map": "/amandril/data-bolt/static/js/787.0c892879.chunk.js.map"
+    "main.css": "/data-bolt/static/css/main.073c9b0a.css",
+    "main.js": "/data-bolt/static/js/main.704d5373.js",
+    "static/js/787.0c892879.chunk.js": "/data-bolt/static/js/787.0c892879.chunk.js",
+    "static/media/logo.svg": "/data-bolt/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/data-bolt/index.html",
+    "main.073c9b0a.css.map": "/data-bolt/static/css/main.073c9b0a.css.map",
+    "main.704d5373.js.map": "/data-bolt/static/js/main.704d5373.js.map",
+    "787.0c892879.chunk.js.map": "/data-bolt/static/js/787.0c892879.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.073c9b0a.css",
-    "static/js/main.a7c316f8.js"
+    "static/js/main.704d5373.js"
   ]
 }
