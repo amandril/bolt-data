@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/amandril/data-bolt/static/css/main.073c9b0a.css",
+    "main.js": "/amandril/data-bolt/static/js/main.0eb1457a.js",
+    "static/js/787.0c892879.chunk.js": "/amandril/data-bolt/static/js/787.0c892879.chunk.js",
+    "static/media/logo.svg": "/amandril/data-bolt/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/amandril/data-bolt/index.html",
+    "main.073c9b0a.css.map": "/amandril/data-bolt/static/css/main.073c9b0a.css.map",
+    "main.0eb1457a.js.map": "/amandril/data-bolt/static/js/main.0eb1457a.js.map",
+    "787.0c892879.chunk.js.map": "/amandril/data-bolt/static/js/787.0c892879.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.073c9b0a.css",
+    "static/js/main.0eb1457a.js"
+  ]
+}
