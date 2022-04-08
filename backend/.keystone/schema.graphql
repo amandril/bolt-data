@@ -1,0 +1,1072 @@
+""" A keystone list """
+type User {
+  id: ID!
+  name: String
+  email: String
+  password_is_set: Boolean
+  passwordResetToken_is_set: Boolean
+  passwordResetIssuedAt: String
+  passwordResetRedeemedAt: String
+  magicAuthToken_is_set: Boolean
+  magicAuthIssuedAt: String
+  magicAuthRedeemedAt: String
+}
+
+input UserWhereInput {
+  AND: [UserWhereInput]
+  OR: [UserWhereInput]
+  id: ID
+  id_not: ID
+  id_in: [ID]
+  id_not_in: [ID]
+  name: String
+  name_not: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  name_i: String
+  name_not_i: String
+  name_contains_i: String
+  name_not_contains_i: String
+  name_starts_with_i: String
+  name_not_starts_with_i: String
+  name_ends_with_i: String
+  name_not_ends_with_i: String
+  name_in: [String]
+  name_not_in: [String]
+  email: String
+  email_not: String
+  email_contains: String
+  email_not_contains: String
+  email_starts_with: String
+  email_not_starts_with: String
+  email_ends_with: String
+  email_not_ends_with: String
+  email_i: String
+  email_not_i: String
+  email_contains_i: String
+  email_not_contains_i: String
+  email_starts_with_i: String
+  email_not_starts_with_i: String
+  email_ends_with_i: String
+  email_not_ends_with_i: String
+  email_in: [String]
+  email_not_in: [String]
+  password_is_set: Boolean
+  passwordResetToken_is_set: Boolean
+  passwordResetIssuedAt: String
+  passwordResetIssuedAt_not: String
+  passwordResetIssuedAt_lt: String
+  passwordResetIssuedAt_lte: String
+  passwordResetIssuedAt_gt: String
+  passwordResetIssuedAt_gte: String
+  passwordResetIssuedAt_in: [String]
+  passwordResetIssuedAt_not_in: [String]
+  passwordResetRedeemedAt: String
+  passwordResetRedeemedAt_not: String
+  passwordResetRedeemedAt_lt: String
+  passwordResetRedeemedAt_lte: String
+  passwordResetRedeemedAt_gt: String
+  passwordResetRedeemedAt_gte: String
+  passwordResetRedeemedAt_in: [String]
+  passwordResetRedeemedAt_not_in: [String]
+  magicAuthToken_is_set: Boolean
+  magicAuthIssuedAt: String
+  magicAuthIssuedAt_not: String
+  magicAuthIssuedAt_lt: String
+  magicAuthIssuedAt_lte: String
+  magicAuthIssuedAt_gt: String
+  magicAuthIssuedAt_gte: String
+  magicAuthIssuedAt_in: [String]
+  magicAuthIssuedAt_not_in: [String]
+  magicAuthRedeemedAt: String
+  magicAuthRedeemedAt_not: String
+  magicAuthRedeemedAt_lt: String
+  magicAuthRedeemedAt_lte: String
+  magicAuthRedeemedAt_gt: String
+  magicAuthRedeemedAt_gte: String
+  magicAuthRedeemedAt_in: [String]
+  magicAuthRedeemedAt_not_in: [String]
+}
+
+input UserWhereUniqueInput {
+  id: ID!
+}
+
+enum SortUsersBy {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  email_ASC
+  email_DESC
+  passwordResetIssuedAt_ASC
+  passwordResetIssuedAt_DESC
+  passwordResetRedeemedAt_ASC
+  passwordResetRedeemedAt_DESC
+  magicAuthIssuedAt_ASC
+  magicAuthIssuedAt_DESC
+  magicAuthRedeemedAt_ASC
+  magicAuthRedeemedAt_DESC
+}
+
+input UserUpdateInput {
+  name: String
+  email: String
+  password: String
+  passwordResetToken: String
+  passwordResetIssuedAt: String
+  passwordResetRedeemedAt: String
+  magicAuthToken: String
+  magicAuthIssuedAt: String
+  magicAuthRedeemedAt: String
+}
+
+input UsersUpdateInput {
+  id: ID!
+  data: UserUpdateInput
+}
+
+input UserCreateInput {
+  name: String
+  email: String
+  password: String
+  passwordResetToken: String
+  passwordResetIssuedAt: String
+  passwordResetRedeemedAt: String
+  magicAuthToken: String
+  magicAuthIssuedAt: String
+  magicAuthRedeemedAt: String
+}
+
+input UsersCreateInput {
+  data: UserCreateInput
+}
+
+input BoltRelateToManyInput {
+  create: [BoltCreateInput]
+  connect: [BoltWhereUniqueInput]
+  disconnect: [BoltWhereUniqueInput]
+  disconnectAll: Boolean
+}
+
+""" A keystone list """
+type Route {
+  id: ID!
+  name: String
+  geolocation: String
+  parent_sector: String
+  bolts(where: BoltWhereInput, search: String, sortBy: [SortBoltsBy!], orderBy: String, first: Int, skip: Int): [Bolt!]!
+  _boltsMeta(where: BoltWhereInput, search: String, sortBy: [SortBoltsBy!], orderBy: String, first: Int, skip: Int): _QueryMeta
+  mp_route_id: String
+  mp_sector_id: String
+}
+
+input RouteWhereInput {
+  AND: [RouteWhereInput]
+  OR: [RouteWhereInput]
+  id: ID
+  id_not: ID
+  id_in: [ID]
+  id_not_in: [ID]
+  name: String
+  name_not: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  name_i: String
+  name_not_i: String
+  name_contains_i: String
+  name_not_contains_i: String
+  name_starts_with_i: String
+  name_not_starts_with_i: String
+  name_ends_with_i: String
+  name_not_ends_with_i: String
+  name_in: [String]
+  name_not_in: [String]
+  geolocation: String
+  geolocation_not: String
+  geolocation_contains: String
+  geolocation_not_contains: String
+  geolocation_starts_with: String
+  geolocation_not_starts_with: String
+  geolocation_ends_with: String
+  geolocation_not_ends_with: String
+  geolocation_i: String
+  geolocation_not_i: String
+  geolocation_contains_i: String
+  geolocation_not_contains_i: String
+  geolocation_starts_with_i: String
+  geolocation_not_starts_with_i: String
+  geolocation_ends_with_i: String
+  geolocation_not_ends_with_i: String
+  geolocation_in: [String]
+  geolocation_not_in: [String]
+  parent_sector: String
+  parent_sector_not: String
+  parent_sector_contains: String
+  parent_sector_not_contains: String
+  parent_sector_starts_with: String
+  parent_sector_not_starts_with: String
+  parent_sector_ends_with: String
+  parent_sector_not_ends_with: String
+  parent_sector_i: String
+  parent_sector_not_i: String
+  parent_sector_contains_i: String
+  parent_sector_not_contains_i: String
+  parent_sector_starts_with_i: String
+  parent_sector_not_starts_with_i: String
+  parent_sector_ends_with_i: String
+  parent_sector_not_ends_with_i: String
+  parent_sector_in: [String]
+  parent_sector_not_in: [String]
+
+  """ condition must be true for all nodes """
+  bolts_every: BoltWhereInput
+
+  """ condition must be true for at least 1 node """
+  bolts_some: BoltWhereInput
+
+  """ condition must be false for all nodes """
+  bolts_none: BoltWhereInput
+  mp_route_id: String
+  mp_route_id_not: String
+  mp_route_id_contains: String
+  mp_route_id_not_contains: String
+  mp_route_id_starts_with: String
+  mp_route_id_not_starts_with: String
+  mp_route_id_ends_with: String
+  mp_route_id_not_ends_with: String
+  mp_route_id_i: String
+  mp_route_id_not_i: String
+  mp_route_id_contains_i: String
+  mp_route_id_not_contains_i: String
+  mp_route_id_starts_with_i: String
+  mp_route_id_not_starts_with_i: String
+  mp_route_id_ends_with_i: String
+  mp_route_id_not_ends_with_i: String
+  mp_route_id_in: [String]
+  mp_route_id_not_in: [String]
+  mp_sector_id: String
+  mp_sector_id_not: String
+  mp_sector_id_contains: String
+  mp_sector_id_not_contains: String
+  mp_sector_id_starts_with: String
+  mp_sector_id_not_starts_with: String
+  mp_sector_id_ends_with: String
+  mp_sector_id_not_ends_with: String
+  mp_sector_id_i: String
+  mp_sector_id_not_i: String
+  mp_sector_id_contains_i: String
+  mp_sector_id_not_contains_i: String
+  mp_sector_id_starts_with_i: String
+  mp_sector_id_not_starts_with_i: String
+  mp_sector_id_ends_with_i: String
+  mp_sector_id_not_ends_with_i: String
+  mp_sector_id_in: [String]
+  mp_sector_id_not_in: [String]
+}
+
+input RouteWhereUniqueInput {
+  id: ID!
+}
+
+enum SortRoutesBy {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  geolocation_ASC
+  geolocation_DESC
+  parent_sector_ASC
+  parent_sector_DESC
+  bolts_ASC
+  bolts_DESC
+  mp_route_id_ASC
+  mp_route_id_DESC
+  mp_sector_id_ASC
+  mp_sector_id_DESC
+}
+
+input RouteUpdateInput {
+  name: String
+  geolocation: String
+  parent_sector: String
+  bolts: BoltRelateToManyInput
+  mp_route_id: String
+  mp_sector_id: String
+}
+
+input RoutesUpdateInput {
+  id: ID!
+  data: RouteUpdateInput
+}
+
+input RouteCreateInput {
+  name: String
+  geolocation: String
+  parent_sector: String
+  bolts: BoltRelateToManyInput
+  mp_route_id: String
+  mp_sector_id: String
+}
+
+input RoutesCreateInput {
+  data: RouteCreateInput
+}
+
+""" A keystone list """
+type Area {
+  id: ID!
+  name: String
+  usState: String
+  geolocation: String
+}
+
+input AreaWhereInput {
+  AND: [AreaWhereInput]
+  OR: [AreaWhereInput]
+  id: ID
+  id_not: ID
+  id_in: [ID]
+  id_not_in: [ID]
+  name: String
+  name_not: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  name_i: String
+  name_not_i: String
+  name_contains_i: String
+  name_not_contains_i: String
+  name_starts_with_i: String
+  name_not_starts_with_i: String
+  name_ends_with_i: String
+  name_not_ends_with_i: String
+  name_in: [String]
+  name_not_in: [String]
+  usState: String
+  usState_not: String
+  usState_contains: String
+  usState_not_contains: String
+  usState_starts_with: String
+  usState_not_starts_with: String
+  usState_ends_with: String
+  usState_not_ends_with: String
+  usState_i: String
+  usState_not_i: String
+  usState_contains_i: String
+  usState_not_contains_i: String
+  usState_starts_with_i: String
+  usState_not_starts_with_i: String
+  usState_ends_with_i: String
+  usState_not_ends_with_i: String
+  usState_in: [String]
+  usState_not_in: [String]
+  geolocation: String
+  geolocation_not: String
+  geolocation_contains: String
+  geolocation_not_contains: String
+  geolocation_starts_with: String
+  geolocation_not_starts_with: String
+  geolocation_ends_with: String
+  geolocation_not_ends_with: String
+  geolocation_i: String
+  geolocation_not_i: String
+  geolocation_contains_i: String
+  geolocation_not_contains_i: String
+  geolocation_starts_with_i: String
+  geolocation_not_starts_with_i: String
+  geolocation_ends_with_i: String
+  geolocation_not_ends_with_i: String
+  geolocation_in: [String]
+  geolocation_not_in: [String]
+}
+
+input AreaWhereUniqueInput {
+  id: ID!
+}
+
+enum SortAreasBy {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  usState_ASC
+  usState_DESC
+  geolocation_ASC
+  geolocation_DESC
+}
+
+input AreaUpdateInput {
+  name: String
+  usState: String
+  geolocation: String
+}
+
+input AreasUpdateInput {
+  id: ID!
+  data: AreaUpdateInput
+}
+
+input AreaCreateInput {
+  name: String
+  usState: String
+  geolocation: String
+}
+
+input AreasCreateInput {
+  data: AreaCreateInput
+}
+
+input RouteRelateToOneInput {
+  create: RouteCreateInput
+  connect: RouteWhereUniqueInput
+  disconnect: RouteWhereUniqueInput
+  disconnectAll: Boolean
+}
+
+""" A keystone list """
+type Bolt {
+  id: ID!
+  route: Route
+  pitch: Int
+  use: String
+  position: Int
+  type: String
+  description: String
+  condition: String
+  installDate: String
+  lastUpdated: String
+}
+
+input BoltWhereInput {
+  AND: [BoltWhereInput]
+  OR: [BoltWhereInput]
+  id: ID
+  id_not: ID
+  id_in: [ID]
+  id_not_in: [ID]
+  route: RouteWhereInput
+  route_is_null: Boolean
+  pitch: Int
+  pitch_not: Int
+  pitch_lt: Int
+  pitch_lte: Int
+  pitch_gt: Int
+  pitch_gte: Int
+  pitch_in: [Int]
+  pitch_not_in: [Int]
+  use: String
+  use_not: String
+  use_contains: String
+  use_not_contains: String
+  use_starts_with: String
+  use_not_starts_with: String
+  use_ends_with: String
+  use_not_ends_with: String
+  use_i: String
+  use_not_i: String
+  use_contains_i: String
+  use_not_contains_i: String
+  use_starts_with_i: String
+  use_not_starts_with_i: String
+  use_ends_with_i: String
+  use_not_ends_with_i: String
+  use_in: [String]
+  use_not_in: [String]
+  position: Int
+  position_not: Int
+  position_lt: Int
+  position_lte: Int
+  position_gt: Int
+  position_gte: Int
+  position_in: [Int]
+  position_not_in: [Int]
+  type: String
+  type_not: String
+  type_contains: String
+  type_not_contains: String
+  type_starts_with: String
+  type_not_starts_with: String
+  type_ends_with: String
+  type_not_ends_with: String
+  type_i: String
+  type_not_i: String
+  type_contains_i: String
+  type_not_contains_i: String
+  type_starts_with_i: String
+  type_not_starts_with_i: String
+  type_ends_with_i: String
+  type_not_ends_with_i: String
+  type_in: [String]
+  type_not_in: [String]
+  description: String
+  description_not: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  description_i: String
+  description_not_i: String
+  description_contains_i: String
+  description_not_contains_i: String
+  description_starts_with_i: String
+  description_not_starts_with_i: String
+  description_ends_with_i: String
+  description_not_ends_with_i: String
+  description_in: [String]
+  description_not_in: [String]
+  condition: String
+  condition_not: String
+  condition_contains: String
+  condition_not_contains: String
+  condition_starts_with: String
+  condition_not_starts_with: String
+  condition_ends_with: String
+  condition_not_ends_with: String
+  condition_i: String
+  condition_not_i: String
+  condition_contains_i: String
+  condition_not_contains_i: String
+  condition_starts_with_i: String
+  condition_not_starts_with_i: String
+  condition_ends_with_i: String
+  condition_not_ends_with_i: String
+  condition_in: [String]
+  condition_not_in: [String]
+  installDate: String
+  installDate_not: String
+  installDate_contains: String
+  installDate_not_contains: String
+  installDate_starts_with: String
+  installDate_not_starts_with: String
+  installDate_ends_with: String
+  installDate_not_ends_with: String
+  installDate_i: String
+  installDate_not_i: String
+  installDate_contains_i: String
+  installDate_not_contains_i: String
+  installDate_starts_with_i: String
+  installDate_not_starts_with_i: String
+  installDate_ends_with_i: String
+  installDate_not_ends_with_i: String
+  installDate_in: [String]
+  installDate_not_in: [String]
+  lastUpdated: String
+  lastUpdated_not: String
+  lastUpdated_contains: String
+  lastUpdated_not_contains: String
+  lastUpdated_starts_with: String
+  lastUpdated_not_starts_with: String
+  lastUpdated_ends_with: String
+  lastUpdated_not_ends_with: String
+  lastUpdated_i: String
+  lastUpdated_not_i: String
+  lastUpdated_contains_i: String
+  lastUpdated_not_contains_i: String
+  lastUpdated_starts_with_i: String
+  lastUpdated_not_starts_with_i: String
+  lastUpdated_ends_with_i: String
+  lastUpdated_not_ends_with_i: String
+  lastUpdated_in: [String]
+  lastUpdated_not_in: [String]
+}
+
+input BoltWhereUniqueInput {
+  id: ID!
+}
+
+enum SortBoltsBy {
+  id_ASC
+  id_DESC
+  route_ASC
+  route_DESC
+  pitch_ASC
+  pitch_DESC
+  use_ASC
+  use_DESC
+  position_ASC
+  position_DESC
+  type_ASC
+  type_DESC
+  description_ASC
+  description_DESC
+  condition_ASC
+  condition_DESC
+  installDate_ASC
+  installDate_DESC
+  lastUpdated_ASC
+  lastUpdated_DESC
+}
+
+input BoltUpdateInput {
+  route: RouteRelateToOneInput
+  pitch: Int
+  use: String
+  position: Int
+  type: String
+  description: String
+  condition: String
+  installDate: String
+  lastUpdated: String
+}
+
+input BoltsUpdateInput {
+  id: ID!
+  data: BoltUpdateInput
+}
+
+input BoltCreateInput {
+  route: RouteRelateToOneInput
+  pitch: Int
+  use: String
+  position: Int
+  type: String
+  description: String
+  condition: String
+  installDate: String
+  lastUpdated: String
+}
+
+input BoltsCreateInput {
+  data: BoltCreateInput
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON @specifiedBy(url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf")
+
+type _ListAccess {
+  """
+  Access Control settings for the currently logged in (or anonymous)
+  user when performing 'create' operations.
+  NOTE: 'create' can only return a Boolean.
+  It is not possible to specify a declarative Where clause for this
+  operation
+  """
+  create: Boolean
+
+  """
+  Access Control settings for the currently logged in (or anonymous)
+  user when performing 'read' operations.
+  """
+  read: JSON
+
+  """
+  Access Control settings for the currently logged in (or anonymous)
+  user when performing 'update' operations.
+  """
+  update: JSON
+
+  """
+  Access Control settings for the currently logged in (or anonymous)
+  user when performing 'delete' operations.
+  """
+  delete: JSON
+
+  """
+  Access Control settings for the currently logged in (or anonymous)
+  user when performing 'auth' operations.
+  """
+  auth: JSON
+}
+
+type _ListQueries {
+  """Single-item query name"""
+  item: String
+
+  """All-items query name"""
+  list: String
+
+  """List metadata query name"""
+  meta: String
+}
+
+type _ListMutations {
+  """Create mutation name"""
+  create: String
+
+  """Create many mutation name"""
+  createMany: String
+
+  """Update mutation name"""
+  update: String
+
+  """Update many mutation name"""
+  updateMany: String
+
+  """Delete mutation name"""
+  delete: String
+
+  """Delete many mutation name"""
+  deleteMany: String
+}
+
+type _ListInputTypes {
+  """Input type for matching multiple items"""
+  whereInput: String
+
+  """Input type for matching a unique item"""
+  whereUniqueInput: String
+
+  """Create mutation input type name"""
+  createInput: String
+
+  """Create many mutation input type name"""
+  createManyInput: String
+
+  """Update mutation name input"""
+  updateInput: String
+
+  """Update many mutation name input"""
+  updateManyInput: String
+}
+
+type _ListSchemaFields {
+  """The path of the field in its list"""
+  path: String
+
+  """The name of the field in its list"""
+  name: String @deprecated(reason: "Use `path` instead")
+
+  """The field type (ie, Checkbox, Text, etc)"""
+  type: String
+}
+
+type _ListSchemaRelatedFields {
+  """The typename as used in GraphQL queries"""
+  type: String
+
+  """A list of GraphQL field names"""
+  fields: [String]
+}
+
+type _ListSchema {
+  """The typename as used in GraphQL queries"""
+  type: String
+
+  """
+  Top level GraphQL query names which either return this type, or
+  provide aggregate information about this type
+  """
+  queries: _ListQueries
+
+  """Top-level GraphQL mutation names"""
+  mutations: _ListMutations
+
+  """Top-level GraphQL input types"""
+  inputTypes: _ListInputTypes
+
+  """Information about fields defined on this list"""
+  fields(where: _ListSchemaFieldsInput): [_ListSchemaFields]
+
+  """
+  Information about fields on other types which return this type, or
+  provide aggregate information about this type
+  """
+  relatedFields: [_ListSchemaRelatedFields]
+}
+
+type _ListMeta {
+  """The Keystone list key"""
+  key: String
+
+  """The Keystone List name"""
+  name: String @deprecated(reason: "Use `key` instead")
+
+  """The list's user-facing description"""
+  description: String
+
+  """The list's display name in the Admin UI"""
+  label: String
+
+  """The list's singular display name"""
+  singular: String
+
+  """The list's plural display name"""
+  plural: String
+
+  """The list's data path"""
+  path: String
+
+  """Access control configuration for the currently authenticated request"""
+  access: _ListAccess
+
+  """Information on the generated GraphQL schema"""
+  schema: _ListSchema
+}
+
+type _QueryMeta {
+  count: Int
+}
+
+input _ksListsMetaInput {
+  key: String
+
+  """Whether this is an auxiliary helper list"""
+  auxiliary: Boolean
+}
+
+input _ListSchemaFieldsInput {
+  type: String
+}
+
+type Query {
+  """ Search for all User items which match the where clause. """
+  allUsers(where: UserWhereInput, search: String, sortBy: [SortUsersBy!], orderBy: String, first: Int, skip: Int): [User]
+
+  """ Search for the User item with the matching ID. """
+  User(where: UserWhereUniqueInput!): User
+
+  """ Perform a meta-query on all User items which match the where clause. """
+  _allUsersMeta(where: UserWhereInput, search: String, sortBy: [SortUsersBy!], orderBy: String, first: Int, skip: Int): _QueryMeta
+
+  """ Retrieve the meta-data for the User list. """
+  _UsersMeta: _ListMeta
+
+  """ Search for all Route items which match the where clause. """
+  allRoutes(where: RouteWhereInput, search: String, sortBy: [SortRoutesBy!], orderBy: String, first: Int, skip: Int): [Route]
+
+  """ Search for the Route item with the matching ID. """
+  Route(where: RouteWhereUniqueInput!): Route
+
+  """ Perform a meta-query on all Route items which match the where clause. 
+  """
+  _allRoutesMeta(where: RouteWhereInput, search: String, sortBy: [SortRoutesBy!], orderBy: String, first: Int, skip: Int): _QueryMeta
+
+  """ Retrieve the meta-data for the Route list. """
+  _RoutesMeta: _ListMeta
+
+  """ Search for all Area items which match the where clause. """
+  allAreas(where: AreaWhereInput, search: String, sortBy: [SortAreasBy!], orderBy: String, first: Int, skip: Int): [Area]
+
+  """ Search for the Area item with the matching ID. """
+  Area(where: AreaWhereUniqueInput!): Area
+
+  """ Perform a meta-query on all Area items which match the where clause. """
+  _allAreasMeta(where: AreaWhereInput, search: String, sortBy: [SortAreasBy!], orderBy: String, first: Int, skip: Int): _QueryMeta
+
+  """ Retrieve the meta-data for the Area list. """
+  _AreasMeta: _ListMeta
+
+  """ Search for all Bolt items which match the where clause. """
+  allBolts(where: BoltWhereInput, search: String, sortBy: [SortBoltsBy!], orderBy: String, first: Int, skip: Int): [Bolt]
+
+  """ Search for the Bolt item with the matching ID. """
+  Bolt(where: BoltWhereUniqueInput!): Bolt
+
+  """ Perform a meta-query on all Bolt items which match the where clause. """
+  _allBoltsMeta(where: BoltWhereInput, search: String, sortBy: [SortBoltsBy!], orderBy: String, first: Int, skip: Int): _QueryMeta
+
+  """ Retrieve the meta-data for the Bolt list. """
+  _BoltsMeta: _ListMeta
+
+  """ Retrieve the meta-data for all lists. """
+  _ksListsMeta(where: _ksListsMetaInput): [_ListMeta]
+
+  """The version of the Keystone application serving this API."""
+  appVersion: String
+  authenticatedItem: AuthenticatedItem
+  keystone: KeystoneMeta!
+}
+
+type Mutation {
+  """ Create a single User item. """
+  createUser(data: UserCreateInput): User
+
+  """ Create multiple User items. """
+  createUsers(data: [UsersCreateInput]): [User]
+
+  """ Update a single User item by ID. """
+  updateUser(id: ID!, data: UserUpdateInput): User
+
+  """ Update multiple User items by ID. """
+  updateUsers(data: [UsersUpdateInput]): [User]
+
+  """ Delete a single User item by ID. """
+  deleteUser(id: ID!): User
+
+  """ Delete multiple User items by ID. """
+  deleteUsers(ids: [ID!]): [User]
+
+  """ Create a single Route item. """
+  createRoute(data: RouteCreateInput): Route
+
+  """ Create multiple Route items. """
+  createRoutes(data: [RoutesCreateInput]): [Route]
+
+  """ Update a single Route item by ID. """
+  updateRoute(id: ID!, data: RouteUpdateInput): Route
+
+  """ Update multiple Route items by ID. """
+  updateRoutes(data: [RoutesUpdateInput]): [Route]
+
+  """ Delete a single Route item by ID. """
+  deleteRoute(id: ID!): Route
+
+  """ Delete multiple Route items by ID. """
+  deleteRoutes(ids: [ID!]): [Route]
+
+  """ Create a single Area item. """
+  createArea(data: AreaCreateInput): Area
+
+  """ Create multiple Area items. """
+  createAreas(data: [AreasCreateInput]): [Area]
+
+  """ Update a single Area item by ID. """
+  updateArea(id: ID!, data: AreaUpdateInput): Area
+
+  """ Update multiple Area items by ID. """
+  updateAreas(data: [AreasUpdateInput]): [Area]
+
+  """ Delete a single Area item by ID. """
+  deleteArea(id: ID!): Area
+
+  """ Delete multiple Area items by ID. """
+  deleteAreas(ids: [ID!]): [Area]
+
+  """ Create a single Bolt item. """
+  createBolt(data: BoltCreateInput): Bolt
+
+  """ Create multiple Bolt items. """
+  createBolts(data: [BoltsCreateInput]): [Bolt]
+
+  """ Update a single Bolt item by ID. """
+  updateBolt(id: ID!, data: BoltUpdateInput): Bolt
+
+  """ Update multiple Bolt items by ID. """
+  updateBolts(data: [BoltsUpdateInput]): [Bolt]
+
+  """ Delete a single Bolt item by ID. """
+  deleteBolt(id: ID!): Bolt
+
+  """ Delete multiple Bolt items by ID. """
+  deleteBolts(ids: [ID!]): [Bolt]
+  authenticateUserWithPassword(email: String!, password: String!): UserAuthenticationWithPasswordResult!
+  createInitialUser(data: CreateInitialUserInput!): UserAuthenticationWithPasswordSuccess!
+  endSession: Boolean!
+}
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
+
+union AuthenticatedItem = User
+
+union UserAuthenticationWithPasswordResult = UserAuthenticationWithPasswordSuccess | UserAuthenticationWithPasswordFailure
+
+type UserAuthenticationWithPasswordSuccess {
+  sessionToken: String!
+  item: User!
+}
+
+type UserAuthenticationWithPasswordFailure {
+  code: PasswordAuthErrorCode!
+  message: String!
+}
+
+enum PasswordAuthErrorCode {
+  FAILURE
+  IDENTITY_NOT_FOUND
+  SECRET_NOT_SET
+  MULTIPLE_IDENTITY_MATCHES
+  SECRET_MISMATCH
+}
+
+input CreateInitialUserInput {
+  name: String
+  email: String
+  password: String
+}
+
+type KeystoneMeta {
+  adminMeta: KeystoneAdminMeta!
+}
+
+type KeystoneAdminMeta {
+  enableSignout: Boolean!
+  enableSessionItem: Boolean!
+  lists: [KeystoneAdminUIListMeta!]!
+  list(key: String!): KeystoneAdminUIListMeta
+}
+
+type KeystoneAdminUIListMeta {
+  key: String!
+  itemQueryName: String!
+  listQueryName: String!
+  hideCreate: Boolean!
+  hideDelete: Boolean!
+  path: String!
+  label: String!
+  singular: String!
+  plural: String!
+  description: String
+  initialColumns: [String!]!
+  pageSize: Int!
+  labelField: String!
+  fields: [KeystoneAdminUIFieldMeta!]!
+  initialSort: KeystoneAdminUISort
+  isHidden: Boolean!
+}
+
+type KeystoneAdminUISort {
+  field: String!
+  direction: KeystoneAdminUISortDirection!
+}
+
+type KeystoneAdminUIFieldMeta {
+  path: String!
+  label: String!
+  isOrderable: Boolean!
+  fieldMeta: JSON
+  viewsHash: String!
+  customViewsHash: String
+  createView: KeystoneAdminUIFieldMetaCreateView!
+  listView: KeystoneAdminUIFieldMetaListView!
+  itemView(id: ID!): KeystoneAdminUIFieldMetaItemView
+}
+
+type KeystoneAdminUIFieldMetaCreateView {
+  fieldMode: KeystoneAdminUIFieldMetaCreateViewFieldMode!
+}
+
+type KeystoneAdminUIFieldMetaListView {
+  fieldMode: KeystoneAdminUIFieldMetaListViewFieldMode!
+}
+
+type KeystoneAdminUIFieldMetaItemView {
+  fieldMode: KeystoneAdminUIFieldMetaItemViewFieldMode!
+}
+
+enum KeystoneAdminUIFieldMetaCreateViewFieldMode {
+  edit
+  hidden
+}
+
+enum KeystoneAdminUIFieldMetaListViewFieldMode {
+  read
+  hidden
+}
+
+enum KeystoneAdminUIFieldMetaItemViewFieldMode {
+  edit
+  read
+  hidden
+}
+
+enum KeystoneAdminUISortDirection {
+  ASC
+  DESC
+}
