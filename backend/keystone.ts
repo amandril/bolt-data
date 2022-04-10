@@ -64,7 +64,6 @@ export default withAuth(
       // Schema items go in here
       User,
       Route,
-      Area,
       Bolt,
     }),
     ui: {
