@@ -1,11 +1,13 @@
-import { useLazyQuery } from "@apollo/client";
-import { resetIdCounter, useCombobox } from "downshift";
-import gql from "graphql-tag";
-import debounce from "lodash.debounce";
+import { useLazyQuery } from '@apollo/client';
+import { resetIdCounter, useCombobox } from 'downshift';
+import gql from 'graphql-tag';
+import debounce from 'lodash.debounce';
+import { useRouter } from 'next/dist/client/router';
+import { DropDown, DropDownItem, SearchStyles } from './styles/DropDown.js';
 
 const SEARCH_ROUTES_QUERY = gql`
   query SEARCH_ROUTES_QUERY($searchTerm: String!) {
-    allRoutes(where: { route_name_contains_i: $searchTerm }) {
+    searchTerms: allRoutes(where: { route_name_contains_i: $searchTerm }) {
       id
       route_name
       lnglat
@@ -19,49 +21,74 @@ const SEARCH_ROUTES_QUERY = gql`
 `;
 
 export default function Search() {
-  const [findRoutes, { loading, data, error }] = useLazyQuery(
+  const router = useRouter();
+  const [findItems, { loading, data, error }] = useLazyQuery(
     SEARCH_ROUTES_QUERY,
     {
-      fetchPolicy: "no-cache",
+      fetchPolicy: 'no-cache',
     }
   );
-
-  const findRoutesButChill = debounce(findRoutes, 350);
+  console.log(loading, data, error);
+  const items = data?.searchTerms || [];
+  const findItemsButChill = debounce(findItems, 350);
   resetIdCounter();
-  const { inputValue, getMenuProps, getInputProps, getComboboxProps } =
-    useCombobox({
-      items: [],
-      onInputValueChange() {
-        console.log("Input changed");
-        findRoutesButChill({
-          variables: {
-            searchTerm: inputValue,
-          },
-        });
-      },
-      onSelectedItemChange() {
-        console.log("Selected Item Change");
-      },
-    });
-
+  const {
+    isOpen,
+    inputValue,
+    getMenuProps,
+    getInputProps,
+    getComboboxProps,
+    getItemProps,
+    highlightedIndex,
+  } = useCombobox({
+    items,
+    onInputValueChange() {
+      findItemsButChill({
+        variables: {
+          searchTerm: inputValue,
+        },
+      });
+    },
+    onSelectedItemChange({ selectedItem }) {
+      console.log(selectedItem);
+      // router.push({
+      //   pathname: `/product/${selectedItem.id}`,
+      // });
+    },
+    itemToString: (item) => item?.route_name || '',
+  });
   return (
     <div>
       <div {...getComboboxProps()}>
         <input
           {...getInputProps({
-            type: "search",
-            placeholder: "Search for a route",
-            id: "search",
-            className: "loading",
+            type: 'search',
+            placeholder: 'Search for an Item',
+            id: 'search',
+            className: loading ? 'loading' : null,
           })}
         />
       </div>
-      <div {...getMenuProps()}>
-        <div>Hey</div>
-        <div>Hey</div>
-        <div>Hey</div>
-        <div>Hey</div>
-      </div>
+      <DropDown {...getMenuProps()}>
+        {isOpen &&
+          items.map((item, index) => (
+            <DropDownItem
+              {...getItemProps({ item, index })}
+              key={item.id}
+              highlighted={index === highlightedIndex}
+            >
+              {/* <img
+                src={item.photo.image.publicUrlTransformed}
+                alt={item.name}
+                width="50"
+              /> */}
+              {item.route_name}
+            </DropDownItem>
+          ))}
+        {isOpen && !items.length && !loading && (
+          <DropDownItem>Sorry, No items found for {inputValue}</DropDownItem>
+        )}
+      </DropDown>
     </div>
   );
 }

@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import styled from "styled-components";
 import Nav from "./Nav";
@@ -34,6 +35,25 @@ const HeaderStyles = styled.header`
   }
 `;
 
+function ClientOnly({ children, ...delegated }) {
+  const [hasMounted, setHasMounted] = useState(false);
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+  if (!hasMounted) {
+    return null;
+  }
+  return <div {...delegated}>{children}</div>;
+}
+// then wrap Search
+
+// Only mount `Search` component on the client to stop infinite re-renders
+
+
+<ClientOnly>
+  <Search />
+</ClientOnly>;
+
 export default function Header() {
   return (
     <HeaderStyles>
@@ -43,7 +63,9 @@ export default function Header() {
         </Logo>
       </div>
       <div className="sub-bar">
-        <Search />
+        <ClientOnly>
+          <Search />
+        </ClientOnly>
       </div>
       <Nav />
     </HeaderStyles>

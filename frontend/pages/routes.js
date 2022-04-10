@@ -1,44 +1,44 @@
-import { useQuery } from "@apollo/client"
+import { useQuery } from "@apollo/client";
 import gql from "graphql-tag";
 import Route from "../components/Route";
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const DisplayRoutesStyle = styled.div`
-    display:grid;
-    grid-template-columns: repeat(3, 1fr);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
 `;
 
 const ALL_ROUTES_QUERY = gql`
-    query ALL_ROUTES_QUERY {
-        allRoutes {
-            name
-            geolocation
-            bolts {
-                position
-                condition
-            }
-        }
+  query ALL_ROUTES_QUERY {
+    allRoutes(where: { id: "6250d4ec5439244a8a6e9f9f" }) {
+      id
+      route_name
+      lnglat
+      bolts {
+        id
+        position
+        condition
+      }
     }
+  }
 `;
 
 export default function RoutesPage() {
-    
-    const {data, loading, error} = useQuery(ALL_ROUTES_QUERY, {
-        // variables: {
+  const { data, loading, error } = useQuery(ALL_ROUTES_QUERY, {
+    // variables: {
+    // }
+  });
 
-        // }
-    });
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>{error}</p>;
 
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>{error}</p>;
+  // console.log(data, loading, error);
 
-    // console.log(data, loading, error);
-    
-    return (
-        <DisplayRoutesStyle>
-            {data?.allRoutes.map((route) => {
-                return <Route route={route} />
-            })}
-        </DisplayRoutesStyle>
-    )
+  return (
+    <DisplayRoutesStyle>
+      {data?.allRoutes.map((route) => {
+        return <Route key={route.id} route={route} />;
+      })}
+    </DisplayRoutesStyle>
+  );
 }

@@ -6,4 +6,11 @@
         "titleBar.inactiveForeground": "#000000CC",
         "titleBar.activeBackground": "#287dcc",
     "titleBar.inactiveBackground": "#287dcc"
+    },
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": false,
+    },
+    "emmet.triggerExpansionOnTab": true
 }
