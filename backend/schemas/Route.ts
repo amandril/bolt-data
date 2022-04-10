@@ -1,15 +1,19 @@
-import { text, integer, relationship } from "@keystone-next/fields";
+import { text, integer, relationship, virtual } from "@keystone-next/fields";
 import  {list} from "@keystone-next/keystone/schema";
 import { Area } from "./Area";
 
 
 export const Route = list({
     fields: {
-        name: text({
+        route_name: text({
             isRequired: true,
         }),
-        geolocation: text(),
-        parent_sector: text(),
+        lnglat: virtual({
+            graphQLReturnType: 'String',
+            resolver(route) {
+                return route.lnglat
+            }
+        }),
         bolts: relationship({
             ref: 'Bolt.route',
             many: true,
@@ -20,8 +24,6 @@ export const Route = list({
                 inlineEdit: { fields: ['position', 'type', 'use', 'description', 'condition','installDate','lastUpdated']},
             },
         }),
-        mp_route_id: text(),
-        mp_sector_id: text(),
         // area: relationship({
         //     ref: 'area'
         // }),
@@ -32,7 +34,7 @@ export const Route = list({
     },
     ui: {
         listView: {
-            initialColumns: ['name', 'parent_sector', 'geolocation', 'bolts'],
+            initialColumns: ['route_name', 'bolts'],
         }
     },
 });
