@@ -34,7 +34,7 @@ export default function Page({ children }) {
     <div>
       <GlobalStyles />
       <Header />
-      <InnerStyles>{children}</InnerStyles>;
+      <InnerStyles>{children}</InnerStyles>
     </div>
   );
 }

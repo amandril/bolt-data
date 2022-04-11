@@ -10,7 +10,7 @@ const DisplayRoutesStyle = styled.div`
 
 const ALL_ROUTES_QUERY = gql`
   query ALL_ROUTES_QUERY {
-    allRoutes(where: { id: "6250d4ec5439244a8a6e9f9f" }) {
+    allRoutes(where: { route_name_contains_i: "wrinkle" }) {
       id
       route_name
       lnglat

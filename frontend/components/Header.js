@@ -47,8 +47,6 @@ function ClientOnly({ children, ...delegated }) {
 }
 // then wrap Search
 
-// Only mount `Search` component on the client to stop infinite re-renders
-
 
 <ClientOnly>
   <Search />
