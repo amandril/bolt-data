@@ -32,7 +32,7 @@ export const SINGLE_ROUTE_QUERY = gql`
   }
 `;
 
-export default function Route({ id }) {
+export default function SingleRoute({ id }) {
   const { loading, data, error } = useQuery(SINGLE_ROUTE_QUERY, {
     variables: {
       id,

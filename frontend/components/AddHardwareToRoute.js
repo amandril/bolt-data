@@ -30,16 +30,15 @@ const ADD_HARDWARE_TO_ROUTE_MUTATION = gql`
 
 export default function AddHardwareToRoute({ id }) {
   const { inputs, handleChange, clearForm, resetForm } = useForm({
-    position: "",
-    condition: "",
+    position: 1,
+    condition: "average",
   });
   const [addHardware, { loading, error, data }] = useMutation(
     ADD_HARDWARE_TO_ROUTE_MUTATION,
     {
-      refetchQueries: SINGLE_ROUTE_QUERY,
+      refetchQueries: [{ query: SINGLE_ROUTE_QUERY, variables: { id } }],
     }
   );
-  // console.log(data);
 
   return (
     <form
@@ -57,7 +56,7 @@ export default function AddHardwareToRoute({ id }) {
         // Go to that route's page!
         console.log(res.data);
         Router.push({
-          pathname: `../../route/${id}`,
+          pathname: `../${res.data.createBolt.route.id}`,
         });
       }}
     >
@@ -70,7 +69,6 @@ export default function AddHardwareToRoute({ id }) {
             type="number"
             id="position"
             name="position"
-            value={inputs.position}
             onChange={handleChange}
           />
         </label>
@@ -81,7 +79,6 @@ export default function AddHardwareToRoute({ id }) {
             id="condition"
             name="condition"
             placeholder="Condition"
-            value={inputs.condition}
             onChange={handleChange}
           >
             <option value="unknown">Unknown</option>
@@ -97,3 +94,5 @@ export default function AddHardwareToRoute({ id }) {
     </form>
   );
 }
+
+export { ADD_HARDWARE_TO_ROUTE_MUTATION };
