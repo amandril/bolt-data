@@ -31,7 +31,7 @@ const ADD_HARDWARE_TO_ROUTE_MUTATION = gql`
 export default function AddHardwareToRoute({ id }) {
   const { inputs, handleChange, clearForm, resetForm } = useForm({
     position: 1,
-    condition: "average",
+    condition: "unknown",
   });
   const [addHardware, { loading, error, data }] = useMutation(
     ADD_HARDWARE_TO_ROUTE_MUTATION,
