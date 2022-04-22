@@ -1,11 +1,11 @@
 import { useMutation } from "@apollo/client";
 import gql from "graphql-tag";
 import Router from "next/router";
-import { SINGLE_ROUTE_QUERY } from "./SingleRoute.js";
+import { SINGLE_CLIMB_QUERY } from "./SingleClimb.js";
 import useForm from "../lib/useForm";
 
-const ADD_HARDWARE_TO_ROUTE_MUTATION = gql`
-  mutation ADD_HARDWARE_TO_ROUTE_MUTATION(
+const ADD_HARDWARE_TO_CLIMB_MUTATION = gql`
+  mutation ADD_HARDWARE_TO_CLIMB_MUTATION(
     $id: ID!
     $position: Int!
     $condition: String!
@@ -14,29 +14,29 @@ const ADD_HARDWARE_TO_ROUTE_MUTATION = gql`
       data: {
         position: $position
         condition: $condition
-        route: { connect: { id: $id } }
+        climb: { connect: { id: $id } }
       }
     ) {
       id
       position
       condition
-      route {
+      climb {
         id
-        route_name
+        name
       }
     }
   }
 `;
 
-export default function AddHardwareToRoute({ id }) {
+export default function AddHardwareToClimb({ id }) {
   const { inputs, handleChange, clearForm, resetForm } = useForm({
     position: 1,
-    condition: "average",
+    condition: "unknown",
   });
   const [addHardware, { loading, error, data }] = useMutation(
-    ADD_HARDWARE_TO_ROUTE_MUTATION,
+    ADD_HARDWARE_TO_CLIMB_MUTATION,
     {
-      refetchQueries: [{ query: SINGLE_ROUTE_QUERY, variables: { id } }],
+      refetchQueries: [{ query: SINGLE_CLIMB_QUERY, variables: { id } }],
     }
   );
 
@@ -56,7 +56,7 @@ export default function AddHardwareToRoute({ id }) {
         // Go to that route's page!
         console.log(res.data);
         Router.push({
-          pathname: `../${res.data.createBolt.route.id}`,
+          pathname: `../${res.data.createBolt.climb.id}`,
         });
       }}
     >
@@ -95,4 +95,4 @@ export default function AddHardwareToRoute({ id }) {
   );
 }
 
-export { ADD_HARDWARE_TO_ROUTE_MUTATION };
+export { ADD_HARDWARE_TO_CLIMB_MUTATION };

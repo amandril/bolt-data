@@ -7,8 +7,7 @@ import {
 import "dotenv/config";
 import { User } from "./schemas/User";
 import { insertSeedData } from "./seed-data";
-import { Route } from "./schemas/Route";
-import { Area } from "./schemas/Area";
+import { Climb } from "./schemas/Climb";
 import { Bolt } from "./schemas/Bolt";
 
 // import { insertSeedData } from './seed-data';
@@ -63,7 +62,7 @@ export default withAuth(
     lists: createSchema({
       // Schema items go in here
       User,
-      Route,
+      Climb,
       Bolt,
     }),
     ui: {

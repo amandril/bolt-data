@@ -1,15 +1,21 @@
-import { text, select, relationship, integer, timestamp } from "@keystone-next/fields";
-import  {list} from "@keystone-next/keystone/schema";
+import {
+  text,
+  select,
+  relationship,
+  integer,
+  timestamp,
+} from "@keystone-next/fields";
+import { list } from "@keystone-next/keystone/schema";
 import { DateTime } from "@keystonejs/fields";
 
 export const Bolt = list({
   fields: {
-    route: relationship({
-        ref: "Route.bolts",
-        ui: {
-          displayMode: "select",
-        },
-      }),
+    climb: relationship({
+      ref: "Climb.bolts",
+      ui: {
+        displayMode: "select",
+      },
+    }),
     pitch: integer(),
     use: select({
       options: [
@@ -49,7 +55,7 @@ export const Bolt = list({
   },
   ui: {
     listView: {
-      initialColumns: ["position", "type", "use", "route"],
+      initialColumns: ["position", "type", "use", "climb"],
     },
   },
 });

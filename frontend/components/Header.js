@@ -5,33 +5,31 @@ import Nav from "./Nav";
 import Search from "./Search";
 
 const Logo = styled.h1`
-  background: peachpuff;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   a {
     color: #222222;
     text-decoration: none;
   }
   margin-left: 2rem;
+  margin-bottom: 0;
   position: relative;
   z-index: 2;
   padding: 1rem;
-  text-transform: uppercase;
-  display: inline-block;
 `;
 
 const HeaderStyles = styled.header`
-  .logo {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 10px solid var(--black, #222222);
-  }
-
-  .sub-bar {
+  .top-bar {
     display: grid;
     grid-template-columns: 1fr auto;
-    border-bottom: 1px solid var(--black, #222222);
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 3rem;
+    border-bottom: 10px solid var(--black, #222222);
+  }
+  .search {
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    grid-gap: 60px;
   }
 `;
 
@@ -47,25 +45,28 @@ function ClientOnly({ children, ...delegated }) {
 }
 // then wrap Search
 
-
-<ClientOnly>
+{
+  /* <ClientOnly>
   <Search />
-</ClientOnly>;
+</ClientOnly>; */
+}
 
 export default function Header() {
   return (
     <HeaderStyles>
-      <div className="logo">
+      <div className="top-bar">
         <Logo>
-          <Link href="/">Data-Bolt</Link>
+          <Link href="/">
+            <img src="/data-bolt.png" height={120} />
+          </Link>
         </Logo>
+        <div className="search">
+          <Nav />
+          <ClientOnly>
+            <Search />
+          </ClientOnly>
+        </div>
       </div>
-      <div className="sub-bar">
-        <ClientOnly>
-          <Search />
-        </ClientOnly>
-      </div>
-      <Nav />
     </HeaderStyles>
   );
 }

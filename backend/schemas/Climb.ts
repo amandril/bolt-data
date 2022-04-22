@@ -1,20 +1,17 @@
 import { text, integer, relationship, virtual } from "@keystone-next/fields";
 import { list } from "@keystone-next/keystone/schema";
-import { Area } from "./Area";
 
-export const Route = list({
+export const Climb = list({
   fields: {
-    route_name: text({
+    openbetaClimbId: text({
       isRequired: true,
     }),
-    lnglat: virtual({
-      graphQLReturnType: "String",
-      resolver(route) {
-        return route.lnglat;
-      },
+    name: text({
+      isRequired: true,
     }),
+    fa: text(),
     bolts: relationship({
-      ref: "Bolt.route",
+      ref: "Bolt.climb",
       many: true,
       ui: {
         displayMode: "cards",
@@ -51,17 +48,10 @@ export const Route = list({
         },
       },
     }),
-    // area: relationship({
-    //     ref: 'area'
-    // }),
-    // bolt: relationship({
-    //     ref: 'Bolt.route',
-    //     many: true
-    // }),
   },
   ui: {
     listView: {
-      initialColumns: ["route_name", "bolts"],
+      initialColumns: ["name", "bolts"],
     },
   },
 });
