@@ -7,7 +7,6 @@ import NProgress from "nprogress";
 
 // TODO create new CSS for the progress bar
 import "nprogress/nprogress.css";
-import Route from "../components/Route";
 
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());

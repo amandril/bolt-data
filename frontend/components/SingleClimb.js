@@ -4,6 +4,7 @@ import gql from "graphql-tag";
 import Bolt from "./Bolt";
 import Link from "next/link";
 import dynamic from "next/dynamic";
+import BoltCard from "./BoltCard";
 
 const MyResponsiveBar = dynamic(() => import("./BoltBar"), {
   ssr: false,
@@ -27,10 +28,18 @@ const ClimbName = styled.h1`
   font-size: 2.5rem;
 `;
 
-const ClimbBolts = styled.div`
+const BoltSection = styled.div`
+  margin: 0;
+  background-color: #eeeeee;
   display: grid;
   grid-template-columns: 1fr;
-  align-items: center;
+  justify-items: center;
+  .boltCards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 350px));
+    grid-gap: 10px;
+    margin: 2rem auto;
+  }
 `;
 
 const BoltGraphStyles = styled.div`
@@ -45,6 +54,14 @@ export const SINGLE_CLIMB_QUERY = gql`
       id
       name
       fa
+      bolts(orderBy: "position") {
+        id
+        position
+        condition
+        pitch
+        use
+        type
+      }
     }
     climbBolts: Climb(where: { id: $id }) {
       poorBolts: _boltsMeta(where: { condition: "poor" }) {
@@ -66,28 +83,6 @@ export const SINGLE_CLIMB_QUERY = gql`
   }
 `;
 
-// const ALL_CLIMB_BOLTS = gql`
-//   query ALL_CLIMB_BOLTS(id: ID!) {
-//     Climb(where: { id: $id }) {
-//       poorBolts: _boltsMeta(where: { condition: "poor" }) {
-//         count
-//       }
-//       averageBolts: _boltsMeta(where: { condition: "average" }) {
-//         count
-//       }
-//       goodBolts: _boltsMeta(where: { condition: "good" }) {
-//         count
-//       }
-//       bomberBolts: _boltsMeta(where: { condition: "bomber" }) {
-//         count
-//       }
-//       unknownBolts: _boltsMeta(where: { condition: "unknown" }) {
-//         count
-//       }
-//     }
-//   }
-// `;
-
 export default function SingleClimb({ id }) {
   const { loading, data, error } = useQuery(SINGLE_CLIMB_QUERY, {
     variables: {
@@ -97,7 +92,9 @@ export default function SingleClimb({ id }) {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
   const climb = data.Climb;
-  const bolts = data.climbBolts;
+  const bolts = data.climbBolts; // Aliased bolts for use in the nuvi graph
+
+  // console.log(climb.bolts); // returns all the bolts, no aliases
 
   const boltsArray = Object.entries(bolts)
     .slice(0, 5)
@@ -110,7 +107,7 @@ export default function SingleClimb({ id }) {
       };
     });
 
-  console.log(boltsArray);
+  // console.log(boltsArray);
 
   return (
     <div>
@@ -128,15 +125,15 @@ export default function SingleClimb({ id }) {
           Add Fixed Hardware
         </Link>
       </div>
-      {/* <ClimbBolts>
-        {climb.bolts.length > 0 ? (
-          climb.bolts.map((bolt) => <Bolt key={bolt.id} bolt={bolt} />)
-        ) : (
-          <>
+      <BoltSection>
+        <div className="boltCards">
+          {climb.bolts.length > 0 ? (
+            climb.bolts.map((bolt) => <BoltCard key={bolt.id} bolt={bolt} />)
+          ) : (
             <div>No hardware report</div>
-          </>
-        )}
-      </ClimbBolts> */}
+          )}
+        </div>
+      </BoltSection>
     </div>
   );
 }

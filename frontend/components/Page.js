@@ -21,12 +21,28 @@ body {
 a {
     text-decoration: none;
 }
+  // Bolt card styles
+  .poor.poor {
+      background-color: #ed8b76;
+  }
+  .average.average {
+      background-color: #ffe68e;
+  }
+  .good.good {
+    background-color: #a7ecba;
+  }
+  .bomber.bomber {
+    background-color: #93bcfa;
+  }
+  .unknown.unknown {
+    background-color: #FFDEB7;
+  }
 `;
 
 const InnerStyles = styled.div`
   max-width: var(--maxWidth);
   margin: 0 auto;
-  padding: 2rem;
+  /* padding: 2rem; */
 `;
 
 export default function Page({ children }) {

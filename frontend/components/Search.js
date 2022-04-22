@@ -29,7 +29,7 @@ export default function Search() {
       notifyOnNetworkStatusChange: true,
     }
   );
-  console.log(loading, data, error);
+  // console.log(loading, data, error);
   const items = data?.searchTerms || [];
   // let findItemsButChill = debounce(findItems, 350);
   const findItemsButChill = React.useCallback(debounce(findItems, 350), [
