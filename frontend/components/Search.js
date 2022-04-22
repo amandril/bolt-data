@@ -6,15 +6,11 @@ import debounce from "lodash.debounce";
 import { useRouter } from "next/dist/client/router";
 import { DropDown, DropDownItem, SearchStyles } from "./styles/DropDown.js";
 
-const SEARCH_ROUTES_QUERY = gql`
-  query SEARCH_ROUTES_QUERY($searchTerm: String!) {
-    searchTerms: allRoutes(
-      where: { route_name_contains_i: $searchTerm }
-      first: 4
-    ) {
+const SEARCH_CLIMBS_QUERY = gql`
+  query SEARCH_CLIMBS_QUERY($searchTerm: String!) {
+    searchTerms: allClimbs(where: { name_contains_i: $searchTerm }, first: 4) {
       id
-      route_name
-      lnglat
+      name
       bolts {
         id
         position
@@ -27,7 +23,7 @@ const SEARCH_ROUTES_QUERY = gql`
 export default function Search() {
   const router = useRouter();
   const [findItems, { loading, data, error }] = useLazyQuery(
-    SEARCH_ROUTES_QUERY,
+    SEARCH_CLIMBS_QUERY,
     {
       fetchPolicy: "no-cache",
       notifyOnNetworkStatusChange: true,
@@ -60,13 +56,13 @@ export default function Search() {
     onSelectedItemChange({ selectedItem }) {
       console.log(selectedItem);
       router.push({
-        pathname: `/route/${selectedItem.id}`,
+        pathname: `/climb/${selectedItem.id}`,
       });
     },
-    itemToString: (item) => item?.route_name || "",
+    itemToString: (item) => item?.name || "",
   });
   return (
-    <div>
+    <SearchStyles>
       <div {...getComboboxProps()}>
         <input
           {...getInputProps({
@@ -86,11 +82,11 @@ export default function Search() {
                 key={item.id}
                 highlighted={index === highlightedIndex}
               >
-                {item.route_name}
+                {item.name}
               </DropDownItem>
             ))}
             {console.log(items.length)}
-            {items.length >= 4 && <DropDownItem>More routes ➡️</DropDownItem>}
+            {items.length >= 4 && <DropDownItem>More climbs ➡️</DropDownItem>}
           </div>
         )}
         {isOpen && !items.length && loading && (
@@ -100,6 +96,6 @@ export default function Search() {
           <DropDownItem>Sorry, No items found for {inputValue}</DropDownItem>
         )}
       </DropDown>
-    </div>
+    </SearchStyles>
   );
 }

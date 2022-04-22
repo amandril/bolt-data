@@ -3,12 +3,13 @@ import { list } from "@keystone-next/keystone/schema";
 
 export const Climb = list({
   fields: {
-    obclimbId: text({
+    openbetaClimbId: text({
       isRequired: true,
     }),
     name: text({
       isRequired: true,
     }),
+    fa: text(),
     bolts: relationship({
       ref: "Bolt.climb",
       many: true,
