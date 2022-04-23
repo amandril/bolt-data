@@ -7,7 +7,7 @@ const MyResponsiveBar = dynamic(() => import("../components/BoltBar"), {
   ssr: false,
 });
 
-const DisplayRoutesStyle = styled.div`
+const DisplayClimbsStyle = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
 `;
@@ -39,7 +39,7 @@ const ALL_BOLTS_COLORADO = gql`
   }
 `;
 
-export default function RoutesPage() {
+export default function AllBoltsPage() {
   const { data, loading, error } = useQuery(ALL_BOLTS_COLORADO);
 
   if (loading) return <p>Loading...</p>;
@@ -57,11 +57,6 @@ export default function RoutesPage() {
   // console.log(boltsArray);
 
   return (
-    // <DisplayRoutesStyle>
-    //   {data?.allRoutes.map((route) => {
-    //     return <Route key={route.id} route={route} />;
-    //   })}
-    // </DisplayRoutesStyle>
     <>
       <div>All current fixed hardware</div>
 

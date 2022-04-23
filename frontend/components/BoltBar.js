@@ -18,7 +18,7 @@ const MyResponsiveBar = ({ data, key }) => (
       tension: 110,
     }}
     borderColor={{ from: "color" }}
-    borderWidth="10"
+    // borderWidth="10"
     axisBottom={{
       tickSize: 5,
       tickPadding: 5,
@@ -27,6 +27,8 @@ const MyResponsiveBar = ({ data, key }) => (
       legendPosition: "middle",
       legendOffset: 40,
     }}
+    axisLeft={false}
+    enableGridY={false}
   />
 );
 
