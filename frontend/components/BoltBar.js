@@ -23,7 +23,7 @@ const MyResponsiveBar = ({ data, key }) => (
       tickSize: 5,
       tickPadding: 5,
       tickRotation: 0,
-      legend: "Bolt Conditions",
+      legend: "Fixed Hardware",
       legendPosition: "middle",
       legendOffset: 40,
     }}

@@ -3,6 +3,7 @@ import gql from "graphql-tag";
 import Router from "next/router";
 import { SINGLE_CLIMB_QUERY } from "./SingleClimb.js";
 import useForm from "../lib/useForm";
+import styled from "styled-components";
 
 const ADD_HARDWARE_TO_CLIMB_MUTATION = gql`
   mutation ADD_HARDWARE_TO_CLIMB_MUTATION(
@@ -28,6 +29,48 @@ const ADD_HARDWARE_TO_CLIMB_MUTATION = gql`
   }
 `;
 
+const AddHardwareFormStyling = styled.form`
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 1px solid red;
+  }
+  fieldset {
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    grid-gap: 20px;
+    label {
+      color: red;
+      justify-self: start;
+      display: grid;
+      width: 100%;
+      grid-template-columns: 1fr minmax(0, 300px);
+      grid-gap: 20px;
+      > {
+        height: 50px;
+        justify-self: end;
+      }
+      > input[type="radio"] {
+        appearance: none;
+        background-color: red;
+      }
+    }
+    button {
+      color: green;
+      background-color: lightgreen;
+      padding: 10px;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 5px;
+    }
+  }
+`;
+
 export default function AddHardwareToClimb({ id }) {
   const { inputs, handleChange, clearForm, resetForm } = useForm({
     position: 1,
@@ -41,7 +84,7 @@ export default function AddHardwareToClimb({ id }) {
   );
 
   return (
-    <form
+    <AddHardwareFormStyling
       onSubmit={async (e) => {
         e.preventDefault();
         // Submit the inputfields to the backend:
@@ -72,9 +115,21 @@ export default function AddHardwareToClimb({ id }) {
             onChange={handleChange}
           />
         </label>
-        <label htmlFor="condition">
+        <div>
           Condition
-          <select
+          <label>
+            <input
+              type="radio"
+              value="poor"
+              name="condition"
+              id="condition"
+              onChange={handleChange}
+            />
+            Poor
+          </label>
+        </div>
+
+        {/* <select
             type="select"
             id="condition"
             name="condition"
@@ -86,12 +141,11 @@ export default function AddHardwareToClimb({ id }) {
             <option value="average">Average</option>
             <option value="good">Good</option>
             <option value="bomber">Bomber</option>
-          </select>
-        </label>
+          </select> */}
 
         <button type="submit">+ Add Hardware</button>
       </fieldset>
-    </form>
+    </AddHardwareFormStyling>
   );
 }
 

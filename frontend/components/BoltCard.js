@@ -9,6 +9,7 @@ const BoltCardStyle = styled.div`
   justify-items: center;
   padding: 1rem;
   border-radius: 5px;
+  height: 200px;
   .boltStats {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -42,13 +43,6 @@ const BoltConditionStyle = styled.div`
   margin: 1rem;
   text-align: center;
   border-radius: 10px;
-  .poor {
-    background-color: #ed8b76;
-    color: red;
-  }
-  .average {
-    background-color: #ffe68e;
-  }
 `;
 
 export default function BoltCard({ bolt }) {
