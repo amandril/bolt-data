@@ -23,8 +23,9 @@ const ClimbName = styled.h1`
 
 const FormSectionStyle = styled.div`
   margin: 0;
-  padding: 3rem 0;
+  padding: 3rem 0 10rem;
   background-color: #eeeeee;
+  /* margin-bottom: 10rem; */
 `;
 
 export default function addHardwarePage({ query }) {

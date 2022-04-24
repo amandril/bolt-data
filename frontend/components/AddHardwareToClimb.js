@@ -33,40 +33,118 @@ const AddHardwareFormStyling = styled.form`
   display: grid;
   grid-template-columns: 1fr;
   justify-items: center;
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    border: 1px solid red;
-  }
   fieldset {
+    border: 0;
+    background-color: #ffffff;
+    display: block;
+    clip-path: inset(0 0 0 0 round 10px);
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 300px);
     justify-items: center;
-    grid-gap: 20px;
+    grid-gap: 40px;
+    padding: 40px;
     label {
-      color: red;
-      justify-self: start;
+      color: #222222;
+      font-size: 1rem;
       display: grid;
+      grid-gap: 0.5rem;
+      grid-template-columns: 1fr;
+      justify-content: start;
       width: 100%;
-      grid-template-columns: 1fr minmax(0, 300px);
-      grid-gap: 20px;
-      > {
-        height: 50px;
-        justify-self: end;
+      input {
+        height: 2rem;
       }
-      > input[type="radio"] {
-        appearance: none;
-        background-color: red;
+      input,
+      textarea,
+      select {
+        display: block;
+        padding: 1.5rem 1rem;
+        /* margin: 1rem; */
+        border-radius: 5px;
+        font-size: 1rem;
+        border: 2px solid #dddddd;
+      }
+      textarea {
+        height: 15rem;
+        resize: none;
       }
     }
     button {
       color: green;
       background-color: lightgreen;
-      padding: 10px;
+      padding: 1rem 2rem;
+      margin: 1rem 0;
       font-size: 1rem;
       font-weight: bold;
       border-radius: 5px;
+      border: 0;
+    }
+  }
+`;
+
+const ConditionRadioStyles = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+  color: #222222;
+  font-size: 1rem;
+  :root {
+    --condition-radio-color: #222222;
+  }
+  *,
+  *:before,
+  *:after {
+    box-sizing: border-box;
+  }
+  .poor {
+    background-color: var(--poorColor);
+  }
+  .average {
+    background-color: var(--averageColor);
+  }
+  .good {
+    background-color: var(--goodColor);
+  }
+  .bomber {
+    background-color: var(--bomberColor);
+  }
+  .unknown {
+    background-color: var(--unknownColor);
+  }
+  .radioWrap {
+    display: block;
+    clip-path: inset(0 0 0 0 round 10px);
+  }
+  .condition {
+    display: grid;
+    grid-template-columns: 1em auto;
+    justify-content: space-between;
+    padding: 1rem;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.5);
+    input[type="radio"] {
+      appearance: none;
+      --webkit-appearance: none;
+      border: 0.15rem solid rgba(0, 0, 0, 0.5);
+      height: 1.5rem;
+      width: 1.5rem;
+      border-radius: 50%;
+      padding: 0;
+      display: grid;
+      place-content: center;
+    }
+    input[type="radio"]::before {
+      content: "";
+      width: 1em;
+      height: 1em;
+      border-radius: 50%;
+      transform: scale(0);
+      transition: 120ms transform ease-in-out;
+      box-shadow: inset 1em 1em rgba(0, 0, 0, 0.5);
+    }
+    input[type="radio"]:checked::before {
+      transform: scale(1);
     }
   }
 `;
@@ -105,6 +183,17 @@ export default function AddHardwareToClimb({ id }) {
     >
       {error && <div>{error}</div>}
       <fieldset disabled={loading} aria-busy={loading}>
+        <label htmlFor="pitch">
+          Pitch
+          <input
+            required
+            type="number"
+            id="pitch"
+            name="pitch"
+            onChange={handleChange}
+          />
+        </label>
+
         <label htmlFor="position">
           Position
           <input
@@ -115,19 +204,95 @@ export default function AddHardwareToClimb({ id }) {
             onChange={handleChange}
           />
         </label>
-        <div>
-          Condition
-          <label>
-            <input
-              type="radio"
-              value="poor"
-              name="condition"
-              id="condition"
-              onChange={handleChange}
-            />
-            Poor
-          </label>
-        </div>
+
+        <label htmlFor="use">
+          Use
+          <select
+            type="select"
+            id="condition"
+            name="condition"
+            onChange={handleChange}
+          >
+            <option value="lead">Lead</option>
+            <option value="anchor">Anchor</option>
+            <option value="belay">Belay</option>
+          </select>
+        </label>
+
+        <ConditionRadioStyles>
+          <p>Condition</p>
+          <div className="radioWrap">
+            <label className="condition poor" htmlFor="poor">
+              Poor
+              <input
+                type="radio"
+                value="poor"
+                name="condition"
+                id="poor"
+                onChange={handleChange}
+              />
+            </label>
+            <label className="condition average" htmlFor="average">
+              Average
+              <input
+                type="radio"
+                value="average"
+                name="condition"
+                id="average"
+                onChange={handleChange}
+              />
+            </label>
+            <label className="condition good" htmlFor="good">
+              Good
+              <input
+                type="radio"
+                value="good"
+                name="condition"
+                id="good"
+                onChange={handleChange}
+              />
+            </label>
+            <label className="condition bomber" htmlFor="bomber">
+              Bomber
+              <input
+                type="radio"
+                value="bomber"
+                name="condition"
+                id="bomber"
+                onChange={handleChange}
+              />
+            </label>
+            <label className="condition unknown" htmlFor="unknown">
+              Unknown
+              <input
+                type="radio"
+                value="unknown"
+                name="condition"
+                id="unknown"
+                onChange={handleChange}
+              />
+            </label>
+          </div>
+        </ConditionRadioStyles>
+
+        <label htmlFor="description">
+          Description
+          <textarea
+            name="description"
+            id="description"
+            onChange={handleChange}
+          />
+        </label>
+
+        <label htmlFor="installDate">
+          Install Date
+          <input
+            type="date"
+            id="installDate"
+            name="installDate"
+            onChange={handleChange}
+          />
+        </label>
 
         {/* <select
             type="select"

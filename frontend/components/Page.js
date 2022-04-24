@@ -7,6 +7,13 @@ html {
     --max-width: 1000px;
     -bs:0 12px 24px 0 rgba(0,0,0,0.09);
     box-sizing: border-box;
+    // Bold condition colors
+    --poorColor: #ed8b76;
+    --averageColor: #ffe68e;
+    --goodColor: #a7ecba;
+    --bomberColor: #93bcfa;
+    --unknownColor: #FFDEB7;
+
 }
 *, *:before, *:after {
     box-sizing:inherit;
@@ -23,19 +30,19 @@ a {
 }
   // Bolt card styles
   .poor.poor {
-      background-color: #ed8b76;
+      background-color: var(---poorColor);
   }
   .average.average {
-      background-color: #ffe68e;
+      background-color: var(---averageColor);
   }
   .good.good {
-    background-color: #a7ecba;
+    background-color: var(---goodColor);
   }
   .bomber.bomber {
-    background-color: #93bcfa;
+    background-color: var(---bomberColor);
   }
   .unknown.unknown {
-    background-color: #FFDEB7;
+    background-color: var(---unknownColor);
   }
 `;
 
