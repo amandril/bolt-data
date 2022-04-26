@@ -18,13 +18,15 @@ const Logo = styled.h1`
 `;
 
 const HeaderStyles = styled.header`
+  max-width: 1200px;
+  margin: 0 auto;
   .top-bar {
     display: grid;
     grid-template-columns: 1fr auto;
     justify-content: space-between;
     align-items: center;
-    margin: 0 3rem;
-    border-bottom: 10px solid var(--black, #222222);
+    margin: 0 2rem;
+    border-bottom: 2px solid var(--black, #eeeeee);
   }
   .search {
     display: grid;

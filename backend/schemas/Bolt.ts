@@ -4,9 +4,9 @@ import {
   relationship,
   integer,
   timestamp,
+  virtual,
 } from "@keystone-next/fields";
 import { list } from "@keystone-next/keystone/schema";
-import { DateTime } from "@keystonejs/fields";
 
 export const Bolt = list({
   fields: {
@@ -21,6 +21,7 @@ export const Bolt = list({
       options: [
         { label: "Lead", value: "lead" },
         { label: "Anchor", value: "anchor" },
+        { label: "Belay", value: "belay" },
       ],
     }),
     position: integer(),
@@ -46,16 +47,12 @@ export const Bolt = list({
         displayMode: "segmented-control",
       },
     }),
-    installDate: text({
-      defaultValue: "YYYYMMDD",
-    }),
-    lastUpdated: text({
-      defaultValue: "YYYYMMDD",
-    }),
+    installDate: text(),
+    lastUpdated: text(),
   },
   ui: {
     listView: {
-      initialColumns: ["position", "type", "use", "climb"],
+      initialColumns: ["position", "type", "use", "climb", "installDate"],
     },
   },
 });

@@ -59,7 +59,7 @@ export default function Search() {
         pathname: `/climb/${selectedItem.id}`,
       });
     },
-    itemToString: (item) => item?.name || "",
+    itemToString: (item) => "",
   });
   return (
     <SearchStyles>

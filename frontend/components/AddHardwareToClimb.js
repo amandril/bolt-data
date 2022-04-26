@@ -8,19 +8,34 @@ import styled from "styled-components";
 const ADD_HARDWARE_TO_CLIMB_MUTATION = gql`
   mutation ADD_HARDWARE_TO_CLIMB_MUTATION(
     $id: ID!
+    $pitch: Int!
     $position: Int!
+    $use: String!
+    $type: String!
     $condition: String!
+    $description: String!
+    $installDate: String!
   ) {
     createBolt(
       data: {
+        pitch: $pitch
         position: $position
+        use: $use
+        type: $type
         condition: $condition
+        description: $description
+        installDate: $installDate
         climb: { connect: { id: $id } }
       }
     ) {
       id
+      pitch
       position
+      use
+      type
       condition
+      description
+      installDate
       climb {
         id
         name
@@ -153,6 +168,11 @@ export default function AddHardwareToClimb({ id }) {
   const { inputs, handleChange, clearForm, resetForm } = useForm({
     position: 1,
     condition: "unknown",
+    pitch: 1,
+    use: "lead",
+    type: "bolt",
+    description: "",
+    installDate: "",
   });
   const [addHardware, { loading, error, data }] = useMutation(
     ADD_HARDWARE_TO_CLIMB_MUTATION,
@@ -169,8 +189,13 @@ export default function AddHardwareToClimb({ id }) {
         const res = await addHardware({
           variables: {
             id,
+            pitch: inputs.pitch,
             position: inputs.position,
+            use: inputs.use,
+            type: inputs.type,
             condition: inputs.condition,
+            description: inputs.description,
+            installDate: inputs.installDate,
           },
         });
         clearForm();
@@ -207,15 +232,20 @@ export default function AddHardwareToClimb({ id }) {
 
         <label htmlFor="use">
           Use
-          <select
-            type="select"
-            id="condition"
-            name="condition"
-            onChange={handleChange}
-          >
+          <select type="select" id="use" name="use" onChange={handleChange}>
             <option value="lead">Lead</option>
             <option value="anchor">Anchor</option>
             <option value="belay">Belay</option>
+          </select>
+        </label>
+
+        <label htmlFor="type">
+          Type
+          <select type="select" id="type" name="type" onChange={handleChange}>
+            <option value="bolt">Bolt</option>
+            <option value="pin">Pin</option>
+            <option value="webbing">Webbing</option>
+            <option value="other">Other</option>
           </select>
         </label>
 

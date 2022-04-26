@@ -1,7 +1,6 @@
 import { ApolloClient, InMemoryCache, useQuery } from "@apollo/client";
 import styled from "styled-components";
 import gql from "graphql-tag";
-import Bolt from "./Bolt";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import BoltCard from "./BoltCard";
@@ -17,7 +16,7 @@ const ClimbMain = styled.div`
   display: grid;
   justify-items: center;
   align-items: center;
-  grid-template-columns: 2fr 3fr;
+  grid-template-columns: 1fr 3fr;
   padding: 100px;
   .climbFa {
     font-size: 1rem;
@@ -57,7 +56,7 @@ const BoltSection = styled.div`
     margin: 2rem auto;
   }
   .addBoltRow {
-    grid-column: 1 / span 3;
+    grid-column: 1;
     display: grid;
   }
 `;
@@ -78,7 +77,7 @@ const AddBoltStyle = styled.div`
   font-size: 1.3rem;
   color: #dfdfdf;
   font-weight: bold;
-  height: 130px;
+  height: 200px;
   width: 100%;
   margin-top: 20px;
   justify-self: start;
@@ -125,11 +124,13 @@ export const SINGLE_CLIMB_QUERY = gql`
       fa
       bolts(orderBy: "position") {
         id
-        position
-        condition
         pitch
-        use
+        position
         type
+        use
+        condition
+        description
+        installDate
       }
     }
     climbBolts: Climb(where: { id: $id }) {
@@ -170,13 +171,11 @@ export default function SingleClimb({ id }) {
     .map(([key, value]) => {
       return {
         id: key,
-        label: key,
         value: value.count,
-        color: `${key == "poorBolts" ? "#ff0000" : "#223456"}`,
       };
     });
 
-  // console.log(boltsArray);
+  console.log(boltsArray);
 
   return (
     <div>
@@ -186,7 +185,7 @@ export default function SingleClimb({ id }) {
           <span className="climbFa">FA: {climb.fa}</span>
         </div>
         <BoltGraphStyles>
-          <MyResponsiveBar data={boltsArray} key={boltsArray.id} />
+          <MyResponsiveBar data={boltsArray} />
         </BoltGraphStyles>
       </ClimbMain>
       <BoltSection>

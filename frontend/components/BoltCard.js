@@ -5,7 +5,7 @@ const BoltCardStyle = styled.div`
   background-color: #ffffff;
   display: grid;
   grid-template-columns: 1fr;
-  grid-gap: 1rem;
+  grid-gap: 0.5rem;
   justify-items: center;
   padding: 1rem;
   border-radius: 5px;
@@ -13,7 +13,7 @@ const BoltCardStyle = styled.div`
   .boltStats {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-gap: 3rem;
+    grid-gap: 1.5rem;
     .boltStat {
       display: grid;
       grid-template-columns: 1fr;
@@ -21,9 +21,10 @@ const BoltCardStyle = styled.div`
       .boltStatName {
         font-size: 0.8rem;
         color: #acacac;
+        line-height: 0.5rem;
       }
       .boltStatValue {
-        font-size: 1.2rem;
+        font-size: 1rem;
         color: #222222;
         font-weight: bold;
       }

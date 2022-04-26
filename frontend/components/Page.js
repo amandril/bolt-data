@@ -3,51 +3,75 @@ import styled, { createGlobalStyle } from "styled-components";
 import Header from "./Header";
 
 const GlobalStyles = createGlobalStyle`
-html {
-    --max-width: 1000px;
-    -bs:0 12px 24px 0 rgba(0,0,0,0.09);
-    box-sizing: border-box;
-    // Bold condition colors
-    --poorColor: #ed8b76;
-    --averageColor: #ffe68e;
-    --goodColor: #a7ecba;
-    --bomberColor: #93bcfa;
-    --unknownColor: #FFDEB7;
+  @import url('https://fonts.googleapis.com/css2?family=Source+Serif+Pro&display=swap');
+  html {
+      --maxWidth: 1200px;
+      margin: 0 auto;
+      color:#222222;
+      -bs:0 12px 24px 0 rgba(0,0,0,0.09);
+      box-sizing: border-box;
+      // Bold condition colors
+      --poorColor: #ed8b76;
+      --averageColor: #ffe68e;
+      --goodColor: #a7ecba;
+      --bomberColor: #93bcfa;
+      --unknownColor: #FFDEB7;
 
-}
-*, *:before, *:after {
-    box-sizing:inherit;
-} 
-body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    padding: 0;
-    margin: 0;
-    font-size: 1.5rem;
-    line-height: 2;
-}
-a {
-    text-decoration: none;
-}
+  }
+  *, *:before, *:after {
+      box-sizing:inherit;
+  } 
+  body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      padding: 0;
+      margin: 0;
+      font-size: 1.5rem;
+      line-height: 2;
+  }
+  section.main {
+    max-width:800px;
+    margin: 0 auto;
+  }
+  a {
+      text-decoration: none;
+  }
+  p {
+    line-height: 2.2rem;
+  }
   // Bolt card styles
   .poor.poor {
-      background-color: var(---poorColor);
+      background-color: var(--poorColor);
   }
   .average.average {
-      background-color: var(---averageColor);
+      background-color: var(--averageColor);
   }
   .good.good {
-    background-color: var(---goodColor);
+    background-color: var(--goodColor);
   }
   .bomber.bomber {
-    background-color: var(---bomberColor);
+    background-color: var(--bomberColor);
   }
   .unknown.unknown {
-    background-color: var(---unknownColor);
+    background-color: var(--unknownColor);
+  }
+
+  // Used for centering containers in the body
+  .centering {
+    margin: 0 auto;
+    text-align:center;
+  }
+
+  h1.pageHeader{
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: normal;
+    text-align: center;
+    font-size: 4rem;
+    line-height: 5rem;
   }
 `;
 
 const InnerStyles = styled.div`
-  max-width: var(--maxWidth);
+  /* max-width: var(--maxWidth); */
   margin: 0 auto;
   /* padding: 2rem; */
 `;

@@ -2,14 +2,29 @@ import { useQuery } from "@apollo/client";
 import gql from "graphql-tag";
 import styled from "styled-components";
 import dynamic from "next/dynamic";
+import testTest from "../components/BoltBar";
 
 const MyResponsiveBar = dynamic(() => import("../components/BoltBar"), {
   ssr: false,
 });
 
-const DisplayClimbsStyle = styled.div`
+const HomeStyles = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: minmax(0, 800px);
+  justify-content: center;
+  margin: 2rem 0;
+  .homeTop {
+    display: grid;
+    justify-content: center;
+    grid-template-columns: minmax(0, 480px);
+    p {
+      text-align: center;
+    }
+  }
+  .graphPlusStats {
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+  }
 `;
 
 const BoltNivoStyles = styled.div`
@@ -54,18 +69,26 @@ export default function AllBoltsPage() {
     };
   });
 
-  // console.log(boltsArray);
-
   return (
-    <>
-      <div>All current fixed hardware</div>
+    <HomeStyles>
+      <div className="homeTop">
+        <h1 className="pageHeader">
+          <div>DataBolt is Bolts</div>
+        </h1>
+        <p>
+          DataBolt makes it easy to keep track of climbing stewardship work, get
+          accurate field reports, and make data meaningful.
+        </p>
+      </div>
 
-      <br />
-      <br />
       <BoltNivoStyles>
         {/* <MyResponsivePie data={pieData} /> */}
-        <MyResponsiveBar data={boltsArray} key={boltsArray.id} />
+        <MyResponsiveBar data={boltsArray} />
       </BoltNivoStyles>
-    </>
+      {/* <div className="graphPlusStats">
+        <div>Total Climbs: </div>
+        <div>Climbs with hardware reports</div>
+      </div> */}
+    </HomeStyles>
   );
 }
