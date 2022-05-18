@@ -194,7 +194,13 @@ export default function SingleClimb({ id }) {
             <span>Pitch</span> <span className="pitchNum">1</span>
           </PitchStyle>
           {climb.bolts.length > 0 ? (
-            climb.bolts.map((bolt) => <BoltCard key={bolt.id} bolt={bolt} />)
+            climb.bolts.map((bolt) => (
+              <Link href="/bolt/">
+                <a>
+                  <BoltCard key={bolt.id} bolt={bolt} />
+                </a>
+              </Link>
+            ))
           ) : (
             <div></div>
           )}
