@@ -16,6 +16,20 @@ export const Bolt = list({
         displayMode: "select",
       },
     }),
+    reports: relationship({
+      ref: "Report.bolt",
+      many: true,
+      ui: {
+        displayMode: "cards",
+        cardFields: ["description", "timestamp"],
+        inlineCreate: {
+          fields: ["description", "timestamp"],
+        },
+        inlineEdit: {
+          fields: ["description", "timestamp"],
+        },
+      },
+    }),
     pitch: integer(),
     use: select({
       options: [

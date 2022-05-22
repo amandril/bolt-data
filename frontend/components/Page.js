@@ -25,7 +25,7 @@ const GlobalStyles = createGlobalStyle`
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
       padding: 0;
       margin: 0;
-      font-size: 1.5rem;
+      font-size: 1rem;
       line-height: 2;
   }
   section.main {
@@ -67,6 +67,41 @@ const GlobalStyles = createGlobalStyle`
     text-align: center;
     font-size: 4rem;
     line-height: 5rem;
+  }
+  .boltSection {
+    margin: 0;
+    background-color: #eeeeee;
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    padding:2rem;
+    .boltCards {
+      display: grid;
+      grid-template-columns: 500px;
+      grid-gap: 10px;
+      margin: 2rem auto;
+    }
+    .addBoltRow {
+      grid-column: 1;
+      display: grid;
+    }
+  }
+  .boltConditionBar {
+    font-weight: bold;
+    display: grid;
+    align-items: center;
+    font-size: .8rem;
+    background-color: lightgray;
+    color: rgba(0, 0, 0, 0.5);
+    height: 2rem;
+    margin: 1rem;
+    text-align: center;
+    border-radius: 10px;
+  }
+  .cardLabel {
+    font-size: 0.8rem;
+    color: #cdcdcd;
+    line-height: 0.5rem;
   }
 `;
 

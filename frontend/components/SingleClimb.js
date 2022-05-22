@@ -3,7 +3,7 @@ import styled from "styled-components";
 import gql from "graphql-tag";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import BoltCard from "./BoltCard";
+import ClimbBoltCard from "./ClimbBoltCard";
 
 const MyResponsiveBar = dynamic(() => import("./BoltBar"), {
   ssr: false,
@@ -40,25 +40,7 @@ const PitchStyle = styled.h2`
     font-weight: bold;
   }
   justify-self: start;
-  grid-column: 1 / span 3;
-`;
-
-const BoltSection = styled.div`
-  margin: 0;
-  background-color: #eeeeee;
-  display: grid;
-  grid-template-columns: 1fr;
-  justify-items: center;
-  .boltCards {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 350px));
-    grid-gap: 10px;
-    margin: 2rem auto;
-  }
-  .addBoltRow {
-    grid-column: 1;
-    display: grid;
-  }
+  /* grid-column: 1 / span 3; */
 `;
 
 const BoltGraphStyles = styled.div`
@@ -175,7 +157,7 @@ export default function SingleClimb({ id }) {
       };
     });
 
-  console.log(boltsArray);
+  // console.log(boltsArray);
 
   return (
     <div>
@@ -188,32 +170,32 @@ export default function SingleClimb({ id }) {
           <MyResponsiveBar data={boltsArray} />
         </BoltGraphStyles>
       </ClimbMain>
-      <BoltSection>
+      <div className="boltSection">
         <div className="boltCards">
           <PitchStyle>
             <span>Pitch</span> <span className="pitchNum">1</span>
           </PitchStyle>
           {climb.bolts.length > 0 ? (
             climb.bolts.map((bolt) => (
-              <Link href="/bolt/">
+              <Link href={`/bolt/${bolt.id}`}>
                 <a>
-                  <BoltCard key={bolt.id} bolt={bolt} />
+                  <ClimbBoltCard key={bolt.id} bolt={bolt} />
                 </a>
               </Link>
             ))
           ) : (
             <div></div>
           )}
-          <div className="addBoltRow">
-            <Link href={{ pathname: `./add-hardware/${id}`, query: climb }}>
-              <AddBoltStyle>
-                Add Hardware
-                <div className="addBoltPlus"></div>
-              </AddBoltStyle>
-            </Link>
-          </div>
         </div>
-      </BoltSection>
+      </div>
+      <div className="addBoltRow">
+        <Link href={{ pathname: `./add-hardware/${id}`, query: climb }}>
+          <AddBoltStyle>
+            Add Hardware
+            <div className="addBoltPlus"></div>
+          </AddBoltStyle>
+        </Link>
+      </div>
     </div>
   );
 }

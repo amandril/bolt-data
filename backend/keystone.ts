@@ -9,6 +9,8 @@ import { User } from "./schemas/User";
 import { insertSeedData } from "./seed-data";
 import { Climb } from "./schemas/Climb";
 import { Bolt } from "./schemas/Bolt";
+import { Report } from "./schemas/Report";
+import { ReportImage } from "./schemas/ReportImage";
 
 // import { insertSeedData } from './seed-data';
 
@@ -64,6 +66,8 @@ export default withAuth(
       User,
       Climb,
       Bolt,
+      Report,
+      ReportImage,
     }),
     ui: {
       // Show the UI only for poeple who pass this test

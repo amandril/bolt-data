@@ -1,18 +1,22 @@
 import { useQuery } from "@apollo/client";
 import gql from "graphql-tag";
 import styled from "styled-components";
+import BoltCard from "./BoltCard.js";
 
-const BoltStyle = styled.div`
-  background-color: rgba(10, 10, 10, 0.1);
-  padding: 10px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+const ClimbName = styled.div`
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
+  padding: 1rem;
 `;
 
 export const SINGLE_BOLT_QUERY = gql`
   query SINGLE_BOLT_QUERY($id: ID!) {
     Bolt(where: { id: $id }) {
       id
+      climb {
+        name
+      }
       pitch
       position
       type
@@ -20,6 +24,18 @@ export const SINGLE_BOLT_QUERY = gql`
       condition
       description
       installDate
+      reports {
+        user {
+          name
+        }
+        timestamp
+        description
+        image {
+          image {
+            publicUrlTransformed
+          }
+        }
+      }
     }
   }
 `;
@@ -34,11 +50,12 @@ export default function Bolt({ id }) {
   if (error) return <p>{error}</p>;
 
   const bolt = data.Bolt;
+  // console.log(bolt);
 
   return (
-    <BoltStyle>
-      <div>Position: {bolt.position}</div>
-      <div>Condition: {bolt.condition}</div>
-    </BoltStyle>
+    <div className="boltSection">
+      <ClimbName>{bolt.climb.name}</ClimbName>
+      <BoltCard bolt={bolt} />
+    </div>
   );
 }
