@@ -1,5 +1,6 @@
 import { useQuery } from "@apollo/client";
 import gql from "graphql-tag";
+import Link from "next/link";
 import styled from "styled-components";
 import BoltCard from "./BoltCard.js";
 
@@ -15,6 +16,7 @@ export const SINGLE_BOLT_QUERY = gql`
     Bolt(where: { id: $id }) {
       id
       climb {
+        id
         name
       }
       pitch
@@ -28,7 +30,7 @@ export const SINGLE_BOLT_QUERY = gql`
         user {
           name
         }
-        timestamp
+        createdAt
         description
         image {
           image {
@@ -54,7 +56,11 @@ export default function Bolt({ id }) {
 
   return (
     <div className="boltSection">
-      <ClimbName>{bolt.climb.name}</ClimbName>
+      <Link href={`/climb/${bolt.climb.id}`}>
+        <a>
+          <ClimbName>{bolt.climb.name}</ClimbName>
+        </a>
+      </Link>
       <BoltCard bolt={bolt} />
     </div>
   );

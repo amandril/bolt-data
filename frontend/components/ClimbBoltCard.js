@@ -4,7 +4,7 @@ import styled from "styled-components";
 const ClimbBoltCardStyle = styled.div`
   background-color: #ffffff;
   display: grid;
-  grid-template-columns: 1fr 180px 1fr 1fr;
+  grid-template-columns: 1fr 180px 1fr 1fr 1fr;
   grid-gap: 0.5rem;
   justify-content: space-around;
   border-radius: 5px;
@@ -47,11 +47,13 @@ export default function ClimbBoltCard({ bolt }) {
   return (
     <ClimbBoltCardStyle>
       <div className="boltStat">
-        <span className="boltStatName">position</span>
-        <span className="boltStatValue">{bolt.position}</span>
+        <span className="boltStatName ">position</span>
+        <span className="boltStatValue">
+          {bolt.position ? bolt.position : "-"}
+        </span>
       </div>
       <BoltConditionStyle className={bolt.condition}>
-        {bolt.condition}
+        {bolt.condition ? bolt.condition : "-"}
       </BoltConditionStyle>
       <div className="boltStat">
         <span className="boltStatName">use</span>
@@ -60,6 +62,10 @@ export default function ClimbBoltCard({ bolt }) {
       <div className="boltStat">
         <span className="boltStatName">type</span>
         <span className="boltStatValue">{bolt.type}</span>
+      </div>
+      <div className="boltStat">
+        <span className="boltStatName">reports</span>
+        <span className="boltStatValue">{bolt._reportsMeta.count}</span>
       </div>
     </ClimbBoltCardStyle>
   );

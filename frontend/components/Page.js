@@ -34,6 +34,7 @@ const GlobalStyles = createGlobalStyle`
   }
   a {
       text-decoration: none;
+      color:initial;
   }
   p {
     line-height: 2.2rem;
@@ -77,15 +78,15 @@ const GlobalStyles = createGlobalStyle`
     padding:2rem;
     .boltCards {
       display: grid;
-      grid-template-columns: 500px;
+      grid-template-columns: 600px;
       grid-gap: 10px;
       margin: 2rem auto;
     }
-    .addBoltRow {
-      grid-column: 1;
-      display: grid;
-    }
   }
+  .addBoltRow {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(300px, 1fr));
+    }
   .boltConditionBar {
     font-weight: bold;
     display: grid;

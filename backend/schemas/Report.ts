@@ -21,7 +21,7 @@ export const Report = list({
         displayMode: "cards",
         cardFields: ["image", "altText"],
         inlineCreate: {
-          fields: ["iamge", "altText"],
+          fields: ["image", "altText"],
         },
         inlineEdit: {
           fields: ["image", "altText"],
@@ -36,7 +36,10 @@ export const Report = list({
     }),
     description: text(),
     // TODO: Add Photos/images
-    timestamp: timestamp(),
+    createdAt: timestamp({
+      isRequired: true,
+      defaultValue: Date.now().toString(),
+    }),
   },
   ui: {
     listView: {

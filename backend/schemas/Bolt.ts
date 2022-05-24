@@ -21,12 +21,12 @@ export const Bolt = list({
       many: true,
       ui: {
         displayMode: "cards",
-        cardFields: ["description", "timestamp"],
+        cardFields: ["description", "image", "createdAt"],
         inlineCreate: {
-          fields: ["description", "timestamp"],
+          fields: ["description", "image", "createdAt"],
         },
         inlineEdit: {
-          fields: ["description", "timestamp"],
+          fields: ["description", "image", "createdAt"],
         },
       },
     }),

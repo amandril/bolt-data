@@ -62,7 +62,7 @@ const AddBoltStyle = styled.div`
   height: 200px;
   width: 100%;
   margin-top: 20px;
-  justify-self: start;
+  align-items: center;
   :hover {
     .addBoltPlus {
       background-color: #d3d3d3;
@@ -113,6 +113,12 @@ export const SINGLE_CLIMB_QUERY = gql`
         condition
         description
         installDate
+        _reportsMeta {
+          count
+        }
+      }
+      _reportsMeta {
+        count
       }
     }
     climbBolts: Climb(where: { id: $id }) {
@@ -159,6 +165,8 @@ export default function SingleClimb({ id }) {
 
   // console.log(boltsArray);
 
+  console.log(data);
+
   return (
     <div>
       <ClimbMain>
@@ -177,7 +185,7 @@ export default function SingleClimb({ id }) {
           </PitchStyle>
           {climb.bolts.length > 0 ? (
             climb.bolts.map((bolt) => (
-              <Link href={`/bolt/${bolt.id}`}>
+              <Link key={bolt.id} href={`/bolt/${bolt.id}`}>
                 <a>
                   <ClimbBoltCard key={bolt.id} bolt={bolt} />
                 </a>
@@ -195,7 +203,15 @@ export default function SingleClimb({ id }) {
             <div className="addBoltPlus"></div>
           </AddBoltStyle>
         </Link>
+        <Link href={{ pathname: `./allReports/${id}` }}>
+          <AddBoltStyle>
+            Total reports: {climb._reportsMeta.count}
+            <br />
+            View all reports
+          </AddBoltStyle>
+        </Link>
       </div>
+      <div>{}</div>
     </div>
   );
 }

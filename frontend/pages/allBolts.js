@@ -33,6 +33,16 @@ const BoltNivoStyles = styled.div`
   max-width: 800px;
 `;
 
+const ReportsStyle = styled.div`
+  display: grid;
+  justify-self: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: 2rem;
+  color: #222222;
+  border-bottom: 5px solid #222222;
+`;
+
 // Query all the bolts in Colorado
 const ALL_BOLTS_COLORADO = gql`
   query ALL_BOLTS_COLORADO {
@@ -51,6 +61,9 @@ const ALL_BOLTS_COLORADO = gql`
     unknownBolts: _allBoltsMeta(where: { condition: "unknown" }) {
       count
     }
+    _allReportsMeta {
+      count
+    }
   }
 `;
 
@@ -60,14 +73,18 @@ export default function AllBoltsPage() {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
 
-  const boltsArray = Object.entries(data).map(([key, value]) => {
-    return {
-      id: key,
-      label: key,
-      value: value.count,
-      color: `${key == "poorBolts" ? "#ff0000" : "#223456"}`,
-    };
-  });
+  console.log(data);
+
+  const boltsArray = Object.entries(data)
+    .slice(0, 5)
+    .map(([key, value]) => {
+      return {
+        id: key,
+        label: key,
+        value: value.count,
+        color: `${key == "poorBolts" ? "#ff0000" : "#223456"}`,
+      };
+    });
 
   return (
     <HomeStyles>
@@ -85,6 +102,9 @@ export default function AllBoltsPage() {
         {/* <MyResponsivePie data={pieData} /> */}
         <MyResponsiveBar data={boltsArray} />
       </BoltNivoStyles>
+      <ReportsStyle>
+        Total reports submitted: {data._allReportsMeta.count}
+      </ReportsStyle>
       {/* <div className="graphPlusStats">
         <div>Total Climbs: </div>
         <div>Climbs with hardware reports</div>

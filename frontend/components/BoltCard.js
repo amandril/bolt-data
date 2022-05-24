@@ -59,7 +59,7 @@ const Report = styled.div`
   }
 `;
 
-export default function ClimbBoltCard({ bolt }) {
+export default function BoltCard({ bolt }) {
   return (
     <BoltCardStyle>
       <div className="cardTop">
@@ -93,7 +93,7 @@ export default function ClimbBoltCard({ bolt }) {
               <div>
                 <span>
                   <strong>
-                    {report.timestamp} by {report.user.name}
+                    {report.createdAt} by {report.user?.name}
                   </strong>
                 </span>
               </div>
