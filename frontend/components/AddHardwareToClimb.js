@@ -4,6 +4,7 @@ import Router from "next/router";
 import { SINGLE_CLIMB_QUERY } from "./SingleClimb.js";
 import useForm from "../lib/useForm";
 import styled from "styled-components";
+import Link from "next/link";
 
 const ADD_HARDWARE_TO_CLIMB_MUTATION = gql`
   mutation ADD_HARDWARE_TO_CLIMB_MUTATION(

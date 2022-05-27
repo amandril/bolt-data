@@ -1,4 +1,4 @@
-import AddHardwareToClimb from "../../../components/AddHardwareToClimb";
+import AddMultipleToClimb from "../../../components/AddMultipleToClimb";
 import styled from "styled-components";
 import Link from "next/link";
 
@@ -26,24 +26,6 @@ const FormSectionStyle = styled.div`
   margin: 0;
   padding: 3rem 0 10rem;
   background-color: #eeeeee;
-  /* margin-bottom: 10rem; */
-`;
-
-const AddMultipleButton = styled.div`
-  display: grid;
-  grid-template-columns: minmax(0, 300px);
-  justify-content: center;
-  margin-bottom: 50px;
-  button {
-    color: rgba(0, 0, 0, 0.5);
-    background-color: #ffa133;
-    padding: 1rem 2rem;
-    margin: 1rem 0;
-    font-size: 1rem;
-    font-weight: bold;
-    border-radius: 5px;
-    border: 0;
-  }
 `;
 
 export default function addHardwarePage({ query }) {
@@ -55,14 +37,7 @@ export default function addHardwarePage({ query }) {
         <ClimbName>{query.name}</ClimbName>
       </AddToStyle>
       <FormSectionStyle>
-        <AddMultipleButton>
-          <Link
-            href={{ pathname: `../add-multiple/${query.id}`, query: query }}
-          >
-            <button>Add Multiple?</button>
-          </Link>
-        </AddMultipleButton>
-        <AddHardwareToClimb id={query.id} />
+        <AddMultipleToClimb id={query.id} />
       </FormSectionStyle>
     </div>
   );
