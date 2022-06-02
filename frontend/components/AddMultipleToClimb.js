@@ -26,10 +26,12 @@ const AddMultipleFormStyling = styled.form`
 `;
 
 export default function AddMultipleToClimb({ id }) {
-  const runCallback = (cb) => {
-    return cb();
+  const addFields = (e) => {
+    // let newfield = { pitch: "", position: "" };
+    // setInputs([...inputs, newfield]);
+    e.preventDefault();
+    console.log("adding fields");
   };
-
   return (
     <AddMultipleFormStyling>
       <div className="formHead">
@@ -40,66 +42,54 @@ export default function AddMultipleToClimb({ id }) {
         <span>Condition</span>
         <span>Description</span>
       </div>
-      {runCallback(() => {
-        const row = [];
-        for (var i = 0; i < 20; i++) {
-          row.push(
-            <fieldset>
-              <span>{i}</span>
-              <input
-                required
-                type="number"
-                id="pitch"
-                name="pitch"
-                onChange={handleChange}
-              />
-              <input
-                required
-                type="number"
-                id="position"
-                name=""
-                onChange={handleChange}
-              />
-              <select type="select" id="use" name="use" onChange={handleChange}>
-                <option value="lead">Lead</option>
-                <option value="anchor">Anchor</option>
-                <option value="belay">Belay</option>
-              </select>
-              <select
-                type="select"
-                id="type"
-                name="type"
-                onChange={handleChange}
-              >
-                <option value="bolt">Bolt</option>
-                <option value="pin">Pin</option>
-                <option value="webbing">Webbing</option>
-                <option value="other">Other</option>
-              </select>
-              <select
-                type="select"
-                id="condition"
-                name="condition"
-                onChange={handleChange}
-              >
-                <option value="bomber">Bomber</option>
-                <option value="good">Good</option>
-                <option value="average">Average</option>
-                <option value="poor">Poor</option>
-                <option value="unknown">Unknown</option>
-              </select>
-              <input
-                required
-                type="text"
-                id="description"
-                name="description"
-                onChange={handleChange}
-              />
-            </fieldset>
-          );
-        }
-        return row;
-      })}
+      <fieldset>
+        <input
+          // required
+          type="number"
+          id="pitch"
+          name="pitch"
+          onChange={handleChange}
+        />
+        <input
+          // required
+          type="number"
+          id="position"
+          name=""
+          onChange={handleChange}
+        />
+        <select type="select" id="use" name="use" onChange={handleChange}>
+          <option value="lead">Lead</option>
+          <option value="anchor">Anchor</option>
+          <option value="belay">Belay</option>
+        </select>
+        <select type="select" id="type" name="type" onChange={handleChange}>
+          <option value="bolt">Bolt</option>
+          <option value="pin">Pin</option>
+          <option value="webbing">Webbing</option>
+          <option value="other">Other</option>
+        </select>
+        <select
+          type="select"
+          id="condition"
+          name="condition"
+          onChange={handleChange}
+        >
+          <option value="bomber">Bomber</option>
+          <option value="good">Good</option>
+          <option value="average">Average</option>
+          <option value="poor">Poor</option>
+          <option value="unknown">Unknown</option>
+        </select>
+        <input
+          // required
+          type="text"
+          id="description"
+          name="description"
+          onChange={handleChange}
+        />
+      </fieldset>
+      <button onClick={addFields}>Add More..</button>
+      <button type="submit">+ Add Hardware</button>
     </AddMultipleFormStyling>
   );
 }

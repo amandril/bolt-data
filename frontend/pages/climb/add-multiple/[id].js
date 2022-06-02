@@ -29,7 +29,6 @@ const FormSectionStyle = styled.div`
 `;
 
 export default function addHardwarePage({ query }) {
-  console.log(query);
   return (
     <div>
       <AddToStyle>

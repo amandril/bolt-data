@@ -16,6 +16,11 @@ export default function useForm(initial = {}) {
   //   price: 1000
   // }
 
+  function addFields() {
+    let newField = { name: "", age: "" };
+    setInputs([...inputs, newField]);
+  }
+
   function handleChange(e) {
     let { value, name, type } = e.target;
     if (type === "number") {

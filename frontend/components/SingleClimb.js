@@ -180,9 +180,9 @@ export default function SingleClimb({ id }) {
       </ClimbMain>
       <div className="boltSection">
         <div className="boltCards">
-          <PitchStyle>
+          {/* <PitchStyle>
             <span>Pitch</span> <span className="pitchNum">1</span>
-          </PitchStyle>
+          </PitchStyle> */}
           {climb.bolts.length > 0 ? (
             climb.bolts.map((bolt) => (
               <Link key={bolt.id} href={`/bolt/${bolt.id}`}>
@@ -192,7 +192,7 @@ export default function SingleClimb({ id }) {
               </Link>
             ))
           ) : (
-            <div></div>
+            <div>No hardware yet</div>
           )}
         </div>
       </div>
