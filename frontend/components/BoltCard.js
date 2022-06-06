@@ -1,5 +1,6 @@
 import Link from "next/link";
 import styled from "styled-components";
+import React, { useState } from "react";
 
 const BoltCardStyle = styled.div`
   background-color: #ffffff;
@@ -15,8 +16,8 @@ const BoltCardStyle = styled.div`
   }
   .cardTop {
     display: grid;
-    grid-template-columns: 3fr 2fr;
-    gap: 3rem;
+    grid-template-columns: 3fr 2fr 0.5fr;
+    gap: 1rem;
     align-items: center;
     padding: 1rem 0;
     border-bottom: 1px solid #eeeeee;
@@ -43,6 +44,14 @@ const BoltCardStyle = styled.div`
       }
     }
   }
+  .editBolt {
+    font-size: 0.8rem;
+    border: 1px solid #222222;
+    border-radius: 5px;
+    text-align: center;
+    opacity: 0.4;
+    visibility: visible;
+  }
 `;
 
 const Report = styled.div`
@@ -60,9 +69,24 @@ const Report = styled.div`
 `;
 
 export default function BoltCard({ bolt }) {
+  const [state, setState] = useState({
+    showEdit: false,
+  });
+
+  const toggleEdit = () => {
+    setState({
+      showEdit: !state.showEdit,
+    });
+    // console.log("updated - ", state);
+  };
+
   return (
     <BoltCardStyle>
-      <div className="cardTop">
+      <div
+        className="cardTop"
+        onMouseEnter={toggleEdit}
+        onMouseLeave={toggleEdit}
+      >
         <div className="boltStats">
           <div className="boltStat">
             <span className="boltStatName">pitch</span>
@@ -83,6 +107,14 @@ export default function BoltCard({ bolt }) {
         </div>
         <div className={`boltConditionBar ${bolt.condition}`}>
           {bolt.condition}
+        </div>
+        <div
+          className="editBolt"
+          style={{
+            visibility: state.showEdit ? "visible" : "hidden",
+          }}
+        >
+          edit
         </div>
       </div>
       <div>
