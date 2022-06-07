@@ -5,9 +5,10 @@ import { SINGLE_CLIMB_QUERY } from "./SingleClimb.js";
 import useForm from "../lib/useForm";
 import styled from "styled-components";
 import Link from "next/link";
+import { SINGLE_BOLT_QUERY } from "./Bolt.js";
 
-const ADD_HARDWARE_TO_CLIMB_MUTATION = gql`
-  mutation ADD_HARDWARE_TO_CLIMB_MUTATION(
+const UPDATE_HARDWARE_FOR_CLIMB_MUTATION = gql`
+  mutation UPDATE_HARDWARE_FOR_CLIMB_MUTATION(
     $id: ID!
     $pitch: Int!
     $position: Int!
@@ -15,9 +16,10 @@ const ADD_HARDWARE_TO_CLIMB_MUTATION = gql`
     $type: String!
     $condition: String!
     $description: String!
-    $installDate: String!
+    $lastUpdated: String!
   ) {
-    createBolt(
+    updateBolt(
+      id: $id
       data: {
         pitch: $pitch
         position: $position
@@ -25,8 +27,7 @@ const ADD_HARDWARE_TO_CLIMB_MUTATION = gql`
         type: $type
         condition: $condition
         description: $description
-        installDate: $installDate
-        climb: { connect: { id: $id } }
+        lastUpdated: $lastUpdated
       }
     ) {
       id
@@ -37,6 +38,7 @@ const ADD_HARDWARE_TO_CLIMB_MUTATION = gql`
       condition
       description
       installDate
+      lastUpdated
       climb {
         id
         name
@@ -45,7 +47,7 @@ const ADD_HARDWARE_TO_CLIMB_MUTATION = gql`
   }
 `;
 
-const AddHardwareFormStyling = styled.form`
+const UpdateHardwareFormStyling = styled.form`
   display: grid;
   grid-template-columns: 1fr;
   justify-items: center;
@@ -165,8 +167,8 @@ const ConditionRadioStyles = styled.div`
   }
 `;
 
-export default function AddHardwareToClimb({ id }) {
-  const { inputs, handleChange, clearForm, resetForm } = useForm({
+export default function UpdateHardwareForClimb({ id, bolt }) {
+  const { inputs, handleChange, clearForm } = useForm({
     position: 1,
     condition: "unknown",
     pitch: 1,
@@ -175,19 +177,24 @@ export default function AddHardwareToClimb({ id }) {
     description: "",
     installDate: "",
   });
-  const [addHardware, { loading, error, data }] = useMutation(
-    ADD_HARDWARE_TO_CLIMB_MUTATION,
+  const [updateBolt, { loading, error, data }] = useMutation(
+    UPDATE_HARDWARE_FOR_CLIMB_MUTATION,
     {
-      refetchQueries: [{ query: SINGLE_CLIMB_QUERY, variables: { id } }],
+      refetchQueries: [{ query: SINGLE_BOLT_QUERY, variables: { id } }],
     }
   );
 
+  const today = () => {
+    const date = new Date();
+    return date.toLocaleDateString("en-US");
+  };
+
   return (
-    <AddHardwareFormStyling
+    <UpdateHardwareFormStyling
       onSubmit={async (e) => {
         e.preventDefault();
         // Submit the inputfields to the backend:
-        const res = await addHardware({
+        const res = await updateBolt({
           variables: {
             id,
             pitch: inputs.pitch,
@@ -197,13 +204,14 @@ export default function AddHardwareToClimb({ id }) {
             condition: inputs.condition,
             description: inputs.description,
             installDate: inputs.installDate,
+            lastUpdated: today(),
           },
         });
         clearForm();
         // Go to that route's page!
         console.log(res.data);
         Router.push({
-          pathname: `../${res.data.createBolt.climb.id}`,
+          pathname: `../${res.data.updateBolt.bolt.id}`,
         });
       }}
     >
@@ -216,6 +224,7 @@ export default function AddHardwareToClimb({ id }) {
             type="number"
             id="pitch"
             name="pitch"
+            value={bolt.pitch}
             onChange={handleChange}
           />
         </label>
@@ -227,6 +236,7 @@ export default function AddHardwareToClimb({ id }) {
             type="number"
             id="position"
             name="position"
+            value={bolt.position}
             onChange={handleChange}
           />
         </label>
@@ -339,10 +349,10 @@ export default function AddHardwareToClimb({ id }) {
             <option value="bomber">Bomber</option>
           </select> */}
 
-        <button type="submit">+ Add Hardware</button>
+        <button type="submit">Update Hardware</button>
       </fieldset>
-    </AddHardwareFormStyling>
+    </UpdateHardwareFormStyling>
   );
 }
 
-export { ADD_HARDWARE_TO_CLIMB_MUTATION };
+export { UPDATE_HARDWARE_FOR_CLIMB_MUTATION };

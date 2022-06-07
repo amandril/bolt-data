@@ -1,4 +1,4 @@
-import { text, relationship, timestamp } from "@keystone-next/fields";
+import { text, relationship, timestamp, checkbox } from "@keystone-next/fields";
 import { list } from "@keystone-next/keystone/schema";
 
 export const Report = list({
@@ -35,7 +35,9 @@ export const Report = list({
       },
     }),
     description: text(),
-    // TODO: Add Photos/images
+    approved: checkbox({
+      defaultValue: false,
+    }),
     createdAt: timestamp({
       isRequired: true,
       defaultValue: Date.now().toString(),

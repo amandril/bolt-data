@@ -1,5 +1,6 @@
 import Link from "next/link";
 import styled from "styled-components";
+import Router from "next/router";
 import React, { useState } from "react";
 
 const BoltCardStyle = styled.div`
@@ -14,13 +15,30 @@ const BoltCardStyle = styled.div`
   > div {
     margin: 0.5rem 2rem;
   }
+  button {
+    padding: 5px 10px;
+    background-color: lightgray;
+    border: none;
+    border-radius: 5px;
+    font-size: 0.7rem;
+  }
+  .deleteButton {
+    background-color: #ed8b76;
+  }
+  .editButton {
+    background-color: #a7ecba;
+  }
   .cardTop {
     display: grid;
-    grid-template-columns: 3fr 2fr 0.5fr;
+    grid-template-columns: 3fr 2fr;
     gap: 1rem;
     align-items: center;
     padding: 1rem 0;
-    border-bottom: 1px solid #eeeeee;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #cdcdcd;
+  }
+  .cardTop:hover > .editButtons {
+    opacity: 1;
   }
   .boltStats {
     display: grid;
@@ -44,13 +62,12 @@ const BoltCardStyle = styled.div`
       }
     }
   }
-  .editBolt {
-    font-size: 0.8rem;
-    border: 1px solid #222222;
-    border-radius: 5px;
-    text-align: center;
-    opacity: 0.4;
-    visibility: visible;
+  .editButtons {
+    opacity: 0.2;
+    display: grid;
+    /* justify-content: center; */
+    grid-template-columns: repeat(2, minmax(0, 70px));
+    grid-gap: 10px;
   }
 `;
 
@@ -66,12 +83,16 @@ const Report = styled.div`
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
+  :hover > .editButtons {
+    opacity: 1;
+  }
 `;
 
 export default function BoltCard({ bolt }) {
   const [state, setState] = useState({
     showEdit: false,
   });
+  console.log(bolt);
 
   const toggleEdit = () => {
     setState({
@@ -84,8 +105,8 @@ export default function BoltCard({ bolt }) {
     <BoltCardStyle>
       <div
         className="cardTop"
-        onMouseEnter={toggleEdit}
-        onMouseLeave={toggleEdit}
+        // onMouseEnter={toggleEdit}
+        // onMouseLeave={toggleEdit}
       >
         <div className="boltStats">
           <div className="boltStat">
@@ -109,12 +130,31 @@ export default function BoltCard({ bolt }) {
           {bolt.condition}
         </div>
         <div
-          className="editBolt"
-          style={{
-            visibility: state.showEdit ? "visible" : "hidden",
-          }}
+          className="editButtons"
+          // style={{
+          //   visibility: state.showEdit ? "visible" : "hidden",
+          // }}
         >
-          edit
+          <Link
+            href={{
+              pathname: `./edit/${bolt.id}`,
+              query: {
+                name: bolt.climb.name,
+                pitch: bolt.pitch,
+                position: bolt.position,
+                use: bolt.use,
+                type: bolt.type,
+                description: bolt.description,
+                condition: bolt.condition,
+                installDate: bolt.installDate,
+              },
+            }}
+          >
+            <button className="editButton">Edit</button>
+          </Link>
+          <Link href={{ pathname: `/bolt/delete/${bolt.id}` }}>
+            <button className="deleteButton">Remove</button>
+          </Link>
         </div>
       </div>
       <div>
@@ -135,6 +175,10 @@ export default function BoltCard({ bolt }) {
                   width="100%"
                   src={report.image.image.publicUrlTransformed}
                 />
+              </div>
+              <div className="editButtons">
+                <button className="editButton">Edit</button>
+                <button className="deleteButton">Remove</button>
               </div>
             </Report>
           ))
