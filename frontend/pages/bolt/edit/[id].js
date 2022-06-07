@@ -29,7 +29,7 @@ const AddToStyle = styled.div`
 `;
 
 export default function editBolt({ query }) {
-  console.log(query);
+  console.log("This is the query:", query);
   return (
     <div>
       <AddToStyle>

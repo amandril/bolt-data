@@ -184,6 +184,9 @@ export default function UpdateHardwareForClimb({ id, bolt }) {
     }
   );
 
+  const { pitch, position, use, type, description, condition, installDate } =
+    bolt;
+
   const today = () => {
     const date = new Date();
     return date.toLocaleDateString("en-US");
@@ -224,7 +227,7 @@ export default function UpdateHardwareForClimb({ id, bolt }) {
             type="number"
             id="pitch"
             name="pitch"
-            value={bolt.pitch}
+            value={pitch}
             onChange={handleChange}
           />
         </label>
@@ -236,14 +239,20 @@ export default function UpdateHardwareForClimb({ id, bolt }) {
             type="number"
             id="position"
             name="position"
-            value={bolt.position}
+            value={position}
             onChange={handleChange}
           />
         </label>
 
         <label htmlFor="use">
           Use
-          <select type="select" id="use" name="use" onChange={handleChange}>
+          <select
+            type="select"
+            id="use"
+            name="use"
+            value={use}
+            onChange={handleChange}
+          >
             <option value="lead">Lead</option>
             <option value="anchor">Anchor</option>
             <option value="belay">Belay</option>
@@ -252,7 +261,13 @@ export default function UpdateHardwareForClimb({ id, bolt }) {
 
         <label htmlFor="type">
           Type
-          <select type="select" id="type" name="type" onChange={handleChange}>
+          <select
+            type="select"
+            id="type"
+            name="type"
+            value={type}
+            onChange={handleChange}
+          >
             <option value="bolt">Bolt</option>
             <option value="pin">Pin</option>
             <option value="webbing">Webbing</option>
@@ -321,6 +336,7 @@ export default function UpdateHardwareForClimb({ id, bolt }) {
           <textarea
             name="description"
             id="description"
+            value={inputs.description}
             onChange={handleChange}
           />
         </label>
@@ -331,6 +347,7 @@ export default function UpdateHardwareForClimb({ id, bolt }) {
             type="date"
             id="installDate"
             name="installDate"
+            value={installDate}
             onChange={handleChange}
           />
         </label>
