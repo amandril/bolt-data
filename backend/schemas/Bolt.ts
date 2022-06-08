@@ -3,7 +3,6 @@ import {
   select,
   relationship,
   integer,
-  timestamp,
   virtual,
 } from "@keystone-next/fields";
 import { list } from "@keystone-next/keystone/schema";
@@ -47,7 +46,7 @@ export const Bolt = list({
         { label: "Other", value: "other" },
       ],
     }),
-    description: text(),
+    // description: text(),
     condition: select({
       defaultValue: "unknown",
       options: [
@@ -61,7 +60,9 @@ export const Bolt = list({
         displayMode: "segmented-control",
       },
     }),
-    installDate: text(),
+    installDate: text({
+      defaultValue: "1/1/1890",
+    }),
     lastUpdated: text(),
   },
   ui: {

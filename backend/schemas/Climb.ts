@@ -1,4 +1,4 @@
-import { text, integer, relationship, virtual } from "@keystone-next/fields";
+import { text, relationship, select } from "@keystone-next/fields";
 import { list } from "@keystone-next/keystone/schema";
 
 export const Climb = list({
@@ -24,6 +24,15 @@ export const Climb = list({
         },
       },
     }),
+    status: select({
+      defaultValue: "idle",
+      options: [
+        { label: "Done / Idle", value: "idle" },
+        { label: "Assess Further", value: "assess" },
+        { label: "Requires Work", value: "requiresWork" },
+        { label: "Work in Progress", value: "inProgress" },
+      ],
+    }),
     bolts: relationship({
       ref: "Bolt.climb",
       many: true,
@@ -33,7 +42,7 @@ export const Climb = list({
           "position",
           "type",
           "use",
-          "description",
+          // "description",
           "condition",
           "installDate",
           "lastUpdated",
@@ -43,7 +52,7 @@ export const Climb = list({
             "position",
             "type",
             "use",
-            "description",
+            // "description",
             "condition",
             "installDate",
             "lastUpdated",
@@ -54,7 +63,7 @@ export const Climb = list({
             "position",
             "type",
             "use",
-            "description",
+            // "description",
             "condition",
             "installDate",
             "lastUpdated",

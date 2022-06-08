@@ -62,6 +62,24 @@ const BoltCardStyle = styled.div`
       }
     }
   }
+  .catTitle {
+    color: #cdcdcd;
+  }
+  .boltDescription {
+    font-size: 0.8rem;
+    padding: 1rem;
+    /* grid-column: span 2; */
+  }
+  .hardwareTags {
+    font-size: 0.8rem;
+    padding: 1rem;
+    /* grid-column: span 2; */
+    span {
+      background-color: #eeeeee;
+      border-radius: 5px;
+      padding: 5px;
+    }
+  }
   .editButtons {
     opacity: 0.2;
     display: grid;
@@ -144,7 +162,7 @@ export default function BoltCard({ bolt }) {
                 position: bolt.position,
                 use: bolt.use,
                 type: bolt.type,
-                description: bolt.description,
+                // description: bolt.description,
                 condition: bolt.condition,
                 installDate: bolt.installDate,
               },
@@ -161,7 +179,7 @@ export default function BoltCard({ bolt }) {
         <span className="cardLabel">Reports</span>
         {bolt.reports?.length > 0 ? (
           bolt.reports.map((report) => (
-            <Report>
+            <Report key={report.id}>
               <div>
                 <span>
                   <strong>

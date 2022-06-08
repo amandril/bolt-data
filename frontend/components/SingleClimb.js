@@ -111,7 +111,7 @@ export const SINGLE_CLIMB_QUERY = gql`
         type
         use
         condition
-        description
+        # description
         installDate
         _reportsMeta {
           count

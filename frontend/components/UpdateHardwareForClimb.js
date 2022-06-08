@@ -1,4 +1,4 @@
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import gql from "graphql-tag";
 import Router from "next/router";
 import { SINGLE_CLIMB_QUERY } from "./SingleClimb.js";
@@ -6,6 +6,24 @@ import useForm from "../lib/useForm";
 import styled from "styled-components";
 import Link from "next/link";
 import { SINGLE_BOLT_QUERY } from "./Bolt.js";
+
+const GET_BOLT_QUERY = gql`
+  query GET_BOLT_QUERY($id: ID!) {
+    Bolt(where: { id: $id }) {
+      id
+      climb {
+        name
+      }
+      pitch
+      position
+      use
+      type
+      condition
+      # description
+      installDate
+    }
+  }
+`;
 
 const UPDATE_HARDWARE_FOR_CLIMB_MUTATION = gql`
   mutation UPDATE_HARDWARE_FOR_CLIMB_MUTATION(
@@ -15,7 +33,8 @@ const UPDATE_HARDWARE_FOR_CLIMB_MUTATION = gql`
     $use: String!
     $type: String!
     $condition: String!
-    $description: String!
+    # $description: String!
+    $installDate: String!
     $lastUpdated: String!
   ) {
     updateBolt(
@@ -26,7 +45,8 @@ const UPDATE_HARDWARE_FOR_CLIMB_MUTATION = gql`
         use: $use
         type: $type
         condition: $condition
-        description: $description
+        # description: $description
+        installDate: $installDate
         lastUpdated: $lastUpdated
       }
     ) {
@@ -36,13 +56,9 @@ const UPDATE_HARDWARE_FOR_CLIMB_MUTATION = gql`
       use
       type
       condition
-      description
+      # description
       installDate
       lastUpdated
-      climb {
-        id
-        name
-      }
     }
   }
 `;
@@ -167,31 +183,45 @@ const ConditionRadioStyles = styled.div`
   }
 `;
 
-export default function UpdateHardwareForClimb({ id, bolt }) {
-  const { inputs, handleChange, clearForm } = useForm({
-    position: 1,
-    condition: "unknown",
-    pitch: 1,
-    use: "lead",
-    type: "bolt",
-    description: "",
-    installDate: "",
-  });
-  const [updateBolt, { loading, error, data }] = useMutation(
-    UPDATE_HARDWARE_FOR_CLIMB_MUTATION,
-    {
-      refetchQueries: [{ query: SINGLE_BOLT_QUERY, variables: { id } }],
-    }
-  );
+export default function UpdateHardwareForClimb({ id }) {
+  // We need to get the existing bolt
 
-  const { pitch, position, use, type, description, condition, installDate } =
-    bolt;
+  const { data, error, loading } = useQuery(GET_BOLT_QUERY, {
+    variables: { id },
+  });
+
+  // We need to get the mutation to update the bolt
+
+  const [
+    updateBolt,
+    { data: updateData, error: updateError, loading: updateLoading },
+  ] = useMutation(UPDATE_HARDWARE_FOR_CLIMB_MUTATION);
+
+  if (loading) {
+    return <p>'Loading...';</p>;
+  }
+
+  console.log(updateData);
+
+  // Create some state for the form inputs
+
+  const { position, condition, pitch, use, type, installDate } = data.Bolt;
+
+  const { inputs, handleChange, clearForm } = useForm({
+    position,
+    condition,
+    pitch,
+    use,
+    type,
+    installDate,
+  });
 
   const today = () => {
     const date = new Date();
     return date.toLocaleDateString("en-US");
   };
 
+  // Form handles the inputs
   return (
     <UpdateHardwareFormStyling
       onSubmit={async (e) => {
@@ -205,16 +235,16 @@ export default function UpdateHardwareForClimb({ id, bolt }) {
             use: inputs.use,
             type: inputs.type,
             condition: inputs.condition,
-            description: inputs.description,
+            // description: inputs.description,
             installDate: inputs.installDate,
             lastUpdated: today(),
           },
         });
         clearForm();
         // Go to that route's page!
-        console.log(res.data);
+        // console.log(res.data);
         Router.push({
-          pathname: `../${res.data.updateBolt.bolt.id}`,
+          pathname: `../${res.data.updateBolt.id}`,
         });
       }}
     >
@@ -227,7 +257,7 @@ export default function UpdateHardwareForClimb({ id, bolt }) {
             type="number"
             id="pitch"
             name="pitch"
-            value={pitch}
+            value={inputs.pitch}
             onChange={handleChange}
           />
         </label>
@@ -239,7 +269,7 @@ export default function UpdateHardwareForClimb({ id, bolt }) {
             type="number"
             id="position"
             name="position"
-            value={position}
+            value={inputs.position}
             onChange={handleChange}
           />
         </label>
@@ -250,7 +280,7 @@ export default function UpdateHardwareForClimb({ id, bolt }) {
             type="select"
             id="use"
             name="use"
-            value={use}
+            value={inputs.use}
             onChange={handleChange}
           >
             <option value="lead">Lead</option>
@@ -265,7 +295,7 @@ export default function UpdateHardwareForClimb({ id, bolt }) {
             type="select"
             id="type"
             name="type"
-            value={type}
+            value={inputs.type}
             onChange={handleChange}
           >
             <option value="bolt">Bolt</option>
@@ -285,6 +315,7 @@ export default function UpdateHardwareForClimb({ id, bolt }) {
                 value="poor"
                 name="condition"
                 id="poor"
+                checked={inputs.condition == "poor"}
                 onChange={handleChange}
               />
             </label>
@@ -295,6 +326,7 @@ export default function UpdateHardwareForClimb({ id, bolt }) {
                 value="average"
                 name="condition"
                 id="average"
+                checked={inputs.condition == "average"}
                 onChange={handleChange}
               />
             </label>
@@ -305,6 +337,7 @@ export default function UpdateHardwareForClimb({ id, bolt }) {
                 value="good"
                 name="condition"
                 id="good"
+                checked={inputs.condition == "good"}
                 onChange={handleChange}
               />
             </label>
@@ -315,6 +348,7 @@ export default function UpdateHardwareForClimb({ id, bolt }) {
                 value="bomber"
                 name="condition"
                 id="bomber"
+                checked={inputs.condition == "bomber"}
                 onChange={handleChange}
               />
             </label>
@@ -325,13 +359,14 @@ export default function UpdateHardwareForClimb({ id, bolt }) {
                 value="unknown"
                 name="condition"
                 id="unknown"
+                checked={inputs.condition == "unknown"}
                 onChange={handleChange}
               />
             </label>
           </div>
         </ConditionRadioStyles>
 
-        <label htmlFor="description">
+        {/* <label htmlFor="description">
           Description
           <textarea
             name="description"
@@ -339,7 +374,7 @@ export default function UpdateHardwareForClimb({ id, bolt }) {
             value={inputs.description}
             onChange={handleChange}
           />
-        </label>
+        </label> */}
 
         <label htmlFor="installDate">
           Install Date
@@ -347,7 +382,7 @@ export default function UpdateHardwareForClimb({ id, bolt }) {
             type="date"
             id="installDate"
             name="installDate"
-            value={installDate}
+            value={inputs.installDate}
             onChange={handleChange}
           />
         </label>

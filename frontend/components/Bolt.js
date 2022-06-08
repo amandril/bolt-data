@@ -5,7 +5,7 @@ import styled from "styled-components";
 import BoltCard from "./BoltCard.js";
 
 const ClimbName = styled.div`
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   font-weight: bold;
   text-align: center;
   padding: 1rem;
@@ -24,9 +24,10 @@ export const SINGLE_BOLT_QUERY = gql`
       type
       use
       condition
-      description
+      # description
       installDate
       reports {
+        id
         user {
           name
         }

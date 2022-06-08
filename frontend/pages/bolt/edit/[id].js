@@ -29,7 +29,6 @@ const AddToStyle = styled.div`
 `;
 
 export default function editBolt({ query }) {
-  console.log("This is the query:", query);
   return (
     <div>
       <AddToStyle>
@@ -37,7 +36,7 @@ export default function editBolt({ query }) {
         <ClimbName>{query.name}</ClimbName>
       </AddToStyle>
       <FormSectionStyle>
-        <UpdateHardwareForClimb id={query.id} bolt={query} />
+        <UpdateHardwareForClimb id={query.id} />
       </FormSectionStyle>
     </div>
   );

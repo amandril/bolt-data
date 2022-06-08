@@ -10,37 +10,28 @@ const MyResponsiveBar = dynamic(() => import("../components/BoltBar"), {
 
 const HomeStyles = styled.div`
   display: grid;
-  grid-template-columns: minmax(0, 800px);
-  justify-content: center;
-  margin: 2rem 0;
-  .homeTop {
+  grid-template-columns: 1fr 1fr;
+  margin: 2rem;
+  .reports {
     display: grid;
-    justify-content: center;
-    grid-template-columns: minmax(0, 480px);
-    p {
-      text-align: center;
+    gap: 30px;
+    height: 10rem;
+    grid-template-columns: repeat(2, minmax(0, 150px));
+    > * {
+      border: 1px solid red;
     }
   }
-  .graphPlusStats {
-    display: grid;
-    grid-template-columns: 1fr 5fr;
+  h2,
+  h3 {
+    text-align: center;
   }
 `;
 
 const BoltNivoStyles = styled.div`
   position: relative;
-  height: 600px;
-  max-width: 800px;
-`;
-
-const ReportsStyle = styled.div`
-  display: grid;
-  justify-self: center;
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin-top: 2rem;
-  color: #222222;
-  border-bottom: 5px solid #222222;
+  height: 400px;
+  max-width: 600px;
+  margin: 0 auto;
 `;
 
 // Query all the bolts in Colorado
@@ -64,6 +55,18 @@ const ALL_BOLTS_COLORADO = gql`
     _allReportsMeta {
       count
     }
+    unapproved: _allReportsMeta(where: { approved_not: true }) {
+      count
+    }
+    requiresWork: _allClimbsMeta(where: { status: "requiresWork" }) {
+      count
+    }
+    needAssessment: _allClimbsMeta(where: { status: "assess" }) {
+      count
+    }
+    inProgress: _allClimbsMeta(where: { status: "inProgress" }) {
+      count
+    }
   }
 `;
 
@@ -72,8 +75,6 @@ export default function AllBoltsPage() {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
-
-  console.log(data);
 
   const boltsArray = Object.entries(data)
     .slice(0, 5)
@@ -88,27 +89,34 @@ export default function AllBoltsPage() {
 
   return (
     <HomeStyles>
-      <div className="homeTop">
+      {/* <div className="homeTop">
         <h1 className="pageHeader">
           <div>DataBolt is Bolts</div>
         </h1>
         <p>
-          DataBolt makes it easy to keep track of climbing stewardship work, get
-          accurate field reports, and make data meaningful.
+          DataBolt makes it easy keep track of rebolting work and prioritize
+          hardware for replacement.
         </p>
+      </div> */}
+
+      <div className="reports">
+        <div>{data.unapproved.count} unapproved reports</div>
+        <div>
+          {data.requiresWork.count} climb
+          {data.requiresWork.count > 1 ? "" : "s"} require
+          {data.requiresWork.count > 1 ? "s" : ""} work
+        </div>
+        <div>{data.needAssessment.count} climbs need assessment</div>
+        <div>{data.inProgress.count} climbs with work in progress</div>
       </div>
 
-      <BoltNivoStyles>
-        {/* <MyResponsivePie data={pieData} /> */}
-        <MyResponsiveBar data={boltsArray} />
-      </BoltNivoStyles>
-      <ReportsStyle>
-        Total reports submitted: {data._allReportsMeta.count}
-      </ReportsStyle>
-      {/* <div className="graphPlusStats">
-        <div>Total Climbs: </div>
-        <div>Climbs with hardware reports</div>
-      </div> */}
+      <div>
+        <h3>All Hardware Conditions</h3>
+        <BoltNivoStyles>
+          {/* <MyResponsivePie data={pieData} /> */}
+          <MyResponsiveBar data={boltsArray} />
+        </BoltNivoStyles>
+      </div>
     </HomeStyles>
   );
 }
