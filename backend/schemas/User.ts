@@ -13,12 +13,12 @@ export const User = list({
       many: true,
       ui: {
         displayMode: "cards",
-        cardFields: ["climb", "bolt", "user", "description", "timestamp"],
+        cardFields: ["climb", "bolt", "user", "description", "createdAt"],
         inlineCreate: {
-          fields: ["climb", "bolt", "user", "description", "timestamp"],
+          fields: ["climb", "bolt", "user", "description", "createdAt"],
         },
         inlineEdit: {
-          fields: ["climb", "bolt", "user", "description", "timestamp"],
+          fields: ["climb", "bolt", "user", "description", "createdAt"],
         },
       },
     }),

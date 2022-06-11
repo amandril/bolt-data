@@ -3,6 +3,7 @@ import gql from "graphql-tag";
 import styled from "styled-components";
 import dynamic from "next/dynamic";
 import testTest from "../components/BoltBar";
+import Link from "next/link";
 
 const MyResponsiveBar = dynamic(() => import("../components/BoltBar"), {
   ssr: false,
@@ -10,15 +11,28 @@ const MyResponsiveBar = dynamic(() => import("../components/BoltBar"), {
 
 const HomeStyles = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(400px, 500px));
   margin: 2rem;
-  .reports {
+  justify-content: center;
+  .statGrid {
     display: grid;
     gap: 30px;
     height: 10rem;
-    grid-template-columns: repeat(2, minmax(0, 150px));
-    > * {
-      border: 1px solid red;
+    grid-template-columns: repeat(2, minmax(0, 200px));
+    .stat {
+      /* border: 1px solid red; */
+      background-color: #eeeeee;
+      border-radius: 10px;
+      display: grid;
+      grid-template-columns: 1fr;
+      padding: 50px;
+      text-align: center;
+      line-height: 1.5rem;
+      .num {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+      }
     }
   }
   h2,
@@ -99,15 +113,39 @@ export default function AllBoltsPage() {
         </p>
       </div> */}
 
-      <div className="reports">
-        <div>{data.unapproved.count} unapproved reports</div>
-        <div>
-          {data.requiresWork.count} climb
-          {data.requiresWork.count > 1 ? "" : "s"} require
-          {data.requiresWork.count > 1 ? "s" : ""} work
+      <div className="statGrid">
+        <Link href="./unapprovedReports">
+          <a>
+            <div className="stat">
+              <span className="num">{data.unapproved.count}</span>
+              <span>unapproved reports</span>
+            </div>
+          </a>
+        </Link>
+        <Link href="./requiresWork">
+          <a>
+            <div className="stat">
+              <span className="num">{data.requiresWork.count}</span>
+              <span>
+                climb
+                {data.requiresWork.count < 1 ? "" : "s"} require
+                {data.requiresWork.count < 1 ? "s" : ""} work
+              </span>
+            </div>
+          </a>
+        </Link>
+        <Link href="./assessFurther">
+          <a>
+            <div className="stat">
+              <span className="num">{data.needAssessment.count}</span>
+              <span>climbs need assessment</span>
+            </div>
+          </a>
+        </Link>
+        <div className="stat">
+          <span className="num">{data.inProgress.count}</span>
+          <span>climbs in progress</span>
         </div>
-        <div>{data.needAssessment.count} climbs need assessment</div>
-        <div>{data.inProgress.count} climbs with work in progress</div>
       </div>
 
       <div>

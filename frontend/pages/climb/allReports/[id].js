@@ -2,6 +2,8 @@ import Report from "../../../components/Report";
 import { useQuery } from "@apollo/client";
 import gql from "graphql-tag";
 import styled from "styled-components";
+import AddReport from "../../../components/AddReport";
+import Link from "next/link";
 
 const ALL_CLIMB_REPORTS = gql`
   query ALL_CLIMB_REPORTS($id: ID!) {
@@ -35,6 +37,9 @@ const BoltCardStyle = styled.div`
   margin: 0 auto;
   border-radius: 5px;
   width: 650px;
+  .addReport {
+    display: none;
+  }
 `;
 
 export default function AllReportsPage({ query }) {
@@ -49,8 +54,19 @@ export default function AllReportsPage({ query }) {
 
   return (
     <BoltCardStyle>
+      <button
+        onClick={() =>
+          (document.querySelector(".addReport").style.display = "block")
+        }
+      >
+        + Add a report
+      </button>
+      <div className="addReport">
+        <AddReport climb={data.Climb} />
+      </div>
       <p>
-        These are the reports for {data.Climb.name}:{" "}
+        These are the reports for{" "}
+        <Link href={`../${id}`}>{data.Climb.name}</Link>:{" "}
         <strong>{data.Climb._reportsMeta.count} reports</strong>.
       </p>
       <div>

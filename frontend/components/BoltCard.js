@@ -2,6 +2,8 @@ import Link from "next/link";
 import styled from "styled-components";
 import Router from "next/router";
 import React, { useState } from "react";
+import Report from "./Report.js";
+import AddReport from "./AddReport.js";
 
 const BoltCardStyle = styled.div`
   background-color: #ffffff;
@@ -89,22 +91,22 @@ const BoltCardStyle = styled.div`
   }
 `;
 
-const Report = styled.div`
-  font-size: 0.8rem;
-  padding: 1rem 2rem;
-  border-left: 1px solid #222222;
-  margin-top: 1rem;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-  .reportThumbs {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-  :hover > .editButtons {
-    opacity: 1;
-  }
-`;
+// const Report = styled.div`
+//   font-size: 0.8rem;
+//   padding: 1rem 2rem;
+//   border-left: 1px solid #222222;
+//   margin-top: 1rem;
+//   display: grid;
+//   grid-template-columns: 1fr;
+//   gap: 1rem;
+//   .reportThumbs {
+//     display: grid;
+//     grid-template-columns: repeat(3, minmax(0, 1fr));
+//   }
+//   :hover > .editButtons {
+//     opacity: 1;
+//   }
+// `;
 
 export default function BoltCard({ bolt }) {
   const [state, setState] = useState({
@@ -176,29 +178,44 @@ export default function BoltCard({ bolt }) {
         </div>
       </div>
       <div>
-        <span className="cardLabel">Reports</span>
+        <div className="cardLabel">Reports</div>
+        <button
+          onClick={() =>
+            (document.querySelector(".addReport").style.display = "block")
+          }
+        >
+          + Add a report
+        </button>
+        <div className="addReport">
+          <AddReport climb={bolt.climb} bolt={bolt} />
+        </div>
         {bolt.reports?.length > 0 ? (
           bolt.reports.map((report) => (
-            <Report key={report.id}>
-              <div>
-                <span>
-                  <strong>
-                    {report.createdAt} by {report.user?.name}
-                  </strong>
-                </span>
-              </div>
-              <div>{report.description}</div>
-              <div className="reportThumbs">
-                <img
-                  width="100%"
-                  src={report.image.image.publicUrlTransformed}
-                />
-              </div>
-              <div className="editButtons">
-                <button className="editButton">Edit</button>
-                <button className="deleteButton">Remove</button>
-              </div>
-            </Report>
+            <Report report={report} />
+            // <Report key={report.id}>
+            //   <div>
+            //     <span>
+            //       <strong>
+            //         {report.createdAt} by {report.user?.name}
+            //       </strong>
+            //     </span>
+            //   </div>
+            //   <div>{report.description}</div>
+            //   {report.image ? (
+            //     <div className="reportThumbs">
+            //       <img
+            //         width="100%"
+            //         src={report.image?.image.publicUrlTransformed}
+            //       />
+            //     </div>
+            //   ) : (
+            //     ""
+            //   )}
+            //   <div className="editButtons">
+            //     <button className="editButton">Edit</button>
+            //     <button className="deleteButton">Remove</button>
+            //   </div>
+            // </Report>
           ))
         ) : (
           <div>No reports</div>

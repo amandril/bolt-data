@@ -1,9 +1,10 @@
-import { ApolloClient, InMemoryCache, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import styled from "styled-components";
 import gql from "graphql-tag";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import ClimbBoltCard from "./ClimbBoltCard";
+import HardwareBarBolts from "./HardwareBarBolts";
 
 const MyResponsiveBar = dynamic(() => import("./BoltBar"), {
   ssr: false,
@@ -16,7 +17,8 @@ const ClimbMain = styled.div`
   display: grid;
   justify-items: center;
   align-items: center;
-  grid-template-columns: 1fr 3fr;
+  grid-template-columns: 1fr;
+  gap: 50px;
   padding: 100px;
   .climbFa {
     font-size: 1rem;
@@ -97,6 +99,10 @@ const AddBoltStyle = styled.div`
     }
   }
 `;
+const BoltFooterStyle = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, minmax(200px, 1fr));
+`;
 
 export const SINGLE_CLIMB_QUERY = gql`
   query SINGLE_CLIMB_QUERY($id: ID!) {
@@ -121,23 +127,23 @@ export const SINGLE_CLIMB_QUERY = gql`
         count
       }
     }
-    climbBolts: Climb(where: { id: $id }) {
-      poorBolts: _boltsMeta(where: { condition: "poor" }) {
-        count
-      }
-      averageBolts: _boltsMeta(where: { condition: "average" }) {
-        count
-      }
-      goodBolts: _boltsMeta(where: { condition: "good" }) {
-        count
-      }
-      bomberBolts: _boltsMeta(where: { condition: "bomber" }) {
-        count
-      }
-      unknownBolts: _boltsMeta(where: { condition: "unknown" }) {
-        count
-      }
-    }
+    # climbBolts: Climb(where: { id: $id }) {
+    #   poorBolts: _boltsMeta(where: { condition: "poor" }) {
+    #     count
+    #   }
+    #   averageBolts: _boltsMeta(where: { condition: "average" }) {
+    #     count
+    #   }
+    #   goodBolts: _boltsMeta(where: { condition: "good" }) {
+    #     count
+    #   }
+    #   bomberBolts: _boltsMeta(where: { condition: "bomber" }) {
+    #     count
+    #   }
+    #   unknownBolts: _boltsMeta(where: { condition: "unknown" }) {
+    #     count
+    #   }
+    # }
   }
 `;
 
@@ -150,22 +156,22 @@ export default function SingleClimb({ id }) {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
   const climb = data.Climb;
-  const bolts = data.climbBolts; // Aliased bolts for use in the nuvi graph
+  // const bolts = data.climbBolts; // Aliased bolts for use in the nuvi graph
 
   // console.log(climb.bolts); // returns all the bolts, no aliases
 
-  const boltsArray = Object.entries(bolts)
-    .slice(0, 5)
-    .map(([key, value]) => {
-      return {
-        id: key,
-        value: value.count,
-      };
-    });
+  // const boltsArray = Object.entries(bolts)
+  //   .slice(0, 5)
+  //   .map(([key, value]) => {
+  //     return {
+  //       id: key,
+  //       value: value.count,
+  //     };
+  //   });
 
   // console.log(boltsArray);
 
-  console.log(data);
+  // console.log(data);
 
   return (
     <div>
@@ -174,10 +180,14 @@ export default function SingleClimb({ id }) {
           <ClimbName>{climb.name}</ClimbName>
           <span className="climbFa">FA: {climb.fa}</span>
         </div>
-        <BoltGraphStyles>
+        {/* <BoltGraphStyles>
           <MyResponsiveBar data={boltsArray} />
-        </BoltGraphStyles>
+        </BoltGraphStyles> */}
+        <div>
+          <HardwareBarBolts climb={climb} />
+        </div>
       </ClimbMain>
+
       <div className="boltSection">
         <div className="boltCards">
           {/* <PitchStyle>
@@ -196,12 +206,15 @@ export default function SingleClimb({ id }) {
           )}
         </div>
       </div>
-      <div className="addBoltRow">
+      <BoltFooterStyle>
         <Link href={{ pathname: `./add-hardware/${id}`, query: climb }}>
           <AddBoltStyle>
             Add Hardware
             <div className="addBoltPlus"></div>
           </AddBoltStyle>
+        </Link>
+        <Link href={{ pathname: `./add-hardware/${id}`, query: climb }}>
+          <AddBoltStyle>Edit Climb</AddBoltStyle>
         </Link>
         <Link href={{ pathname: `./allReports/${id}` }}>
           <AddBoltStyle>
@@ -210,7 +223,7 @@ export default function SingleClimb({ id }) {
             View all reports
           </AddBoltStyle>
         </Link>
-      </div>
+      </BoltFooterStyle>
       <div>{}</div>
     </div>
   );

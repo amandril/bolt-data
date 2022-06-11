@@ -3,6 +3,7 @@ import gql from "graphql-tag";
 import styled from "styled-components";
 import ApproveReport from "../components/ApproveReport";
 import DeleteReport from "../components/DeleteReport";
+import Report from "../components/Report";
 
 const ReportStyle = styled.div`
   display: grid;
@@ -44,35 +45,40 @@ export default function unapprovedReports() {
 
   return (
     <div>
+      <div>These are the unapproved reports</div>
       {reports?.length > 0 ? (
         reports.map((report) => (
-          <ReportStyle>
-            <div>
-              {report.climb ? `Report for ${report.climb.name}` : "No climb"}
-            </div>
-            <div>
-              {report.user ? `Submitted by ${report.user.name}` : "No user"}
-            </div>
-            <div>ID: {report.id}</div>
-            <div>Created at {report.createdAt || "[no date]"}</div>
-            <div>
-              Photos:{" "}
-              {report.image ? (
-                <img
-                  width="100"
-                  src={report.image?.image.publicUrlTransformed}
-                />
-              ) : (
-                "No photos"
-              )}
-            </div>
+          <>
+            <Report report={report} />
             <div>
               {/* Modal for selecting climb condition */}
               <ApproveReport id={report.id} />
               {/* Modal for are you sure */}
               <DeleteReport id={report.id} />
             </div>
-          </ReportStyle>
+          </>
+          // <ReportStyle>
+          //   <div>
+          //     {report.climb ? `Report for ${report.climb.name}` : "No climb"}
+          //   </div>
+          //   <div>
+          //     {report.user ? `Submitted by ${report.user.name}` : "No user"}
+          //   </div>
+          //   <div>ID: {report.id}</div>
+          //   <div>Created at {report.createdAt || "[no date]"}</div>
+          //   <div>Description: {report.description || "[no description]"}</div>
+          //   <div>
+          //     Photos:{" "}
+          //     {report.image ? (
+          //       <img
+          //         width="100"
+          //         src={report.image?.image.publicUrlTransformed}
+          //       />
+          //     ) : (
+          //       "No photos"
+          //     )}
+          //   </div>
+          // </ReportStyle>
         ))
       ) : (
         <div>No unapproved reports to show</div>

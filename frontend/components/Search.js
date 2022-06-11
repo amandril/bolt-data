@@ -67,7 +67,7 @@ export default function Search() {
         <input
           {...getInputProps({
             type: "search",
-            placeholder: "Search for an Item",
+            placeholder: "Search for a climb",
             id: "search",
             className: loading ? "loading" : null,
           })}

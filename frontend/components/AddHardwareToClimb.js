@@ -14,7 +14,7 @@ const ADD_HARDWARE_TO_CLIMB_MUTATION = gql`
     $use: String!
     $type: String!
     $condition: String!
-    $description: String!
+    # $description: String!
     $installDate: String!
   ) {
     createBolt(
@@ -24,7 +24,7 @@ const ADD_HARDWARE_TO_CLIMB_MUTATION = gql`
         use: $use
         type: $type
         condition: $condition
-        description: $description
+        # description: $description
         installDate: $installDate
         climb: { connect: { id: $id } }
       }
@@ -35,7 +35,7 @@ const ADD_HARDWARE_TO_CLIMB_MUTATION = gql`
       use
       type
       condition
-      description
+      # description
       installDate
       climb {
         id
@@ -172,7 +172,7 @@ export default function AddHardwareToClimb({ id }) {
     pitch: 1,
     use: "lead",
     type: "bolt",
-    description: "",
+    // description: "",
     installDate: "",
   });
   const [addHardware, { loading, error, data }] = useMutation(
