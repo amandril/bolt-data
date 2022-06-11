@@ -89,6 +89,9 @@ const BoltCardStyle = styled.div`
     grid-template-columns: repeat(2, minmax(0, 70px));
     grid-gap: 10px;
   }
+  .addReport {
+    display: none;
+  }
 `;
 
 // const Report = styled.div`

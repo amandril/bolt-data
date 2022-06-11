@@ -28,14 +28,14 @@ const GET_BOLT_QUERY = gql`
 const UPDATE_HARDWARE_FOR_CLIMB_MUTATION = gql`
   mutation UPDATE_HARDWARE_FOR_CLIMB_MUTATION(
     $id: ID!
-    $pitch: Int!
-    $position: Int!
-    $use: String!
-    $type: String!
-    $condition: String!
+    $pitch: Int
+    $position: Int
+    $use: String
+    $type: String
+    $condition: String
     # $description: String!
-    $installDate: String!
-    $lastUpdated: String!
+    $installDate: String
+    $lastUpdated: String
   ) {
     updateBolt(
       id: $id
@@ -240,7 +240,7 @@ export default function UpdateHardwareForClimb({ id }) {
             lastUpdated: today(),
           },
         });
-        clearForm();
+        // clearForm();
         // Go to that route's page!
         // console.log(res.data);
         Router.push({
@@ -257,7 +257,7 @@ export default function UpdateHardwareForClimb({ id }) {
             type="number"
             id="pitch"
             name="pitch"
-            value={inputs.pitch}
+            value={inputs.pitch || ""}
             onChange={handleChange}
           />
         </label>
@@ -269,7 +269,7 @@ export default function UpdateHardwareForClimb({ id }) {
             type="number"
             id="position"
             name="position"
-            value={inputs.position}
+            value={inputs.position || ""}
             onChange={handleChange}
           />
         </label>
@@ -280,9 +280,12 @@ export default function UpdateHardwareForClimb({ id }) {
             type="select"
             id="use"
             name="use"
-            value={inputs.use}
+            value={inputs.use || ""}
             onChange={handleChange}
           >
+            <option value="default" hidden>
+              Choose a Use
+            </option>
             <option value="lead">Lead</option>
             <option value="anchor">Anchor</option>
             <option value="belay">Belay</option>
@@ -295,9 +298,12 @@ export default function UpdateHardwareForClimb({ id }) {
             type="select"
             id="type"
             name="type"
-            value={inputs.type}
+            value={inputs.type || ""}
             onChange={handleChange}
           >
+            <option value="default" hidden>
+              Choose a Type
+            </option>
             <option value="bolt">Bolt</option>
             <option value="pin">Pin</option>
             <option value="webbing">Webbing</option>
@@ -382,7 +388,7 @@ export default function UpdateHardwareForClimb({ id }) {
             type="date"
             id="installDate"
             name="installDate"
-            value={inputs.installDate}
+            value={inputs.installDate || ""}
             onChange={handleChange}
           />
         </label>

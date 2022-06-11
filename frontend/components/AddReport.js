@@ -48,7 +48,21 @@ const ReportFormStyle = styled.form`
     display: grid;
     grid-template-columns: 1fr;
     border: 0;
+    margin: 0;
+    padding: 0;
+    label {
+      display: grid;
+      textarea {
+        height: 150px;
+        margin: 0.5rem 0;
+      }
+    }
+    button {
+      width: 200px;
+    }
   }
+  border-bottom: 1px solid #dddddd;
+  padding-bottom: 2rem;
 `;
 
 export default function AddReport({ climb, bolt }) {
@@ -81,9 +95,11 @@ export default function AddReport({ climb, bolt }) {
 
   return (
     <div>
-      <div>This is the AddReport component.</div>
-      <div>For climb: {climb?.name ? climb.name : "no climb"}</div>
-      <div>For bolt: {bolt?.position ? bolt.position : "no bolt"}</div>
+      <div className="boltClimbDesc">
+        <span>{bolt?.position ? `Position ${bolt.position} on ` : ""}</span>
+        <span>{climb?.name ? climb.name : ""}</span>
+      </div>
+
       <ReportFormStyle
         onSubmit={async (e) => {
           e.preventDefault();

@@ -9,13 +9,13 @@ import Link from "next/link";
 const ADD_HARDWARE_TO_CLIMB_MUTATION = gql`
   mutation ADD_HARDWARE_TO_CLIMB_MUTATION(
     $id: ID!
-    $pitch: Int!
-    $position: Int!
-    $use: String!
-    $type: String!
-    $condition: String!
+    $pitch: Int
+    $position: Int
+    $use: String
+    $type: String
+    $condition: String
     # $description: String!
-    $installDate: String!
+    $installDate: String
   ) {
     createBolt(
       data: {
@@ -234,6 +234,9 @@ export default function AddHardwareToClimb({ id }) {
         <label htmlFor="use">
           Use
           <select type="select" id="use" name="use" onChange={handleChange}>
+            <option value="default" hidden>
+              Choose a Use
+            </option>
             <option value="lead">Lead</option>
             <option value="anchor">Anchor</option>
             <option value="belay">Belay</option>
@@ -243,6 +246,9 @@ export default function AddHardwareToClimb({ id }) {
         <label htmlFor="type">
           Type
           <select type="select" id="type" name="type" onChange={handleChange}>
+            <option value="default" hidden>
+              Choose a Type
+            </option>
             <option value="bolt">Bolt</option>
             <option value="pin">Pin</option>
             <option value="webbing">Webbing</option>

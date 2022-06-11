@@ -56,13 +56,13 @@ export default function addHardwarePage({ query }) {
         <ClimbName>{query.name}</ClimbName>
       </AddToStyle>
       <FormSectionStyle>
-        <AddMultipleButton>
+        {/* <AddMultipleButton>
           <Link
             href={{ pathname: `../add-multiple/${query.id}`, query: query }}
           >
             <button>Add Multiple?</button>
           </Link>
-        </AddMultipleButton>
+        </AddMultipleButton> */}
         <AddHardwareToClimb id={query.id} />
       </FormSectionStyle>
     </div>
