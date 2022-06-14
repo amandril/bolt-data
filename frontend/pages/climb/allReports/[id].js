@@ -4,6 +4,7 @@ import gql from "graphql-tag";
 import styled from "styled-components";
 import AddReport from "../../../components/AddReport";
 import Link from "next/link";
+import AddReportToggle from "../../../components/AddReportToggle";
 
 const ALL_CLIMB_REPORTS = gql`
   query ALL_CLIMB_REPORTS($id: ID!) {
@@ -54,13 +55,7 @@ export default function AllReportsPage({ query }) {
 
   return (
     <BoltCardStyle>
-      <button
-        onClick={() =>
-          (document.querySelector(".addReport").style.display = "block")
-        }
-      >
-        + Add a report
-      </button>
+      <AddReportToggle />
       <div className="addReport">
         <AddReport climb={data.Climb} />
       </div>

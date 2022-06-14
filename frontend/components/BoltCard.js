@@ -90,7 +90,13 @@ const BoltCardStyle = styled.div`
     grid-gap: 10px;
   }
   .addReport {
-    display: none;
+    height: 0;
+    overflow: hidden;
+    transition: height 0.3s;
+    margin-bottom: 2rem;
+  }
+  .reportShow {
+    height: 400px;
   }
 `;
 
@@ -181,45 +187,11 @@ export default function BoltCard({ bolt }) {
         </div>
       </div>
       <div>
+        <AddReportToggle />
+        <AddReport climb={bolt.climb} bolt={bolt} />
         <div className="cardLabel">Reports</div>
-        <button
-          onClick={() =>
-            (document.querySelector(".addReport").style.display = "block")
-          }
-        >
-          + Add a report
-        </button>
-        <div className="addReport">
-          <AddReport climb={bolt.climb} bolt={bolt} />
-        </div>
         {bolt.reports?.length > 0 ? (
-          bolt.reports.map((report) => (
-            <Report report={report} />
-            // <Report key={report.id}>
-            //   <div>
-            //     <span>
-            //       <strong>
-            //         {report.createdAt} by {report.user?.name}
-            //       </strong>
-            //     </span>
-            //   </div>
-            //   <div>{report.description}</div>
-            //   {report.image ? (
-            //     <div className="reportThumbs">
-            //       <img
-            //         width="100%"
-            //         src={report.image?.image.publicUrlTransformed}
-            //       />
-            //     </div>
-            //   ) : (
-            //     ""
-            //   )}
-            //   <div className="editButtons">
-            //     <button className="editButton">Edit</button>
-            //     <button className="deleteButton">Remove</button>
-            //   </div>
-            // </Report>
-          ))
+          bolt.reports.map((report) => <Report report={report} />)
         ) : (
           <div>No reports</div>
         )}

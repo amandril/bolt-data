@@ -83,10 +83,7 @@ const GlobalStyles = createGlobalStyle`
       margin: 2rem auto;
     }
   }
-  .addBoltRow {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(300px, 1fr));
-    }
+  
   .boltConditionBar {
     font-weight: bold;
     display: grid;
