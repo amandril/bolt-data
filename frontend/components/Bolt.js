@@ -3,6 +3,7 @@ import gql from "graphql-tag";
 import Link from "next/link";
 import styled from "styled-components";
 import BoltCard from "./BoltCard.js";
+import ClimbTitle from "./ClimbTitle.js";
 
 const ClimbName = styled.div`
   font-size: 1.5rem;
@@ -18,6 +19,7 @@ export const SINGLE_BOLT_QUERY = gql`
       climb {
         id
         name
+        fa
       }
       pitch
       position
@@ -31,7 +33,7 @@ export const SINGLE_BOLT_QUERY = gql`
         user {
           name
         }
-        createdAt
+        # createdAt
         description
         image {
           image {
@@ -58,9 +60,7 @@ export default function Bolt({ id }) {
   return (
     <div className="boltSection">
       <Link href={`/climb/${bolt.climb.id}`}>
-        <a>
-          <ClimbName>{bolt.climb.name}</ClimbName>
-        </a>
+        <ClimbTitle climb={bolt.climb} />
       </Link>
       <BoltCard bolt={bolt} />
     </div>

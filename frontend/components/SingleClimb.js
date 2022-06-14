@@ -5,6 +5,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import ClimbBoltCard from "./ClimbBoltCard";
 import HardwareBarBolts from "./HardwareBarBolts";
+import ClimbTitle from "./ClimbTitle";
 
 const MyResponsiveBar = dynamic(() => import("./BoltBar"), {
   ssr: false,
@@ -20,17 +21,6 @@ const ClimbMain = styled.div`
   grid-template-columns: 1fr;
   gap: 50px;
   padding: 100px;
-  .climbFa {
-    font-size: 1rem;
-    color: #cccccc;
-  }
-`;
-
-const ClimbName = styled.h1`
-  font-family: "Roboto Condensed";
-  font-size: 2.5rem;
-  margin: 0;
-  line-height: 3rem;
 `;
 
 const PitchStyle = styled.h2`
@@ -176,10 +166,7 @@ export default function SingleClimb({ id }) {
   return (
     <div>
       <ClimbMain>
-        <div>
-          <ClimbName>{climb.name}</ClimbName>
-          <span className="climbFa">FA: {climb.fa}</span>
-        </div>
+        <ClimbTitle climb={climb} />
         {/* <BoltGraphStyles>
           <MyResponsiveBar data={boltsArray} />
         </BoltGraphStyles> */}
