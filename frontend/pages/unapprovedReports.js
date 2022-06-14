@@ -5,12 +5,24 @@ import ApproveReport from "../components/ApproveReport";
 import DeleteReport from "../components/DeleteReport";
 import Report from "../components/Report";
 
-const ReportStyle = styled.div`
+const UnapprovedStyle = styled.div`
   display: grid;
   grid-template-columns: 1fr;
-  background-color: #dedede;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 3rem;
+`;
+
+const ReportsStyle = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  background-color: #eeeeee;
   padding: 1rem;
   margin: 1rem;
+  .approveButtons {
+    display: grid;
+    /* grid-template-columns: 1fr 1fr; */
+  }
 `;
 
 const GET_UNAPPROVED_REPORTS_QUERY = gql`
@@ -44,19 +56,19 @@ export default function unapprovedReports() {
   const reports = data.allUnapproved;
 
   return (
-    <div>
+    <UnapprovedStyle>
       <div>These are the unapproved reports</div>
       {reports?.length > 0 ? (
         reports.map((report) => (
-          <>
+          <ReportsStyle>
             <Report report={report} />
-            <div>
+            <div className="approveButtons">
               {/* Modal for selecting climb condition */}
-              <ApproveReport id={report.id} />
+              <ApproveReport className="approveButton" id={report.id} />
               {/* Modal for are you sure */}
-              <DeleteReport id={report.id} />
+              <DeleteReport className="deleteButton" id={report.id} />
             </div>
-          </>
+          </ReportsStyle>
           // <ReportStyle>
           //   <div>
           //     {report.climb ? `Report for ${report.climb.name}` : "No climb"}
@@ -83,6 +95,6 @@ export default function unapprovedReports() {
       ) : (
         <div>No unapproved reports to show</div>
       )}
-    </div>
+    </UnapprovedStyle>
   );
 }

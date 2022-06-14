@@ -1,10 +1,12 @@
 import { useMutation } from "@apollo/client";
 import gql from "graphql-tag";
-import { Router } from "next/router";
+import Router from "next/router";
 import styled from "styled-components";
 import useForm from "../lib/useForm";
 import { SINGLE_CLIMB_QUERY } from "./SingleClimb";
 import { SINGLE_BOLT_QUERY } from "./Bolt";
+import { useEffect, useRef, useState } from "react";
+import { render } from "nprogress";
 
 const CLIMB_REPORT_MUTATION = gql`
   mutation CLIMB_REPORT_MUTATION(
@@ -88,16 +90,53 @@ const ReportFormStyle = styled.form`
   padding-bottom: 2rem;
 `;
 const AddReportStyle = styled.div`
-  height: 0;
+  height: ${(props) => (props.className === "reportShow" ? "400px" : "0")};
   overflow: hidden;
   transition: height 0.3s;
   margin-bottom: 2rem;
-  .reportShow {
-    height: 400px;
+`;
+
+const AddReportToggleStyle = styled.div`
+  display: inline-block;
+  float: right;
+  color: #222222;
+  opacity: 0.7;
+  .addReportButton {
+    background-color: #eeeeee;
+    border-radius: 10px;
+    display: none;
+    font-weight: bold;
+  }
+  .addReportButton:hover {
+    background-color: #dddddd;
+  }
+  .closeReportArea {
+    border-radius: 40%40%40%40%;
+    display: none;
+    font-weight: bold;
+    background-color: #dddddd;
+  }
+  .closeReportArea:hover {
+    background-color: pink;
+  }
+  .show {
+    display: block;
   }
 `;
 
 export default function AddReport({ climb, bolt, toggle }) {
+  const [isActive, setActive] = useState(!toggle);
+
+  const addReportNode = useRef(null),
+    closeReportButtonNode = useRef(null),
+    addReportButtonNode = useRef(null);
+
+  useEffect(() => {});
+
+  const handleClick = () => {
+    setActive(!isActive);
+  };
+
   const { inputs, handleChange, clearForm, resetForm } = useForm({
     description: "",
     image: "",
@@ -134,86 +173,87 @@ export default function AddReport({ climb, bolt, toggle }) {
     }
   );
 
-  if (toggle) {
-    addReportStyle.classList.toggle("reportShow");
+  const renderButtons = () => {
     return (
-      <>
+      <AddReportToggleStyle>
         <button
-          className="closeReportArea"
-          onClick={() => (
-            // TODO: Replace this with refs and state
-            document.querySelector(".addReport").classList.toggle("reportShow"),
-            (document.querySelector(".closeReportArea").style.display = "none"),
-            (document.querySelector(".addReportButton").style.display = "block")
-          )}
+          className={`closeReportArea ${isActive ? "show" : null}`}
+          ref={closeReportButtonNode}
+          onClick={handleClick}
         >
           X
         </button>
         <button
-          className="addReportButton"
-          onClick={() => (
-            // TODO: Replace this with refs and state
-            document.querySelector(".addReport").classList.toggle("reportShow"),
-            (document.querySelector(".addReportButton").style.display = "none"),
-            (document.querySelector(".closeReportArea").style.display = "block")
-          )}
+          className={`addReportButton ${isActive ? null : "show"}`}
+          ref={addReportButtonNode}
+          onClick={handleClick}
         >
           + Add a report
         </button>
-      </>
+      </AddReportToggleStyle>
     );
-  }
+  };
 
   return (
-    <AddReportStyle>
-      {/* <div className="boltClimbDesc">
+    <>
+      {toggle ? renderButtons() : ""}
+      <AddReportStyle
+        ref={addReportNode}
+        className={isActive ? "reportShow" : null}
+      >
+        {/* <div className="boltClimbDesc">
         <span>{bolt?.position ? `Position ${bolt.position} on ` : ""}</span>
         <span>{climb?.name ? climb.name : ""}</span>
       </div> */}
+        <ReportFormStyle
+          onSubmit={async (e) => {
+            e.preventDefault();
+            // Submit the inputfields to the backend:
 
-      <ReportFormStyle
-        onSubmit={async (e) => {
-          e.preventDefault();
-          // Submit the inputfields to the backend:
-
-          const res = bolt ? await boltReport() : await climbReport();
-          clearForm();
-          console.log(res.data);
-          Router.push({
-            pathname: `../${bolt ? bolt.id : "../climb/" + climb.id}`,
-          });
-        }}
-      >
-        <fieldset>
-          <label htmlFor="description">
-            Description
-            <textarea
-              name="description"
-              id="description"
-              onChange={handleChange}
-            />
-          </label>
-          <label htmlFor="photo">
-            Photo
-            <input
-              type="file"
-              name="image"
-              id="image"
-              onChange={handleChange}
-            />
-          </label>
-          <label htmlFor="climbStatus">
-            Climb Status
-            <select>
-              <option value="done">Done / Idle</option>
-              <option value="assess">Assess Further</option>
-              <option value="requiresWork">Requires Work</option>
-              <option value="inProgress">In Progress</option>
-            </select>
-          </label>
-          <button type="submit">Submit Report</button>
-        </fieldset>
-      </ReportFormStyle>
-    </AddReportStyle>
+            const res = bolt ? await boltReport() : await climbReport();
+            clearForm();
+            console.log(res.data);
+            Router.push({
+              pathname: `${
+                bolt
+                  ? "./" + res.data.createReport.bolt?.id
+                  : "../climb/" + res.data.createReport.climb?.id
+              }`,
+            });
+            handleClick();
+          }}
+        >
+          <fieldset>
+            <label htmlFor="description">
+              Description
+              <textarea
+                name="description"
+                id="description"
+                onChange={handleChange}
+              />
+            </label>
+            <label htmlFor="photo">
+              Photo
+              <input
+                type="file"
+                name="image"
+                id="image"
+                onChange={handleChange}
+              />
+            </label>
+            <label htmlFor="climbStatus">
+              Climb Status
+              <select>
+                <option value="done">Done / Idle</option>
+                <option value="assess">Assess Further</option>
+                <option value="requiresWork">Requires Work</option>
+                <option value="inProgress">In Progress</option>
+              </select>
+            </label>
+            <button type="submit">Submit Report</button>
+          </fieldset>
+        </ReportFormStyle>
+      </AddReportStyle>
+    </>
   );
 }

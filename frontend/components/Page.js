@@ -32,6 +32,9 @@ const GlobalStyles = createGlobalStyle`
     max-width:800px;
     margin: 0 auto;
   }
+  .reportShow {
+    height: 400px;
+  }
   a {
       text-decoration: none;
       color:initial;

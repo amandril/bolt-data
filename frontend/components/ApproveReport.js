@@ -1,5 +1,6 @@
 import { useMutation } from "@apollo/client";
 import gql from "graphql-tag";
+import styled from "styled-components";
 
 const APPROVE_REPORT_MUTATION = gql`
   mutation APPROVE_REPORT_MUTATION($id: ID!) {
@@ -26,6 +27,7 @@ export default function ApproveReport({ id }) {
 
   return (
     <button
+      className="approveButton"
       type="button"
       disabled={loading}
       onClick={() => {

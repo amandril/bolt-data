@@ -1,6 +1,5 @@
 import Link from "next/link";
 import styled from "styled-components";
-import Router from "next/router";
 import React, { useState } from "react";
 import Report from "./Report.js";
 import AddReport from "./AddReport.js";
@@ -28,7 +27,7 @@ const BoltCardStyle = styled.div`
     background-color: #ed8b76;
   }
   .editButton {
-    background-color: #a7ecba;
+    background-color: #f6db6c;
   }
   .cardTop {
     display: grid;
@@ -88,15 +87,6 @@ const BoltCardStyle = styled.div`
     /* justify-content: center; */
     grid-template-columns: repeat(2, minmax(0, 70px));
     grid-gap: 10px;
-  }
-  .addReport {
-    height: 0;
-    overflow: hidden;
-    transition: height 0.3s;
-    margin-bottom: 2rem;
-  }
-  .reportShow {
-    height: 400px;
   }
 `;
 
@@ -187,8 +177,7 @@ export default function BoltCard({ bolt }) {
         </div>
       </div>
       <div>
-        <AddReportToggle />
-        <AddReport climb={bolt.climb} bolt={bolt} />
+        <AddReport climb={bolt.climb} bolt={bolt} toggle={true} />
         <div className="cardLabel">Reports</div>
         {bolt.reports?.length > 0 ? (
           bolt.reports.map((report) => <Report report={report} />)
