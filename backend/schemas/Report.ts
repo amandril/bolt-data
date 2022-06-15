@@ -39,8 +39,7 @@ export const Report = list({
       defaultValue: false,
     }),
     createdAt: timestamp({
-      isRequired: true,
-      defaultValue: Date.now().toString(),
+      defaultValue: `${Date.now()}`,
     }),
   },
   ui: {

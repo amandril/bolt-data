@@ -4,12 +4,13 @@ import gql from "graphql-tag";
 import styled from "styled-components";
 import AddReport from "../../../components/AddReport";
 import Link from "next/link";
-import AddReportToggle from "../../../components/AddReportToggle";
+import ClimbTitle from "../../../components/ClimbTitle";
 
 const ALL_CLIMB_REPORTS = gql`
   query ALL_CLIMB_REPORTS($id: ID!) {
     Climb(where: { id: $id }) {
       id
+      fa
       name
       reports {
         image {
@@ -53,24 +54,29 @@ export default function AllReportsPage({ query }) {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
 
+  console.log(data);
+
   return (
     <BoltCardStyle>
-      <AddReportToggle />
-      <div className="addReport">
-        <AddReport climb={data.Climb} />
-      </div>
-      <p>
-        These are the reports for{" "}
-        <Link href={`../${id}`}>{data.Climb.name}</Link>:{" "}
-        <strong>{data.Climb._reportsMeta.count} reports</strong>.
-      </p>
       <div>
+        <Link href={`../${data.Climb.id}`}>
+          <a>
+            <ClimbTitle climb={data.Climb} />
+          </a>
+        </Link>
+      </div>
+      <AddReport climb={data.Climb} toggle={true} />
+      <div>
+        <div className="cardLabel">Reports</div>
         {data.Climb.reports?.length > 0 ? (
           data.Climb.reports.map((report) => (
-            <Report key={report.id} report={report} />
+            <>
+              <Report key={report.id} report={report} />
+              <div className="bottomBorder"></div>
+            </>
           ))
         ) : (
-          <div>None</div>
+          <div>No reports</div>
         )}
       </div>
     </BoltCardStyle>

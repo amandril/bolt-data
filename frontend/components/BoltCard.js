@@ -15,6 +15,9 @@ const BoltCardStyle = styled.div`
   width: 650px;
   > div {
     margin: 0.5rem 2rem;
+    .bottomBorder {
+      border-bottom: 1px solid #dddddd;
+    }
   }
   button {
     padding: 5px 10px;
@@ -38,9 +41,9 @@ const BoltCardStyle = styled.div`
     margin-bottom: 1rem;
     border-bottom: 1px solid #cdcdcd;
   }
-  .cardTop:hover > .editButtons {
+  /* .cardTop:hover > .editButtons {
     opacity: 1;
-  }
+  } */
   .boltStats {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -82,11 +85,18 @@ const BoltCardStyle = styled.div`
     }
   }
   .editButtons {
-    opacity: 0.2;
     display: grid;
     /* justify-content: center; */
     grid-template-columns: repeat(2, minmax(0, 70px));
     grid-gap: 10px;
+    button {
+      opacity: 0.4;
+      font-weight: bold;
+      color: #222222;
+    }
+  }
+  .editButtons > button:hover {
+    opacity: 1;
   }
 `;
 
@@ -180,7 +190,12 @@ export default function BoltCard({ bolt }) {
         <AddReport climb={bolt.climb} bolt={bolt} toggle={true} />
         <div className="cardLabel">Reports</div>
         {bolt.reports?.length > 0 ? (
-          bolt.reports.map((report) => <Report report={report} />)
+          bolt.reports.map((report) => (
+            <>
+              <Report report={report} />
+              <div className="bottomBorder"></div>
+            </>
+          ))
         ) : (
           <div>No reports</div>
         )}

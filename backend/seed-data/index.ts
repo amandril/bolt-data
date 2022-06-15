@@ -1,4 +1,4 @@
-import { thumbClimbs } from "./firstData";
+import { sleepingBeauty } from "./firstData";
 
 export async function insertSeedData(ks: any) {
   // Check for both version to get keystone
@@ -6,9 +6,9 @@ export async function insertSeedData(ks: any) {
   const adapter = keystone.adapters?.MongooseAdapter || keystone.adapter;
 
   ///////// ROUTES
-  console.log(`Inserting climbs: ${thumbClimbs.length} climbs`);
+  console.log(`Inserting climbs: ${sleepingBeauty.length} climbs`);
   const { mongoose } = adapter;
-  for (const climb of thumbClimbs) {
+  for (const climb of sleepingBeauty) {
     console.log(`Adding Climb: ${climb.name}`);
     await mongoose.model("Climb").create({
       name: climb.name,
@@ -17,8 +17,8 @@ export async function insertSeedData(ks: any) {
     });
   }
   console.log(
-    `Climbs inserted: ${thumbClimbs.length} climbs${
-      thumbClimbs.length > 1 ? "s" : ""
+    `Climbs inserted: ${sleepingBeauty.length} climbs${
+      sleepingBeauty.length > 1 ? "s" : ""
     }`
   );
 

@@ -1,10 +1,4 @@
-import {
-  text,
-  select,
-  relationship,
-  integer,
-  virtual,
-} from "@keystone-next/fields";
+import { text, select, relationship, integer } from "@keystone-next/fields";
 import { list } from "@keystone-next/keystone/schema";
 
 export const Bolt = list({
@@ -18,16 +12,16 @@ export const Bolt = list({
     reports: relationship({
       ref: "Report.bolt",
       many: true,
-      ui: {
-        displayMode: "cards",
-        cardFields: ["description", "image", "createdAt"],
-        inlineCreate: {
-          fields: ["description", "image", "createdAt"],
-        },
-        inlineEdit: {
-          fields: ["description", "image", "createdAt"],
-        },
-      },
+      // ui: {
+      //   displayMode: "cards",
+      //   cardFields: ["user", "image", "description", "createdAt"],
+      //   inlineCreate: {
+      //     fields: ["user", "image", "description", "createdAt"],
+      //   },
+      //   inlineEdit: {
+      //     fields: ["user", "image", "description", "createdAt"],
+      //   },
+      // },
     }),
     pitch: integer(),
     use: select({
@@ -67,7 +61,15 @@ export const Bolt = list({
   },
   ui: {
     listView: {
-      initialColumns: ["position", "type", "use", "climb", "installDate"],
+      initialColumns: [
+        "position",
+        "type",
+        "use",
+        "climb",
+        "reports",
+        "installDate",
+        "lastUpdated",
+      ],
     },
   },
 });

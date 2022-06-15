@@ -217,7 +217,7 @@ export default function AddReport({ climb, bolt, toggle }) {
               pathname: `${
                 bolt
                   ? "./" + res.data.createReport.bolt?.id
-                  : "../climb/" + res.data.createReport.climb?.id
+                  : "../" + res.data.createReport.climb?.id
               }`,
             });
             handleClick();

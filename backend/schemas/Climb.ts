@@ -13,16 +13,16 @@ export const Climb = list({
     reports: relationship({
       ref: "Report.climb",
       many: true,
-      ui: {
-        displayMode: "cards",
-        cardFields: ["description", "image", "createdAt"],
-        inlineCreate: {
-          fields: ["description", "image", "createdAt"],
-        },
-        inlineEdit: {
-          fields: ["description", "image", "createdAt"],
-        },
-      },
+      // ui: {
+      //   displayMode: "cards",
+      //   cardFields: ["user", "image", "description", "createdAt"],
+      //   inlineCreate: {
+      //     fields: ["user", "image", "description", "createdAt"],
+      //   },
+      //   inlineEdit: {
+      //     fields: ["user", "image", "description", "createdAt"],
+      //   },
+      // },
     }),
     status: select({
       defaultValue: "idle",
@@ -74,7 +74,7 @@ export const Climb = list({
   },
   ui: {
     listView: {
-      initialColumns: ["name", "bolts"],
+      initialColumns: ["name", "reports", "bolts"],
     },
   },
 });

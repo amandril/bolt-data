@@ -33,7 +33,7 @@ export const SINGLE_BOLT_QUERY = gql`
         user {
           name
         }
-        # createdAt
+        createdAt
         description
         image {
           image {
@@ -60,7 +60,9 @@ export default function Bolt({ id }) {
   return (
     <div className="boltSection">
       <Link href={`/climb/${bolt.climb.id}`}>
-        <ClimbTitle climb={bolt.climb} />
+        <a>
+          <ClimbTitle climb={bolt.climb} />
+        </a>
       </Link>
       <BoltCard bolt={bolt} />
     </div>

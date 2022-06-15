@@ -166,7 +166,11 @@ export default function SingleClimb({ id }) {
   return (
     <div>
       <ClimbMain>
-        <ClimbTitle climb={climb} />
+        <Link href={`./${climb.id}`}>
+          <a>
+            <ClimbTitle climb={climb} />
+          </a>
+        </Link>
         {/* <BoltGraphStyles>
           <MyResponsiveBar data={boltsArray} />
         </BoltGraphStyles> */}
