@@ -3,7 +3,6 @@ import styled, { createGlobalStyle } from "styled-components";
 import Header from "./Header";
 
 const GlobalStyles = createGlobalStyle`
-  @import url('https://fonts.googleapis.com/css2?family=Source+Serif+Pro&display=swap');
   html {
       --maxWidth: 1200px;
       margin: 0 auto;

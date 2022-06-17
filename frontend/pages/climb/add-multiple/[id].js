@@ -10,6 +10,7 @@ const AddToStyle = styled.div`
   align-items: center;
   grid-template-columns: 1fr;
   padding: 100px;
+  font-family: "Roboto Condensed";
   .above {
     font-size: 1.5rem;
   }
