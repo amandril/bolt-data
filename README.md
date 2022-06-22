@@ -1,3 +1,3 @@
-# data-bolt
+# bolt-data
 
-Data-Bolt is an project for reporting and tracking fixed hardware information, with contributions from climbers and climbing stewards. It's made possible with data from <a href="https://github.com/OpenBeta">OpenBeta</a> for climbs as well as other metadata.
+Bolt-Data is a database for bolts and other fixed hardware information for the climbing community. It's a project for reporting, tracking and making hardware in need of work actionable. Bolt-Data is made possible with data from <a href="https://github.com/OpenBeta">OpenBeta</a>.
