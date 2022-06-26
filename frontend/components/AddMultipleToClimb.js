@@ -153,6 +153,9 @@ export default function AddMultipleToClimb({ id }) {
     document.querySelector(".multiFields").innerHTML += jsxToString(fieldSet());
   };
 
+  // TODO: use refs to get all of the fieldsets inside the div with 'multiFields' class
+  
+
   return (
     <AddMultipleFormStyling>
       {/* This is the fieldset we want to use for duplicating down the column */}
@@ -161,7 +164,7 @@ export default function AddMultipleToClimb({ id }) {
       </button>
       <div className={`duplicateFieldset-${duplicate ? "show" : "hide"}`}>
         <fieldset>
-          <input type="checkbox" onChange={handleDuplicateChange} />
+          <input type="checkbox" onChange={handleDuplicateChange(multiFields)} />
           <input type="checkbox" />
           <input type="checkbox" />
           <input type="checkbox" />
