@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { handleChange } from "../lib/useForm";
+import useForm from "../lib/useForm";
 import jsxToString from "jsx-to-string";
 
 const AddMultipleFormStyling = styled.form`
@@ -56,79 +56,91 @@ const AddMultipleFormStyling = styled.form`
   }
 `;
 
-// For adding new fields and the initial fields to the form
-const fieldSet = () => (
-  <fieldset>
-    <input type="number" id="pitch" name="pitch" onChange={handleChange} />
-    <input
-      // required
-      type="number"
-      id="position"
-      name=""
-      onChange={handleChange}
-    />
-    <select
-      type="select"
-      id="use"
-      name="use"
-      defaultValue="select"
-      onChange={handleChange}
-    >
-      <option value="select" disabled hidden>
-        Select
-      </option>
-      <option value="lead">Lead</option>
-      <option value="anchor">Anchor</option>
-      <option value="belay">Belay</option>
-    </select>
-    <select
-      type="select"
-      id="type"
-      name="type"
-      defaultValue="select"
-      onChange={handleChange}
-    >
-      <option value="select" disabled hidden>
-        Select
-      </option>
-      <option value="bolt">Bolt</option>
-      <option value="pin">Pin</option>
-      <option value="webbing">Webbing</option>
-      <option value="other">Other</option>
-    </select>
-    <select
-      type="select"
-      id="condition"
-      name="condition"
-      defaultValue="select"
-      onChange={handleChange}
-    >
-      <option value="select" disabled hidden>
-        Select
-      </option>
-      <option value="bomber">Bomber</option>
-      <option value="good">Good</option>
-      <option value="average">Average</option>
-      <option value="poor">Poor</option>
-      <option value="unknown">Unknown</option>
-    </select>
-    <input
-      // required
-      type="text"
-      id="description"
-      name="description"
-      onChange={handleChange}
-    />
-  </fieldset>
-);
-
 export default function AddMultipleToClimb({ id }) {
+  const { inputs, handleChange, handleDuplicateChange, clearForm, resetForm } =
+    useForm({
+      position: 1,
+      condition: "unknown",
+      pitch: 1,
+      use: "lead",
+      type: "bolt",
+      // description: "",
+      installDate: "",
+    });
+
   const [duplicate, setDuplicate] = useState(false);
 
   const toggleDuplicate = (e) => {
     e.preventDefault();
     setDuplicate(!duplicate);
   };
+
+  // -------------------------------------------------------
+  // For adding new fields and the initial fields to the form
+  const fieldSet = () => (
+    <fieldset>
+      <input type="number" id="pitch" name="pitch" onChange={handleChange} />
+      <input
+        // required
+        type="number"
+        id="position"
+        name=""
+        onChange={handleChange}
+      />
+      <select
+        type="select"
+        id="use"
+        name="use"
+        defaultValue="select"
+        onChange={handleChange}
+      >
+        <option value="select" disabled hidden>
+          Select
+        </option>
+        <option value="lead">Lead</option>
+        <option value="anchor">Anchor</option>
+        <option value="belay">Belay</option>
+      </select>
+      <select
+        type="select"
+        id="type"
+        name="type"
+        defaultValue="select"
+        onChange={handleChange}
+      >
+        <option value="select" disabled hidden>
+          Select
+        </option>
+        <option value="bolt">Bolt</option>
+        <option value="pin">Pin</option>
+        <option value="webbing">Webbing</option>
+        <option value="other">Other</option>
+      </select>
+      <select
+        type="select"
+        id="condition"
+        name="condition"
+        defaultValue="select"
+        onChange={handleChange}
+      >
+        <option value="select" disabled hidden>
+          Select
+        </option>
+        <option value="bomber">Bomber</option>
+        <option value="good">Good</option>
+        <option value="average">Average</option>
+        <option value="poor">Poor</option>
+        <option value="unknown">Unknown</option>
+      </select>
+      <input
+        // required
+        type="text"
+        id="description"
+        name="description"
+        onChange={handleChange}
+      />
+    </fieldset>
+  );
 
   let initialFields = [];
   for (let i = 0; i < 5; i++) {
@@ -143,12 +155,13 @@ export default function AddMultipleToClimb({ id }) {
 
   return (
     <AddMultipleFormStyling>
+      {/* This is the fieldset we want to use for duplicating down the column */}
       <button className="duplicateButton" onClick={toggleDuplicate}>
         Duplicate All Fields
       </button>
       <div className={`duplicateFieldset-${duplicate ? "show" : "hide"}`}>
         <fieldset>
-          <input type="checkbox" />
+          <input type="checkbox" onChange={handleDuplicateChange} />
           <input type="checkbox" />
           <input type="checkbox" />
           <input type="checkbox" />
@@ -160,7 +173,7 @@ export default function AddMultipleToClimb({ id }) {
             type="number"
             id="pitch"
             name="pitch"
-            onChange={handleChange}
+            onChange={handleDuplicateChange}
           />
           <input
             // required
@@ -223,6 +236,9 @@ export default function AddMultipleToClimb({ id }) {
           />
         </fieldset>
       </div>
+      {/* End duplicating fieldset */}
+
+      {/* Initial fieldset */}
       <div className="formHead">
         <span>Pitch</span>
         <span>Position</span>
@@ -232,6 +248,8 @@ export default function AddMultipleToClimb({ id }) {
         <span>Description</span>
       </div>
       <div className="multiFields">{initialFields}</div>
+      {/* End initial fielset */}
+
       <fieldset>
         <button className="addBoltButton" onClick={addFields}>
           + Bolt

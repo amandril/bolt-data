@@ -23,6 +23,7 @@ export default function useForm(initial = {}) {
 
   function handleChange(e) {
     let { value, name, type } = e.target;
+    console.log(inputs);
     if (type === "number") {
       value = parseInt(value);
     }
@@ -34,6 +35,15 @@ export default function useForm(initial = {}) {
       ...inputs,
       [name]: value,
     });
+  }
+
+  function handleDuplicateChange(e, ref) {
+    let { value, name, type } = e.target;
+    console.log(inputs);
+    // setInputs({
+    //   ...inputs,
+    //   [name]: value,
+    // });
   }
 
   function resetForm() {
@@ -51,6 +61,7 @@ export default function useForm(initial = {}) {
   return {
     inputs,
     handleChange,
+    handleDuplicateChange,
     resetForm,
     clearForm,
   };
