@@ -26,7 +26,7 @@ export default function requiresWork() {
 
   return (
     <div>
-      <div>These routes require work</div>
+      <h1 className="pageHeader">These routes require work</h1>
 
       {data.requiresWork.map((climb) => (
         <ClimbWithStatus climb={climb} />

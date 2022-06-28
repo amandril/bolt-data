@@ -5,16 +5,16 @@ const HardwareBarStyle = styled.div`
   position: relative;
   border-radius: 5px;
   -webkit-border-radius: 5px;
-  width: 500px;
+  width: 100%;
   box-sizing: border-box;
   overflow: hidden;
-  > .section {
+  .section {
     display: inline-block;
     text-align: center;
   }
-  .unknown {
+  /* .unknown {
     background-color: var(--unknownColor);
-  }
+  } */
 `;
 
 export default function HardwareBar({
@@ -26,12 +26,12 @@ export default function HardwareBar({
   unknownBolts,
   _boltsMeta,
 }) {
-  const unknownNode = useRef(null),
+  const barFullNode = useRef(null),
+    unknownNode = useRef(null),
     poorNode = useRef(null),
     averageNode = useRef(null),
     goodNode = useRef(null),
-    bomberNode = useRef(null),
-    barFullNode = useRef(null);
+    bomberNode = useRef(null);
 
   useEffect(() => {
     const barFull = barFullNode.current,

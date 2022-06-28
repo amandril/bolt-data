@@ -38,7 +38,7 @@ export default function requiresWork() {
 
   return (
     <div>
-      <div>These routes need further assessment</div>
+      <h1 className="pageHeader">These routes need further assessment</h1>
 
       {data.requiresWork.map((climb) => (
         <Link href={`./climb/${climb.id}`}>

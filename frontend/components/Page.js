@@ -62,10 +62,10 @@ const GlobalStyles = createGlobalStyle`
   }
 
   h1.pageHeader{
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Roboto;
     font-weight: normal;
     text-align: center;
-    font-size: 4rem;
+    font-size: 3rem;
     line-height: 5rem;
   }
   .boltSection {

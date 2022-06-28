@@ -59,7 +59,7 @@ export default function Header() {
       <div className="top-bar">
         <Logo>
           <Link href="/">
-            <img src="/data-bolt.png" height={120} />
+            <img src="/bolt-data.png" height={120} />
           </Link>
         </Logo>
         <div className="search">

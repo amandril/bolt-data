@@ -4,6 +4,7 @@ import styled from "styled-components";
 import dynamic from "next/dynamic";
 import testTest from "../components/BoltBar";
 import Link from "next/link";
+import HardwareBar from "../components/HardwareBar";
 
 const MyResponsiveBar = dynamic(() => import("../components/BoltBar"), {
   ssr: false,
@@ -11,25 +12,30 @@ const MyResponsiveBar = dynamic(() => import("../components/BoltBar"), {
 
 const HomeStyles = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, minmax(400px, 500px));
-  margin: 2rem;
-  justify-content: center;
+  grid-template-columns: 1fr;
+  max-width: 1000px;
+  margin: 2rem auto;
+  justify-items: center;
   .statGrid {
     display: grid;
     gap: 30px;
+    margin: 50px;
     height: 10rem;
-    grid-template-columns: repeat(2, minmax(0, 200px));
+
+    grid-template-columns: repeat(4, minmax(0, 2000px));
     .stat {
       /* border: 1px solid red; */
       background-color: #eeeeee;
       border-radius: 10px;
       display: grid;
       grid-template-columns: 1fr;
-      padding: 50px;
+      gap: 0.5rem;
+      padding: 40px;
+      height: 100%;
       text-align: center;
       line-height: 1.5rem;
       .num {
-        font-size: 1.5rem;
+        font-size: 1.8rem;
         font-weight: bold;
         margin-bottom: 1.5rem;
       }
@@ -41,12 +47,12 @@ const HomeStyles = styled.div`
   }
 `;
 
-const BoltNivoStyles = styled.div`
-  position: relative;
-  height: 400px;
-  max-width: 600px;
-  margin: 0 auto;
-`;
+// const BoltNivoStyles = styled.div`
+//   position: relative;
+//   height: 400px;
+//   max-width: 600px;
+//   margin: 0 auto;
+// `;
 
 // Query all the bolts in Colorado
 const ALL_BOLTS_COLORADO = gql`
@@ -64,6 +70,9 @@ const ALL_BOLTS_COLORADO = gql`
       count
     }
     unknownBolts: _allBoltsMeta(where: { condition: "unknown" }) {
+      count
+    }
+    _allBoltsMeta {
       count
     }
     _allReportsMeta {
@@ -103,16 +112,14 @@ export default function AllBoltsPage() {
 
   return (
     <HomeStyles>
-      {/* <div className="homeTop">
-        <h1 className="pageHeader">
-          <div>DataBolt is Bolts</div>
-        </h1>
-        <p>
-          DataBolt makes it easy keep track of rebolting work and prioritize
-          hardware for replacement.
-        </p>
-      </div> */}
-
+      <HardwareBar
+        poorBolts={data.poorBolts}
+        averageBolts={data.averageBolts}
+        goodBolts={data.goodBolts}
+        bomberBolts={data.bomberBolts}
+        unknownBolts={data.unknownBolts}
+        _boltsMeta={data._allBoltsMeta}
+      />
       <div className="statGrid">
         <Link href="./unapprovedReports">
           <a>
@@ -148,13 +155,12 @@ export default function AllBoltsPage() {
         </div>
       </div>
 
-      <div>
+      {/* <div>
         <h3>All Hardware Conditions</h3>
         <BoltNivoStyles>
-          {/* <MyResponsivePie data={pieData} /> */}
           <MyResponsiveBar data={boltsArray} />
         </BoltNivoStyles>
-      </div>
+      </div> */}
     </HomeStyles>
   );
 }

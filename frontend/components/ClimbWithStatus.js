@@ -1,6 +1,5 @@
 import Link from "next/link";
 import styled from "styled-components";
-import HardwareBar from "./HardwareBar";
 import HardwareBarBolts from "./HardwareBarBolts";
 
 const ClimbStatusStyle = styled.div`
@@ -8,9 +7,17 @@ const ClimbStatusStyle = styled.div`
   background-color: #eeeeee;
   border-radius: 10px;
   margin: 1rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
   > * {
-    display: inline-block;
-    min-width: 10rem;
+    /* border: 1px solid red; */
+    /* min-width: 10rem; */
+  }
+  .stats {
+    /* display: inline-block; */
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
   }
 `;
 
@@ -19,9 +26,13 @@ export default function ClimbWithStatus({ climb }) {
     <Link href={`./climb/${climb.id}`}>
       <a>
         <ClimbStatusStyle>
-          <span>{climb.name}</span>
-          <span>Reports: {climb._reportsMeta.count}</span>
-          <span>Bolts: {climb._boltsMeta.count}</span>
+          <div className="stats">
+            <span>
+              <strong>{climb.name}</strong>
+            </span>
+            <span>{climb._reportsMeta.count} reports</span>
+            <span>{climb._boltsMeta.count} bolts</span>
+          </div>
           <HardwareBarBolts climb={climb} />
         </ClimbStatusStyle>
       </a>

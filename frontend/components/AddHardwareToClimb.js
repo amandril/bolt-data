@@ -201,7 +201,6 @@ export default function AddHardwareToClimb({ id }) {
         });
         clearForm();
         // Go to that route's page!
-        console.log(res.data);
         Router.push({
           pathname: `../${res.data.createBolt.climb.id}`,
         });

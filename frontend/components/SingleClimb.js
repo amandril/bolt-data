@@ -46,6 +46,7 @@ const AddBoltStyle = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   justify-items: center;
+  text-align: center;
   padding: 1rem;
   border-radius: 5px;
   font-size: 1.3rem;
@@ -91,7 +92,7 @@ const AddBoltStyle = styled.div`
 `;
 const BoltFooterStyle = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, minmax(200px, 1fr));
+  grid-template-columns: repeat(2, minmax(200px, 1fr));
 `;
 
 export const SINGLE_CLIMB_QUERY = gql`
@@ -146,22 +147,6 @@ export default function SingleClimb({ id }) {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
   const climb = data.Climb;
-  // const bolts = data.climbBolts; // Aliased bolts for use in the nuvi graph
-
-  // console.log(climb.bolts); // returns all the bolts, no aliases
-
-  // const boltsArray = Object.entries(bolts)
-  //   .slice(0, 5)
-  //   .map(([key, value]) => {
-  //     return {
-  //       id: key,
-  //       value: value.count,
-  //     };
-  //   });
-
-  // console.log(boltsArray);
-
-  // console.log(data);
 
   return (
     <div>
@@ -171,12 +156,7 @@ export default function SingleClimb({ id }) {
             <ClimbTitle climb={climb} />
           </a>
         </Link>
-        {/* <BoltGraphStyles>
-          <MyResponsiveBar data={boltsArray} />
-        </BoltGraphStyles> */}
-        <div>
-          <HardwareBarBolts climb={climb} />
-        </div>
+        <HardwareBarBolts climb={climb} />
       </ClimbMain>
 
       <div className="boltSection">
@@ -204,12 +184,12 @@ export default function SingleClimb({ id }) {
             <div className="addBoltPlus"></div>
           </AddBoltStyle>
         </Link>
-        <Link href={{ pathname: `./add-hardware/${id}`, query: climb }}>
+        {/* <Link href={{ pathname: `./add-hardware/${id}`, query: climb }}>
           <AddBoltStyle>Edit Climb</AddBoltStyle>
-        </Link>
+        </Link> */}
         <Link href={{ pathname: `./allReports/${id}` }}>
           <AddBoltStyle>
-            Total reports: {climb._reportsMeta.count}
+            {climb._reportsMeta.count} reports
             <br />
             View all reports
           </AddBoltStyle>

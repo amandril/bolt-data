@@ -23,7 +23,6 @@ export default function useForm(initial = {}) {
 
   function handleChange(e) {
     let { value, name, type } = e.target;
-    console.log(inputs);
     if (type === "number") {
       value = parseInt(value);
     }
@@ -45,7 +44,6 @@ export default function useForm(initial = {}) {
     // We need ref so we pass the fields we're working with
 
     let { value, name, type } = e.target;
-    console.log(inputs);
     // setInputs({
     //   ...inputs,
     //   [name]: value,
