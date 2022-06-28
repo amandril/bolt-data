@@ -38,6 +38,12 @@ export default function useForm(initial = {}) {
   }
 
   function handleDuplicateChange(e, ref) {
+    //  [READ FIRST] we might not need this function at all - just make sure to copy the values from inputs and trigger an event handler
+
+    // We need 'e' to figure out which input we want to duplicate
+
+    // We need ref so we pass the fields we're working with
+
     let { value, name, type } = e.target;
     console.log(inputs);
     // setInputs({
