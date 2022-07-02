@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import useForm from "../lib/useForm";
 import jsxToString from "jsx-to-string";
@@ -65,21 +65,36 @@ const AddMultipleFormStyling = styled.form`
 export default function AddMultipleToClimb({ id }) {
   const { inputs, handleChange, handleDuplicateChange, clearForm, resetForm } =
     useForm({
-      position: 1,
-      condition: "unknown",
-      pitch: 1,
-      use: "lead",
-      type: "bolt",
-      // description: "",
-      installDate: "",
+      // position: 1,
+      // condition: "unknown",
+      // pitch: 1,
+      // use: "lead",
+      // type: "bolt",
+      // // description: "",
+      // installDate: "",
     });
 
+  // Keep track of whether the duplicating fieldset is visible
   const [duplicate, setDuplicate] = useState(false);
 
   const toggleDuplicate = (e) => {
     e.preventDefault();
     setDuplicate(!duplicate);
   };
+
+  // Keep track of whether the pitch checkbox is true or false
+  const [pitch, setPitch] = useState(false);
+
+  const pitchDuplicate = () => {
+    setPitch(!pitch);
+    handleDuplicateChange();
+  };
+
+  const pitchRef = useCallback((node) => {
+    if (node !== null) {
+      console.log("ref", node); // node = elRef.current
+    }
+  }, []);
 
   // -------------------------------------------------------
   // For adding new fields and the initial fields to the form
@@ -90,7 +105,7 @@ export default function AddMultipleToClimb({ id }) {
         // required
         type="number"
         id="position"
-        name=""
+        name="position"
         onChange={handleChange}
       />
       <select
@@ -148,18 +163,16 @@ export default function AddMultipleToClimb({ id }) {
     </fieldset>
   );
 
-  let initialFields = [];
-  for (let i = 0; i < 5; i++) {
-    initialFields.push(fieldSet());
-  }
+  // let initialFields = [];
+  // for (let i = 0; i < 5; i++) {
+  //   initialFields.push(fieldSet());
+  // }
 
   const addFields = (e) => {
     e.preventDefault();
     console.log("adding fields");
     document.querySelector(".multiFields").innerHTML += jsxToString(fieldSet());
   };
-
-  // TODO: use refs to get all of the fieldsets inside the div with 'multiFields' class
 
   return (
     <AddMultipleFormStyling>
@@ -170,12 +183,13 @@ export default function AddMultipleToClimb({ id }) {
       <div className={`duplicateFieldset-${duplicate ? "show" : "hide"}`}>
         <fieldset>
           <label htmlFor="pitch">
-            <input type="checkbox" name="pitch" />
+            <input type="checkbox" name="pitch" onChange={pitchDuplicate} />
             Pitch
             <input
               type="number"
               id="pitch"
               name="pitch"
+              ref={pitchRef}
               onChange={handleChange}
               // The onChange handler should work as usual
 
@@ -281,11 +295,147 @@ export default function AddMultipleToClimb({ id }) {
         <span>Condition</span>
         <span>Description</span>
       </div>
-      <div className="multiFields">{initialFields}</div>
+      {/* <div className="multiFields">{initialFields}</div> */}
+      <div className="multiFields">
+        <fieldset>
+          <input
+            type="number"
+            id="pitch1"
+            name="pitch1"
+            onChange={handleChange}
+          />
+          <input
+            // required
+            type="number"
+            id="position1"
+            name="position1"
+            onChange={handleChange}
+          />
+          <select
+            type="select"
+            id="use1"
+            name="use1"
+            defaultValue="select"
+            onChange={handleChange}
+          >
+            <option value="select" disabled hidden>
+              Select
+            </option>
+            <option value="lead">Lead</option>
+            <option value="anchor">Anchor</option>
+            <option value="belay">Belay</option>
+          </select>
+          <select
+            type="select"
+            id="type1"
+            name="type1"
+            defaultValue="select"
+            onChange={handleChange}
+          >
+            <option value="select" disabled hidden>
+              Select
+            </option>
+            <option value="bolt">Bolt</option>
+            <option value="pin">Pin</option>
+            <option value="webbing">Webbing</option>
+            <option value="other">Other</option>
+          </select>
+          <select
+            type="select"
+            id="condition1"
+            name="condition1"
+            defaultValue="select"
+            onChange={handleChange}
+          >
+            <option value="select" disabled hidden>
+              Select
+            </option>
+            <option value="bomber">Bomber</option>
+            <option value="good">Good</option>
+            <option value="average">Average</option>
+            <option value="poor">Poor</option>
+            <option value="unknown">Unknown</option>
+          </select>
+          <input
+            // required
+            type="text"
+            id="description1"
+            name="description1"
+            onChange={handleChange}
+          />
+        </fieldset>
+        <fieldset>
+          <input
+            type="number"
+            id="pitch2"
+            name="pitch2"
+            onChange={handleChange}
+          />
+          <input
+            // required
+            type="number"
+            id="position2"
+            name="position2"
+            onChange={handleChange}
+          />
+          <select
+            type="select"
+            id="use2"
+            name="use2"
+            defaultValue="select"
+            onChange={handleChange}
+          >
+            <option value="select" disabled hidden>
+              Select
+            </option>
+            <option value="lead">Lead</option>
+            <option value="anchor">Anchor</option>
+            <option value="belay">Belay</option>
+          </select>
+          <select
+            type="select"
+            id="type2"
+            name="type2"
+            defaultValue="select"
+            onChange={handleChange}
+          >
+            <option value="select" disabled hidden>
+              Select
+            </option>
+            <option value="bolt">Bolt</option>
+            <option value="pin">Pin</option>
+            <option value="webbing">Webbing</option>
+            <option value="other">Other</option>
+          </select>
+          <select
+            type="select"
+            id="condition2"
+            name="condition2"
+            defaultValue="select"
+            onChange={handleChange}
+          >
+            <option value="select" disabled hidden>
+              Select
+            </option>
+            <option value="bomber">Bomber</option>
+            <option value="good">Good</option>
+            <option value="average">Average</option>
+            <option value="poor">Poor</option>
+            <option value="unknown">Unknown</option>
+          </select>
+          <input
+            // required
+            type="text"
+            id="description2"
+            name="description2"
+            onChange={handleChange}
+          />
+        </fieldset>
+      </div>
       {/* End initial fielset */}
 
       <fieldset>
-        <button className="addBoltButton" onClick={addFields}>
+        <button className="addBoltButton" type="button" onClick={addFields}>
           + Bolt
         </button>
       </fieldset>

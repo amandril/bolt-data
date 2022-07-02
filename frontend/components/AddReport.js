@@ -147,6 +147,7 @@ export default function AddReport({ climb, bolt, toggle }) {
     {
       variables: {
         climbId: climb.id,
+        // TODO: set this to the current / logged in user
         userId: "624e6165082c4ae24cc22513",
         description: inputs.description,
         image: inputs.image,
@@ -163,6 +164,7 @@ export default function AddReport({ climb, bolt, toggle }) {
       variables: {
         climbId: climb.id,
         boltId: bolt?.id,
+        // TODO: set this to the current / logged in user
         userId: "624e6165082c4ae24cc22513",
         description: inputs.description,
         image: inputs.image,

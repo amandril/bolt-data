@@ -18,7 +18,9 @@ export default function useForm(initial = {}) {
 
   function addFields() {
     let newField = { name: "", age: "" };
-    setInputs([...inputs, newField]);
+
+    // trying to add another row of inputs to the initial, but maybe we need to take the current inputs and add this to the end
+    // setInputs([...inputs, newField]);
   }
 
   function handleChange(e) {
@@ -36,14 +38,16 @@ export default function useForm(initial = {}) {
     });
   }
 
-  function handleDuplicateChange(e, ref) {
+  function handleDuplicateChange(val) {
     //  [READ FIRST] we might not need this function at all - just make sure to copy the values from inputs and trigger an event handler
 
     // We need 'e' to figure out which input we want to duplicate
 
     // We need ref so we pass the fields we're working with
 
-    let { value, name, type } = e.target;
+    console.log(inputs);
+
+    // let { value, name, type } = e.target;
     // setInputs({
     //   ...inputs,
     //   [name]: value,
