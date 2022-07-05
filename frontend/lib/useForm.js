@@ -72,5 +72,6 @@ export default function useForm(initial = {}) {
     handleDuplicateChange,
     resetForm,
     clearForm,
+    setInputs,
   };
 }

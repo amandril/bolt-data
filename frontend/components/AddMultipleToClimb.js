@@ -10,7 +10,7 @@ const AddMultipleFormStyling = styled.form`
   .formHead,
   fieldset {
     display: grid;
-    grid-template-columns: repeat(5, 100px) 175px;
+    grid-template-columns: repeat(5, 100px) 175px 50px;
     border: 0;
     /* justify-content: center; */
     grid-gap: 20px;
@@ -60,19 +60,21 @@ const AddMultipleFormStyling = styled.form`
   .duplicateFieldset-hide {
     display: none;
   }
+  button.removeField {
+    background-color: pink;
+  }
 `;
 
 export default function AddMultipleToClimb({ id }) {
-  const { inputs, handleChange, handleDuplicateChange, clearForm, resetForm } =
-    useForm({
-      // position: 1,
-      // condition: "unknown",
-      // pitch: 1,
-      // use: "lead",
-      // type: "bolt",
-      // // description: "",
-      // installDate: "",
-    });
+  const { clearForm, resetForm } = useForm({
+    // position: 1,
+    // condition: "unknown",
+    // pitch: 1,
+    // use: "lead",
+    // type: "bolt",
+    // // description: "",
+    // installDate: "",
+  });
 
   // Keep track of whether the duplicating fieldset is visible
   const [duplicate, setDuplicate] = useState(false);
@@ -82,115 +84,110 @@ export default function AddMultipleToClimb({ id }) {
     setDuplicate(!duplicate);
   };
 
-  // Keep track of whether the pitch checkbox is true or false
-  const [pitch, setPitch] = useState(false);
+  // Keep track of the duplicating inputs
+  const [dupInput, setDupInput] = useState({
+    pitch: 1,
+    position: 1,
+    use: "",
+    type: "",
+    condition: "",
+    description: "",
+  });
 
-  const pitchDuplicate = () => {
-    setPitch(!pitch);
-    handleDuplicateChange();
+  function handleDupChange(e) {
+    let { value, name } = e.target;
+    if (type === "number") {
+      value = parseInt(value);
+    }
+    setDupInput({
+      // copy the existing state
+      ...dupInput,
+      [name]: value,
+    });
+  }
+
+  // This copies the single input down the column
+  const handleDuplicate = (e) => {
+    let { value, name } = e.target;
+    // Copy what's there, then update the fields with that name
+    setFields(
+      fields.map((field) => ({
+        ...field,
+        [name]: dupInput[name],
+      }))
+    );
+
+    console.log(fields);
   };
 
-  const pitchRef = useCallback((node) => {
-    if (node !== null) {
-      console.log("ref", node); // node = elRef.current
-    }
-  }, []);
+  // This copies the whole fieldset
+  const copyAll = () => {
+    setFields(fields.map((field) => ({ id: field.id, ...dupInput })));
+    console.log(fields);
+  };
 
-  // -------------------------------------------------------
-  // For adding new fields and the initial fields to the form
-  const fieldSet = () => (
-    <fieldset>
-      <input type="number" id="pitch" name="pitch" onChange={handleChange} />
-      <input
-        // required
-        type="number"
-        id="position"
-        name="position"
-        onChange={handleChange}
-      />
-      <select
-        type="select"
-        id="use"
-        name="use"
-        defaultValue="select"
-        onChange={handleChange}
-      >
-        <option value="select" disabled hidden>
-          Select
-        </option>
-        <option value="lead">Lead</option>
-        <option value="anchor">Anchor</option>
-        <option value="belay">Belay</option>
-      </select>
-      <select
-        type="select"
-        id="type"
-        name="type"
-        defaultValue="select"
-        onChange={handleChange}
-      >
-        <option value="select" disabled hidden>
-          Select
-        </option>
-        <option value="bolt">Bolt</option>
-        <option value="pin">Pin</option>
-        <option value="webbing">Webbing</option>
-        <option value="other">Other</option>
-      </select>
-      <select
-        type="select"
-        id="condition"
-        name="condition"
-        defaultValue="select"
-        onChange={handleChange}
-      >
-        <option value="select" disabled hidden>
-          Select
-        </option>
-        <option value="bomber">Bomber</option>
-        <option value="good">Good</option>
-        <option value="average">Average</option>
-        <option value="poor">Poor</option>
-        <option value="unknown">Unknown</option>
-      </select>
-      <input
-        // required
-        type="text"
-        id="description"
-        name="description"
-        onChange={handleChange}
-      />
-    </fieldset>
-  );
+  const [fields, setFields] = useState([
+    {
+      id: 0,
+      pitch: 1,
+      position: 1,
+      use: "",
+      type: "",
+      condition: "",
+      description: "",
+    },
+  ]);
 
-  // let initialFields = [];
-  // for (let i = 0; i < 5; i++) {
-  //   initialFields.push(fieldSet());
-  // }
+  const handleFieldInput = (e) => {
+    let { value, name } = e.target;
+    const fieldId = e.target.parentNode.id;
+    // console.log(e.target.parentNode.id);
 
-  const addFields = (e) => {
+    setFields([...fields], [(fields[fieldId][name] = value)]);
+    console.log(fields);
+    console.log(fieldId);
+  };
+
+  const addField = () => {
+    const newField = [...fields];
+    newField.push({
+      id: fields.length,
+      pitch: 1,
+      position: 1,
+      use: "",
+      type: "",
+      condition: "",
+      description: "",
+    });
+    setFields(newField);
+  };
+
+  const removeField = (e) => {
     e.preventDefault();
-    console.log("adding fields");
-    document.querySelector(".multiFields").innerHTML += jsxToString(fieldSet());
+    console.log("Removing field ", e.target.parentNode.id);
   };
 
   return (
     <AddMultipleFormStyling>
       {/* This is the fieldset we want to use for duplicating down the column */}
       <button className="duplicateButton" onClick={toggleDuplicate}>
-        Duplicate All Fields
+        Duplicate Fields
       </button>
       <div className={`duplicateFieldset-${duplicate ? "show" : "hide"}`}>
+        <button type="button" name="copyAll" onClick={copyAll}>
+          Copy All
+        </button>
         <fieldset>
           <label htmlFor="pitch">
-            <input type="checkbox" name="pitch" onChange={pitchDuplicate} />
+            <button type="button" name="pitch" onClick={handleDuplicate}>
+              Copy
+            </button>
             Pitch
             <input
               type="number"
               id="pitch"
               name="pitch"
-              ref={pitchRef}
-              onChange={handleChange}
+              onChange={handleDupChange}
               // The onChange handler should work as usual
 
               // If the corresponding checkbox is checked, we want to run an event handler on each of the inputs below and copy the values from the duplicate fieldset inputs - that's where we want a ref, if any
@@ -200,26 +197,30 @@ export default function AddMultipleToClimb({ id }) {
           </label>
 
           <label htmlFor="position">
-            <input type="checkbox" name="position" />
+            <button type="button" name="position" onClick={handleDuplicate}>
+              Copy
+            </button>
             Position
             <input
               // required
               type="number"
               id="position"
               name="position"
-              onChange={handleChange}
+              onChange={handleDupChange}
             />
           </label>
 
           <label htmlFor="use">
-            <input type="checkbox" name="use" />
+            <button type="button" name="use" onClick={handleDuplicate}>
+              Copy
+            </button>
             Use
             <select
               type="select"
               id="use"
               name="use"
               defaultValue="select"
-              onChange={handleChange}
+              onChange={handleDupChange}
             >
               <option value="select" disabled hidden>
                 Select
@@ -231,14 +232,16 @@ export default function AddMultipleToClimb({ id }) {
           </label>
 
           <label htmlFor="type">
-            <input type="checkbox" name="type" />
+            <button type="button" name="type" onClick={handleDuplicate}>
+              Copy
+            </button>
             Type
             <select
               type="select"
               id="type"
               name="type"
               defaultValue="select"
-              onChange={handleChange}
+              onChange={handleDupChange}
             >
               <option value="select" disabled hidden>
                 Select
@@ -251,14 +254,16 @@ export default function AddMultipleToClimb({ id }) {
           </label>
 
           <label htmlFor="condition">
-            <input type="checkbox" name="condition" />
+            <button type="button" name="condition" onClick={handleDuplicate}>
+              Copy
+            </button>
             Condition
             <select
               type="select"
               id="condition"
               name="condition"
               defaultValue="select"
-              onChange={handleChange}
+              onChange={handleDupChange}
             >
               <option value="select" disabled hidden>
                 Select
@@ -272,14 +277,16 @@ export default function AddMultipleToClimb({ id }) {
           </label>
 
           <label htmlFor="description">
-            <input type="checkbox" name="description" />
+            <button type="button" name="description" onClick={handleDuplicate}>
+              Copy
+            </button>
             Description
             <input
               // required
               type="text"
               id="description"
               name="description"
-              onChange={handleChange}
+              onChange={handleDupChange}
             />
           </label>
         </fieldset>
@@ -297,145 +304,86 @@ export default function AddMultipleToClimb({ id }) {
       </div>
       {/* <div className="multiFields">{initialFields}</div> */}
       <div className="multiFields">
-        <fieldset>
-          <input
-            type="number"
-            id="pitch1"
-            name="pitch1"
-            onChange={handleChange}
-          />
-          <input
-            // required
-            type="number"
-            id="position1"
-            name="position1"
-            onChange={handleChange}
-          />
-          <select
-            type="select"
-            id="use1"
-            name="use1"
-            defaultValue="select"
-            onChange={handleChange}
-          >
-            <option value="select" disabled hidden>
-              Select
-            </option>
-            <option value="lead">Lead</option>
-            <option value="anchor">Anchor</option>
-            <option value="belay">Belay</option>
-          </select>
-          <select
-            type="select"
-            id="type1"
-            name="type1"
-            defaultValue="select"
-            onChange={handleChange}
-          >
-            <option value="select" disabled hidden>
-              Select
-            </option>
-            <option value="bolt">Bolt</option>
-            <option value="pin">Pin</option>
-            <option value="webbing">Webbing</option>
-            <option value="other">Other</option>
-          </select>
-          <select
-            type="select"
-            id="condition1"
-            name="condition1"
-            defaultValue="select"
-            onChange={handleChange}
-          >
-            <option value="select" disabled hidden>
-              Select
-            </option>
-            <option value="bomber">Bomber</option>
-            <option value="good">Good</option>
-            <option value="average">Average</option>
-            <option value="poor">Poor</option>
-            <option value="unknown">Unknown</option>
-          </select>
-          <input
-            // required
-            type="text"
-            id="description1"
-            name="description1"
-            onChange={handleChange}
-          />
-        </fieldset>
-        <fieldset>
-          <input
-            type="number"
-            id="pitch2"
-            name="pitch2"
-            onChange={handleChange}
-          />
-          <input
-            // required
-            type="number"
-            id="position2"
-            name="position2"
-            onChange={handleChange}
-          />
-          <select
-            type="select"
-            id="use2"
-            name="use2"
-            defaultValue="select"
-            onChange={handleChange}
-          >
-            <option value="select" disabled hidden>
-              Select
-            </option>
-            <option value="lead">Lead</option>
-            <option value="anchor">Anchor</option>
-            <option value="belay">Belay</option>
-          </select>
-          <select
-            type="select"
-            id="type2"
-            name="type2"
-            defaultValue="select"
-            onChange={handleChange}
-          >
-            <option value="select" disabled hidden>
-              Select
-            </option>
-            <option value="bolt">Bolt</option>
-            <option value="pin">Pin</option>
-            <option value="webbing">Webbing</option>
-            <option value="other">Other</option>
-          </select>
-          <select
-            type="select"
-            id="condition2"
-            name="condition2"
-            defaultValue="select"
-            onChange={handleChange}
-          >
-            <option value="select" disabled hidden>
-              Select
-            </option>
-            <option value="bomber">Bomber</option>
-            <option value="good">Good</option>
-            <option value="average">Average</option>
-            <option value="poor">Poor</option>
-            <option value="unknown">Unknown</option>
-          </select>
-          <input
-            // required
-            type="text"
-            id="description2"
-            name="description2"
-            onChange={handleChange}
-          />
-        </fieldset>
+        {fields.map((i) => {
+          return (
+            <fieldset id={i.id}>
+              <input
+                type="number"
+                name="pitch"
+                onChange={handleFieldInput}
+                value={i.pitch}
+              />
+              <input
+                // required
+                type="number"
+                name="position"
+                onChange={handleFieldInput}
+                value={i.position}
+              />
+              <select
+                type="select"
+                name="use"
+                defaultValue="select"
+                onChange={handleFieldInput}
+                value={i.use}
+              >
+                <option value="select" disabled hidden>
+                  Select
+                </option>
+                <option value="lead">Lead</option>
+                <option value="anchor">Anchor</option>
+                <option value="belay">Belay</option>
+              </select>
+              <select
+                type="select"
+                name="type"
+                defaultValue="select"
+                onChange={handleFieldInput}
+                value={i.type}
+              >
+                <option value="select" disabled hidden>
+                  Select
+                </option>
+                <option value="bolt">Bolt</option>
+                <option value="pin">Pin</option>
+                <option value="webbing">Webbing</option>
+                <option value="other">Other</option>
+              </select>
+              <select
+                type="select"
+                name="condition"
+                defaultValue="select"
+                onChange={handleFieldInput}
+                value={i.condition}
+              >
+                <option value="select" disabled hidden>
+                  Select
+                </option>
+                <option value="bomber">Bomber</option>
+                <option value="good">Good</option>
+                <option value="average">Average</option>
+                <option value="poor">Poor</option>
+                <option value="unknown">Unknown</option>
+              </select>
+              <input
+                // required
+                type="text"
+                name="description"
+                onChange={handleFieldInput}
+                value={i.description}
+              />
+              <button className="removeField" onClick={removeField}>
+                X
+              </button>
+            </fieldset>
+          );
+        })}
       </div>
+
       {/* End initial fielset */}
 
       <fieldset>
-        <button className="addBoltButton" type="button" onClick={addFields}>
+        <button className="addBoltButton" type="button" onClick={addField}>
           + Bolt
         </button>
       </fieldset>
