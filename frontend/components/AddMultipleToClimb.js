@@ -2,6 +2,47 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import useForm from "../lib/useForm";
 import jsxToString from "jsx-to-string";
+import gql from "graphql-tag";
+import { useMutation } from "@apollo/client";
+
+const ADD_HARDWARE_TO_CLIMB_MUTATION = gql`
+  mutation ADD_HARDWARE_TO_CLIMB_MUTATION(
+    $id: ID!
+    $pitch: Int
+    $position: Int
+    $use: String
+    $type: String
+    $condition: String
+    # $description: String!
+    $installDate: String
+  ) {
+    createBolt(
+      data: {
+        pitch: $pitch
+        position: $position
+        use: $use
+        type: $type
+        condition: $condition
+        # description: $description
+        installDate: $installDate
+        climb: { connect: { id: $id } }
+      }
+    ) {
+      id
+      pitch
+      position
+      use
+      type
+      condition
+      # description
+      installDate
+      climb {
+        id
+        name
+      }
+    }
+  }
+`;
 
 const AddMultipleFormStyling = styled.form`
   display: grid;
@@ -65,16 +106,12 @@ const AddMultipleFormStyling = styled.form`
   }
 `;
 
-export default function AddMultipleToClimb({ id }) {
-  const { clearForm, resetForm } = useForm({
-    // position: 1,
-    // condition: "unknown",
-    // pitch: 1,
-    // use: "lead",
-    // type: "bolt",
-    // // description: "",
-    // installDate: "",
-  });
+export default function AddMultipleToClimb({ id, quantity }) {
+  const [addHardware, { loading, error, data }] = useMutation(
+    ADD_HARDWARE_TO_CLIMB_MUTATION
+  );
+
+  console.log(quantity);
 
   // Keep track of whether the duplicating fieldset is visible
   const [duplicate, setDuplicate] = useState(false);
@@ -86,8 +123,8 @@ export default function AddMultipleToClimb({ id }) {
 
   // Keep track of the duplicating inputs
   const [dupInput, setDupInput] = useState({
-    pitch: 1,
-    position: 1,
+    pitch: "",
+    position: "",
     use: "",
     type: "",
     condition: "",
@@ -95,7 +132,7 @@ export default function AddMultipleToClimb({ id }) {
   });
 
   function handleDupChange(e) {
-    let { value, name } = e.target;
+    let { value, name, type } = e.target;
     if (type === "number") {
       value = parseInt(value);
     }
@@ -122,41 +159,58 @@ export default function AddMultipleToClimb({ id }) {
 
   // This copies the whole fieldset
   const copyAll = () => {
-    setFields(fields.map((field) => ({ id: field.id, ...dupInput })));
+    setFields(
+      fields.map((field) => ({
+        ...dupInput,
+        id: field.id,
+        position: field.position,
+      }))
+    );
     console.log(fields);
   };
 
-  const [fields, setFields] = useState([
-    {
-      id: 0,
-      pitch: 1,
-      position: 1,
-      use: "",
-      type: "",
-      condition: "",
-      description: "",
-    },
-  ]);
+  const boltFields = {
+    id: null,
+    pitch: "",
+    position: "",
+    use: "select",
+    type: "select",
+    condition: "select",
+    description: "",
+  };
+
+  let initialQuantity = [];
+  for (let i = 0; i < quantity; i++) {
+    initialQuantity.push({ ...boltFields, id: i, position: i + 1 });
+  }
+
+  console.log(initialQuantity);
+
+  const [fields, setFields] = useState(
+    // quantity ? [initialQuantity] : [boltFields]
+    [...initialQuantity]
+  );
 
   const handleFieldInput = (e) => {
-    let { value, name } = e.target;
+    let { value, name, type } = e.target;
+    if (type === "number") {
+      value = parseInt(value);
+    }
     const fieldId = e.target.parentNode.id;
     // console.log(e.target.parentNode.id);
 
     setFields([...fields], [(fields[fieldId][name] = value)]);
-    console.log(fields);
-    console.log(fieldId);
   };
 
   const addField = () => {
     const newField = [...fields];
     newField.push({
-      id: fields.length,
-      pitch: 1,
-      position: 1,
-      use: "",
-      type: "",
-      condition: "",
+      id: null,
+      pitch: "",
+      position: "",
+      use: "select",
+      type: "select",
+      condition: "select",
       description: "",
     });
     setFields(newField);
@@ -164,11 +218,37 @@ export default function AddMultipleToClimb({ id }) {
 
   const removeField = (e) => {
     e.preventDefault();
-    console.log("Removing field ", e.target.parentNode.id);
+    const fieldId = e.target.parentNode.id;
+    console.log("Removing field ", fieldId);
+    const newFields = [...fields];
+    newFields.splice(fieldId, 1);
+    setFields([...newFields]);
   };
 
   return (
-    <AddMultipleFormStyling>
+    <AddMultipleFormStyling
+      onSubmit={async (e) => {
+        e.preventDefault();
+        // Submit the inputfields to the backend:
+        const res = await fields.forEach((field) =>
+          addHardware({
+            variables: {
+              id,
+              pitch: field.pitch,
+              position: field.position,
+              use: field.use,
+              type: field.type,
+              condition: field.condition,
+              description: field.description,
+            },
+          })
+        );
+        // Go to that route's page!
+        Router.push({
+          pathname: `../${id}`,
+        });
+      }}
+    >
       {/* This is the fieldset we want to use for duplicating down the column */}
       <button className="duplicateButton" onClick={toggleDuplicate}>
         Duplicate Fields
@@ -304,9 +384,9 @@ export default function AddMultipleToClimb({ id }) {
       </div>
       {/* <div className="multiFields">{initialFields}</div> */}
       <div className="multiFields">
-        {fields.map((i) => {
+        {fields.map((i, index) => {
           return (
-            <fieldset id={i.id}>
+            <fieldset id={index}>
               <input
                 type="number"
                 name="pitch"
@@ -318,7 +398,7 @@ export default function AddMultipleToClimb({ id }) {
                 type="number"
                 name="position"
                 onChange={handleFieldInput}
-                value={i.position}
+                value={i.position || index + 1}
               />
               <select
                 type="select"

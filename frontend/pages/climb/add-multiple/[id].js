@@ -1,6 +1,7 @@
 import AddMultipleToClimb from "../../../components/AddMultipleToClimb";
 import styled from "styled-components";
 import Link from "next/link";
+import { useState } from "react";
 
 const AddToStyle = styled.div`
   position: relative;
@@ -29,7 +30,26 @@ const FormSectionStyle = styled.div`
   background-color: #eeeeee;
 `;
 
+const BoltQuantityFormStyle = styled.form`
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  gap: 10px;
+`;
+
 export default function addHardwarePage({ query }) {
+  const [boltQ, setBoltQ] = useState(null),
+    [boltSubmit, setBoltSubmit] = useState(null);
+
+  const handleNum = (e) => {
+    setBoltQ(e.target.value);
+  };
+
+  const setBoltQuantity = (e) => {
+    e.preventDefault();
+    setBoltSubmit(true);
+  };
+
   return (
     <div>
       <AddToStyle>
@@ -37,7 +57,17 @@ export default function addHardwarePage({ query }) {
         <ClimbName>{query.name}</ClimbName>
       </AddToStyle>
       <FormSectionStyle>
-        <AddMultipleToClimb id={query.id} />
+        {!boltSubmit ? (
+          <BoltQuantityFormStyle>
+            <span>How many bolts would you like to add?</span>
+            <input type="number" name="boltQuantity" onChange={handleNum} />
+            <button type="submit" onClick={setBoltQuantity}>
+              Submit
+            </button>
+          </BoltQuantityFormStyle>
+        ) : (
+          <AddMultipleToClimb id={query.id} quantity={boltQ} />
+        )}
       </FormSectionStyle>
     </div>
   );

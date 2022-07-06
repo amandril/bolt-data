@@ -180,7 +180,13 @@ export default function SingleClimb({ id }) {
       <BoltFooterStyle>
         <Link href={{ pathname: `./add-hardware/${id}`, query: climb }}>
           <AddBoltStyle>
-            Add Hardware
+            Add Single Hardware
+            <div className="addBoltPlus"></div>
+          </AddBoltStyle>
+        </Link>
+        <Link href={{ pathname: `./add-multiple/${id}`, query: climb }}>
+          <AddBoltStyle>
+            Add Multiple
             <div className="addBoltPlus"></div>
           </AddBoltStyle>
         </Link>
