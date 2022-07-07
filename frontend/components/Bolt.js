@@ -26,7 +26,7 @@ export const SINGLE_BOLT_QUERY = gql`
       type
       use
       condition
-      # description
+      description
       installDate
       reports(sortBy: createdAt_DESC) {
         id

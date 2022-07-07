@@ -19,7 +19,7 @@ const GET_BOLT_QUERY = gql`
       use
       type
       condition
-      # description
+      description
       installDate
     }
   }
@@ -33,7 +33,7 @@ const UPDATE_HARDWARE_FOR_CLIMB_MUTATION = gql`
     $use: String
     $type: String
     $condition: String
-    # $description: String!
+    $description: String
     $installDate: String
     $lastUpdated: String
   ) {
@@ -45,7 +45,7 @@ const UPDATE_HARDWARE_FOR_CLIMB_MUTATION = gql`
         use: $use
         type: $type
         condition: $condition
-        # description: $description
+        description: $description
         installDate: $installDate
         lastUpdated: $lastUpdated
       }
@@ -56,7 +56,7 @@ const UPDATE_HARDWARE_FOR_CLIMB_MUTATION = gql`
       use
       type
       condition
-      # description
+      description
       installDate
       lastUpdated
     }
@@ -93,7 +93,6 @@ const UpdateHardwareFormStyling = styled.form`
       select {
         display: block;
         padding: 1.5rem 1rem;
-        /* margin: 1rem; */
         border-radius: 5px;
         font-size: 1rem;
         border: 2px solid #dddddd;
@@ -205,7 +204,8 @@ export default function UpdateHardwareForClimb({ id }) {
 
   // Create some state for the form inputs
 
-  const { position, condition, pitch, use, type, installDate } = data.Bolt;
+  const { position, condition, pitch, use, type, description, installDate } =
+    data.Bolt;
 
   const { inputs, handleChange, clearForm } = useForm({
     position,
@@ -213,6 +213,7 @@ export default function UpdateHardwareForClimb({ id }) {
     pitch,
     use,
     type,
+    description,
     installDate,
   });
 
@@ -235,7 +236,7 @@ export default function UpdateHardwareForClimb({ id }) {
             use: inputs.use,
             type: inputs.type,
             condition: inputs.condition,
-            // description: inputs.description,
+            description: inputs.description,
             installDate: inputs.installDate,
             lastUpdated: today(),
           },
@@ -372,15 +373,15 @@ export default function UpdateHardwareForClimb({ id }) {
           </div>
         </ConditionRadioStyles>
 
-        {/* <label htmlFor="description">
+        <label htmlFor="description">
           Description
           <textarea
             name="description"
             id="description"
-            value={inputs.description}
+            value={inputs.description || ""}
             onChange={handleChange}
           />
-        </label> */}
+        </label>
 
         <label htmlFor="installDate">
           Install Date
@@ -392,20 +393,6 @@ export default function UpdateHardwareForClimb({ id }) {
             onChange={handleChange}
           />
         </label>
-
-        {/* <select
-            type="select"
-            id="condition"
-            name="condition"
-            placeholder="Condition"
-            onChange={handleChange}
-          >
-            <option value="unknown">Unknown</option>
-            <option value="poor">Poor</option>
-            <option value="average">Average</option>
-            <option value="good">Good</option>
-            <option value="bomber">Bomber</option>
-          </select> */}
 
         <button type="submit">Update Hardware</button>
       </fieldset>

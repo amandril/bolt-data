@@ -4,8 +4,9 @@ import styled from "styled-components";
 const ClimbBoltCardStyle = styled.div`
   background-color: #ffffff;
   display: grid;
-  grid-template-columns: 1fr 180px 1fr 1fr 1fr;
-  grid-gap: 0.5rem;
+  grid-template-columns: 1fr 180px 1fr 1fr 160px 1fr;
+  grid-gap: 2rem;
+  padding: 0 2rem;
   justify-content: space-around;
   border-radius: 5px;
   height: 5rem;
@@ -27,6 +28,15 @@ const ClimbBoltCardStyle = styled.div`
       color: #222222;
       font-weight: bold;
       align-self: start;
+    }
+    .descStatName {
+      justify-self: left;
+    }
+    .description {
+      width: 100%;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
     }
   }
 `;
@@ -62,6 +72,12 @@ export default function ClimbBoltCard({ bolt }) {
       <div className="boltStat">
         <span className="boltStatName">type</span>
         <span className="boltStatValue">{bolt.type}</span>
+      </div>
+      <div className="boltStat">
+        <span className="boltStatName descStatName">description</span>
+        <span className="boltStatValue description">
+          {bolt.description || "n/a"}
+        </span>
       </div>
       <div className="boltStat">
         <span className="boltStatName">reports</span>

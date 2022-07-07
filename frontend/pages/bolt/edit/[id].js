@@ -1,3 +1,4 @@
+import Link from "next/link";
 import styled from "styled-components";
 import UpdateHardwareForClimb from "../../../components/UpdateHardwareForClimb";
 
@@ -33,7 +34,11 @@ export default function editBolt({ query }) {
     <div>
       <AddToStyle>
         <div className="above">Update hardware for</div>
-        <ClimbName>{query.name}</ClimbName>
+        <Link href={`../${query.id}`}>
+          <a>
+            <ClimbName>{query.name}</ClimbName>
+          </a>
+        </Link>
       </AddToStyle>
       <FormSectionStyle>
         <UpdateHardwareForClimb id={query.id} />

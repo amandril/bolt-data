@@ -4,7 +4,6 @@ import Router from "next/router";
 import { SINGLE_CLIMB_QUERY } from "./SingleClimb.js";
 import useForm from "../lib/useForm";
 import styled from "styled-components";
-import Link from "next/link";
 
 const ADD_HARDWARE_TO_CLIMB_MUTATION = gql`
   mutation ADD_HARDWARE_TO_CLIMB_MUTATION(
@@ -14,7 +13,7 @@ const ADD_HARDWARE_TO_CLIMB_MUTATION = gql`
     $use: String
     $type: String
     $condition: String
-    # $description: String!
+    $description: String
     $installDate: String
   ) {
     createBolt(
@@ -24,7 +23,7 @@ const ADD_HARDWARE_TO_CLIMB_MUTATION = gql`
         use: $use
         type: $type
         condition: $condition
-        # description: $description
+        description: $description
         installDate: $installDate
         climb: { connect: { id: $id } }
       }
@@ -35,7 +34,7 @@ const ADD_HARDWARE_TO_CLIMB_MUTATION = gql`
       use
       type
       condition
-      # description
+      description
       installDate
       climb {
         id
@@ -329,20 +328,6 @@ export default function AddHardwareToClimb({ id }) {
             onChange={handleChange}
           />
         </label>
-
-        {/* <select
-            type="select"
-            id="condition"
-            name="condition"
-            placeholder="Condition"
-            onChange={handleChange}
-          >
-            <option value="unknown">Unknown</option>
-            <option value="poor">Poor</option>
-            <option value="average">Average</option>
-            <option value="good">Good</option>
-            <option value="bomber">Bomber</option>
-          </select> */}
 
         <button type="submit">+ Add Hardware</button>
       </fieldset>

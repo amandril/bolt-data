@@ -15,7 +15,12 @@ const GlobalStyles = createGlobalStyle`
       --goodColor: #a7ecba;
       --bomberColor: #93bcfa;
       --unknownColor: #FFDEB7;
-
+  }
+  ::selection {
+    background: #ed8b76; /* WebKit/Blink Browsers */
+  }
+  ::-moz-selection {
+    background: #ed8b76; /* Gecko Browsers */
   }
   *, *:before, *:after {
       box-sizing:inherit;
@@ -77,8 +82,8 @@ const GlobalStyles = createGlobalStyle`
     padding:2rem;
     .boltCards {
       display: grid;
-      grid-template-columns: 600px;
-      grid-gap: 10px;
+      /* grid-template-columns: 600px; */
+      grid-gap: 15px;
       margin: 2rem auto;
     }
   }

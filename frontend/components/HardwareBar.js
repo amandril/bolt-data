@@ -3,14 +3,18 @@ import { useRef, useEffect } from "react";
 
 const HardwareBarStyle = styled.div`
   position: relative;
-  border-radius: 5px;
-  -webkit-border-radius: 5px;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
   width: 100%;
   box-sizing: border-box;
   overflow: hidden;
   .section {
     display: inline-block;
     text-align: center;
+    font-weight: bold;
+    font-size: 0.8rem;
+    line-height: 2rem;
+    color: rgba(0, 0, 0, 0.5);
   }
   /* .unknown {
     background-color: var(--unknownColor);
@@ -57,19 +61,19 @@ export default function HardwareBar({
   return (
     <HardwareBarStyle ref={barFullNode}>
       <span ref={unknownNode} className="section unknown">
-        {unknownBolts.count > 0 ? unknownBolts.count : ""}
+        {unknownBolts.count > 0 ? unknownBolts.count + " unknown" : ""}
       </span>
       <span ref={poorNode} className="section poor">
-        {poorBolts.count > 0 ? poorBolts.count : ""}
+        {poorBolts.count > 0 ? poorBolts.count + " poor" : ""}
       </span>
       <span ref={averageNode} className="section average">
-        {averageBolts.count > 0 ? averageBolts.count : ""}
+        {averageBolts.count > 0 ? averageBolts.count + " average" : ""}
       </span>
       <span ref={goodNode} className="section good">
-        {goodBolts.count > 0 ? goodBolts.count : ""}
+        {goodBolts.count > 0 ? goodBolts.count + " good" : ""}
       </span>
       <span ref={bomberNode} className="section bomber">
-        {bomberBolts.count > 0 ? bomberBolts.count : ""}
+        {bomberBolts.count > 0 ? bomberBolts.count + " bomber" : ""}
       </span>
     </HardwareBarStyle>
   );

@@ -3,6 +3,18 @@ import styled from "styled-components";
 import React, { useState } from "react";
 import Report from "./Report.js";
 import AddReport from "./AddReport.js";
+import { gql, useMutation } from "@apollo/client";
+import Router from "next/router.js";
+
+const REMOVE_HARDWARE_MUTATION = gql`
+  mutation REMOVE_HARDWARE_MUTATION($id: ID!) {
+    deleteBolt(id: $id) {
+      climb {
+        id
+      }
+    }
+  }
+`;
 
 const BoltCardStyle = styled.div`
   background-color: #ffffff;
@@ -26,7 +38,7 @@ const BoltCardStyle = styled.div`
     border-radius: 5px;
     font-size: 0.7rem;
   }
-  .deleteButton {
+  .removeButton {
     background-color: #ed8b76;
   }
   .editButton {
@@ -70,8 +82,16 @@ const BoltCardStyle = styled.div`
     color: #cdcdcd;
   }
   .boltDescription {
-    font-size: 0.8rem;
+    display: grid;
     padding: 1rem;
+    .descTitle {
+      font-size: 0.8rem;
+      color: #cdcdcd;
+    }
+    .description {
+      font-size: 0.9rem;
+    }
+
     /* grid-column: span 2; */
   }
   .hardwareTags {
@@ -121,7 +141,7 @@ export default function BoltCard({ bolt }) {
   const [state, setState] = useState({
     showEdit: false,
   });
-  console.log(bolt);
+  // console.log(bolt);
 
   const toggleEdit = () => {
     setState({
@@ -129,6 +149,10 @@ export default function BoltCard({ bolt }) {
     });
     // console.log("updated - ", state);
   };
+
+  const [removeHardware, { loading, data, error }] = useMutation(
+    REMOVE_HARDWARE_MUTATION
+  );
 
   return (
     <BoltCardStyle>
@@ -158,6 +182,14 @@ export default function BoltCard({ bolt }) {
         <div className={`boltConditionBar ${bolt.condition}`}>
           {bolt.condition}
         </div>
+        {bolt.description ? (
+          <div className="boltDescription">
+            <span className="descTitle">Description</span>
+            <span className="description">{bolt.description}</span>
+          </div>
+        ) : (
+          ""
+        )}
         <div
           className="editButtons"
           // style={{
@@ -173,7 +205,7 @@ export default function BoltCard({ bolt }) {
                 position: bolt.position,
                 use: bolt.use,
                 type: bolt.type,
-                // description: bolt.description,
+                description: bolt.description,
                 condition: bolt.condition,
                 installDate: bolt.installDate,
               },
@@ -181,9 +213,27 @@ export default function BoltCard({ bolt }) {
           >
             <button className="editButton">Edit</button>
           </Link>
-          <Link href={{ pathname: `/bolt/delete/${bolt.id}` }}>
-            <button className="deleteButton">Remove</button>
-          </Link>
+          {/* Modal / popup to confirm removing the bolt - use component with mutation right here */}
+          <button
+            className="removeButton"
+            onClick={async (e) => {
+              e.preventDefault();
+              let conf = await confirm("Are you sure?");
+              if (conf) {
+                const res = await removeHardware({
+                  variables: {
+                    id: bolt.id,
+                  },
+                });
+                console.log(res.data.deleteBolt.climb.id);
+                Router.push({
+                  pathname: `../climb/${res.data.deleteBolt.climb.id}`,
+                });
+              }
+            }}
+          >
+            Remove
+          </button>
         </div>
       </div>
       <div>

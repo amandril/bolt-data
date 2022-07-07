@@ -40,7 +40,7 @@ export const Bolt = list({
         { label: "Other", value: "other" },
       ],
     }),
-    // description: text(),
+    description: text(),
     condition: select({
       defaultValue: "unknown",
       options: [

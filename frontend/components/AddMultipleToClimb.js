@@ -1,9 +1,8 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
-import useForm from "../lib/useForm";
-import jsxToString from "jsx-to-string";
 import gql from "graphql-tag";
 import { useMutation } from "@apollo/client";
+import Router from "next/router";
 
 const ADD_HARDWARE_TO_CLIMB_MUTATION = gql`
   mutation ADD_HARDWARE_TO_CLIMB_MUTATION(
@@ -13,7 +12,7 @@ const ADD_HARDWARE_TO_CLIMB_MUTATION = gql`
     $use: String
     $type: String
     $condition: String
-    # $description: String!
+    $description: String
     $installDate: String
   ) {
     createBolt(
@@ -23,7 +22,7 @@ const ADD_HARDWARE_TO_CLIMB_MUTATION = gql`
         use: $use
         type: $type
         condition: $condition
-        # description: $description
+        description: $description
         installDate: $installDate
         climb: { connect: { id: $id } }
       }
@@ -34,7 +33,7 @@ const ADD_HARDWARE_TO_CLIMB_MUTATION = gql`
       use
       type
       condition
-      # description
+      description
       installDate
       climb {
         id
@@ -111,8 +110,6 @@ export default function AddMultipleToClimb({ id, quantity }) {
     ADD_HARDWARE_TO_CLIMB_MUTATION
   );
 
-  console.log(quantity);
-
   // Keep track of whether the duplicating fieldset is visible
   const [duplicate, setDuplicate] = useState(false);
 
@@ -153,8 +150,6 @@ export default function AddMultipleToClimb({ id, quantity }) {
         [name]: dupInput[name],
       }))
     );
-
-    console.log(fields);
   };
 
   // This copies the whole fieldset
@@ -166,7 +161,6 @@ export default function AddMultipleToClimb({ id, quantity }) {
         position: field.position,
       }))
     );
-    console.log(fields);
   };
 
   const boltFields = {
@@ -184,8 +178,6 @@ export default function AddMultipleToClimb({ id, quantity }) {
     initialQuantity.push({ ...boltFields, id: i, position: i + 1 });
   }
 
-  console.log(initialQuantity);
-
   const [fields, setFields] = useState(
     // quantity ? [initialQuantity] : [boltFields]
     [...initialQuantity]
@@ -197,7 +189,6 @@ export default function AddMultipleToClimb({ id, quantity }) {
       value = parseInt(value);
     }
     const fieldId = e.target.parentNode.id;
-    // console.log(e.target.parentNode.id);
 
     setFields([...fields], [(fields[fieldId][name] = value)]);
   };
@@ -219,7 +210,6 @@ export default function AddMultipleToClimb({ id, quantity }) {
   const removeField = (e) => {
     e.preventDefault();
     const fieldId = e.target.parentNode.id;
-    console.log("Removing field ", fieldId);
     const newFields = [...fields];
     newFields.splice(fieldId, 1);
     setFields([...newFields]);
@@ -362,7 +352,6 @@ export default function AddMultipleToClimb({ id, quantity }) {
             </button>
             Description
             <input
-              // required
               type="text"
               id="description"
               name="description"

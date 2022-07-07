@@ -52,7 +52,11 @@ export default function addHardwarePage({ query }) {
     <div>
       <AddToStyle>
         <div className="above">Add hardware to</div>
-        <ClimbName>{query.name}</ClimbName>
+        <Link href={`../${query.id}`}>
+          <a>
+            <ClimbName>{query.name}</ClimbName>
+          </a>
+        </Link>
       </AddToStyle>
       <FormSectionStyle>
         {/* <AddMultipleButton>
