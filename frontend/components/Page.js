@@ -60,6 +60,20 @@ const GlobalStyles = createGlobalStyle`
     background-color: var(--unknownColor);
   }
 
+  // Bolt statuses
+  .status-idle {
+    background-color: #93bcfa;
+  }
+  .status-assess {
+    background-color: yellow;
+  }
+  .status-requiresWork {
+    background-color: red;
+  }
+  .status-inProgress {
+    background-color: lightgreen;
+  }
+
   // Used for centering containers in the body
   .centering {
     margin: 0 auto;

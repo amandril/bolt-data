@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import ClimbBoltCard from "./ClimbBoltCard";
 import HardwareBarBolts from "./HardwareBarBolts";
 import ClimbTitle from "./ClimbTitle";
+import ClimbStatus from "./ClimbStatus";
 
 const MyResponsiveBar = dynamic(() => import("./BoltBar"), {
   ssr: false,
@@ -101,6 +102,7 @@ export const SINGLE_CLIMB_QUERY = gql`
       id
       name
       fa
+      status
       bolts(orderBy: "position") {
         id
         pitch
@@ -157,6 +159,7 @@ export default function SingleClimb({ id }) {
           </a>
         </Link>
         <HardwareBarBolts climb={climb} />
+        <ClimbStatus climb={climb} />
       </ClimbMain>
 
       <div className="boltSection">
@@ -189,6 +192,9 @@ export default function SingleClimb({ id }) {
             Add Multiple
             <div className="addBoltPlus"></div>
           </AddBoltStyle>
+        </Link>
+        <Link href={{ pathname: `./edit/${id}`, query: climb }}>
+          <AddBoltStyle>Edit Climb</AddBoltStyle>
         </Link>
         {/* <Link href={{ pathname: `./add-hardware/${id}`, query: climb }}>
           <AddBoltStyle>Edit Climb</AddBoltStyle>
