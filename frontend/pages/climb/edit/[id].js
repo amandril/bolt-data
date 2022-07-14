@@ -1,3 +1,5 @@
+import UpdateStatusForClimb from "../../../components/UpdateStatusForClimb";
+
 export default function editBoltPage({ query }) {
-  return <div>This is the edit bolt page for {query.name}</div>;
+  return <UpdateStatusForClimb climb={query} climbId={query.id} />;
 }
