@@ -16,7 +16,7 @@ const ReportStyle = styled.div`
   }
 `;
 
-export default function Report({ report }) {
+export default function Report({ report, bolt }) {
   return (
     <ReportStyle>
       <div>

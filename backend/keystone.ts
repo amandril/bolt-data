@@ -12,8 +12,6 @@ import { Bolt } from "./schemas/Bolt";
 import { Report } from "./schemas/Report";
 import { ReportImage } from "./schemas/ReportImage";
 
-// import { insertSeedData } from './seed-data';
-
 const databaseURL =
   process.env.DATABASE_URL || "mongodb://localhost/data-bolt-upandrunning";
 

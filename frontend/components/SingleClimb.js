@@ -2,15 +2,10 @@ import { useQuery } from "@apollo/client";
 import styled from "styled-components";
 import gql from "graphql-tag";
 import Link from "next/link";
-import dynamic from "next/dynamic";
 import ClimbBoltCard from "./ClimbBoltCard";
 import HardwareBarBolts from "./HardwareBarBolts";
 import ClimbTitle from "./ClimbTitle";
 import ClimbStatus from "./ClimbStatus";
-
-const MyResponsiveBar = dynamic(() => import("./BoltBar"), {
-  ssr: false,
-});
 
 const ClimbMain = styled.div`
   position: relative;
@@ -22,6 +17,20 @@ const ClimbMain = styled.div`
   grid-template-columns: 1fr;
   gap: 50px;
   padding: 100px;
+  .statusAndReports {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(150px, 1fr));
+    grid-gap: 2rem;
+    .numReports {
+      background-color: lightgray;
+      border-radius: 5px;
+      text-align: center;
+      font-size: 0.8rem;
+      font-weight: bold;
+      color: rgba(0, 0, 0, 0.5);
+      padding: 5px;
+    }
+  }
 `;
 
 const PitchStyle = styled.h2`
@@ -159,7 +168,22 @@ export default function SingleClimb({ id }) {
           </a>
         </Link>
         <HardwareBarBolts climb={climb} />
-        <ClimbStatus climb={climb} />
+        <div className="statusAndReports">
+          <Link href={{ pathname: `./edit/${id}`, query: climb }}>
+            <a>
+              <ClimbStatus climb={climb} />
+            </a>
+          </Link>
+
+          <Link href={{ pathname: `./allReports/${id}` }}>
+            <a>
+              <div className="numReports">
+                {climb._reportsMeta.count} report
+                {climb._reportsMeta.count > 1 ? "s" : ""} total
+              </div>
+            </a>
+          </Link>
+        </div>
       </ClimbMain>
 
       <div className="boltSection">
@@ -193,19 +217,9 @@ export default function SingleClimb({ id }) {
             <div className="addBoltPlus"></div>
           </AddBoltStyle>
         </Link>
-        <Link href={{ pathname: `./edit/${id}`, query: climb }}>
-          <AddBoltStyle>Edit Climb</AddBoltStyle>
-        </Link>
         {/* <Link href={{ pathname: `./add-hardware/${id}`, query: climb }}>
           <AddBoltStyle>Edit Climb</AddBoltStyle>
         </Link> */}
-        <Link href={{ pathname: `./allReports/${id}` }}>
-          <AddBoltStyle>
-            {climb._reportsMeta.count} reports
-            <br />
-            View all reports
-          </AddBoltStyle>
-        </Link>
       </BoltFooterStyle>
       <div>{}</div>
     </div>

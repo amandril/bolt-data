@@ -5,7 +5,8 @@ const StatusStyle = styled.div`
   font-size: 0.8rem;
   font-weight: bold;
   color: rgba(0, 0, 0, 0.5);
-  padding: 5px;
+  padding: 5px 10px;
+  text-align: center;
 `;
 
 export default function ClimbStatus({ climb }) {

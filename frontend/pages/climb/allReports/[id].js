@@ -21,6 +21,10 @@ const ALL_CLIMB_REPORTS = gql`
         user {
           name
         }
+        bolt {
+          pitch
+          position
+        }
         description
         createdAt
       }
@@ -42,6 +46,12 @@ const BoltCardStyle = styled.div`
   .addReport {
     display: none;
   }
+`;
+
+const ReportStyle = styled.div`
+  background-color: pink;
+  border-radius: 5px;
+  margin-bottom: 10px;
 `;
 
 export default function AllReportsPage({ query }) {
@@ -70,10 +80,18 @@ export default function AllReportsPage({ query }) {
         <div className="cardLabel">Reports</div>
         {data.Climb.reports?.length > 0 ? (
           data.Climb.reports.map((report) => (
-            <>
+            <ReportStyle>
+              {report.bolt ? (
+                <span>
+                  Bolt: Pitch {report.bolt.pitch}, Position{" "}
+                  {report.bolt.position}
+                </span>
+              ) : (
+                ""
+              )}
               <Report key={report.id} report={report} />
               <div className="bottomBorder"></div>
-            </>
+            </ReportStyle>
           ))
         ) : (
           <div>No reports</div>

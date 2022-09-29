@@ -238,7 +238,14 @@ export default function BoltCard({ bolt }) {
       </div>
       <div>
         <AddReport climb={bolt.climb} bolt={bolt} toggle={true} />
-        <div className="cardLabel">Reports</div>
+        <div className="cardLabel">
+          <div>
+            Reports for Pitch {bolt.pitch}, Position {bolt.position} -{" "}
+            <Link href={{ pathname: `../climb/allReports/${bolt.climb.id}` }}>
+              <span>View all reports for {bolt.climb.name}</span>
+            </Link>
+          </div>
+        </div>
         {bolt.reports?.length > 0 ? (
           bolt.reports.map((report) => (
             <>
