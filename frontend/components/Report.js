@@ -19,6 +19,7 @@ const ReportStyle = styled.div`
 export default function Report({ report, bolt }) {
   return (
     <ReportStyle>
+      <p>Report Id: {report.id}</p>
       <div>
         <span>
           <strong>
@@ -28,8 +29,13 @@ export default function Report({ report, bolt }) {
         </span>
       </div>
       <div>{report.description}</div>
+      <div>{report.numReplaced}</div>
+      <div>{report.hooksInstalled}</div>
+      <div>{report.workDate}</div>
+      <div>{report.typeOfBolts}</div>
+
       <div className="reportThumbs">
-        <img width="100%" src={report.image?.image.publicUrlTransformed} />
+        <img width="100%" src={report.image?.image?.publicUrlTransformed} />
       </div>
     </ReportStyle>
   );

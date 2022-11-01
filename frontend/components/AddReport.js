@@ -14,11 +14,21 @@ const CLIMB_REPORT_MUTATION = gql`
     $userId: ID!
     $description: String
     $image: Upload
+    $numReplaced: Int
+    $typeOfBolts: String
+    $hooksInstalled: Int
+    $volunteerHours: String
+    $workDate: String
   ) {
     createReport(
       data: {
         climb: { connect: { id: $climbId } }
         user: { connect: { id: $userId } }
+        numReplaced: $numReplaced
+        typeOfBolts: $typeOfBolts
+        hooksInstalled: $hooksInstalled
+        volunteerHours: $volunteerHours
+        workDate: $workDate
         description: $description
         approved: true
         image: { create: { image: $image, altText: $description } }
@@ -38,12 +48,22 @@ const BOLT_REPORT_MUTATION = gql`
     $userId: ID!
     $description: String
     $image: Upload
+    $numReplaced: Int
+    $typeOfBolts: String
+    $hooksInstalled: Int
+    $volunteerHours: String
+    $workDate: String
   ) {
     createReport(
       data: {
         climb: { connect: { id: $climbId } }
         bolt: { connect: { id: $boltId } }
         user: { connect: { id: $userId } }
+        numReplaced: $numReplaced
+        typeOfBolts: $typeOfBolts
+        hooksInstalled: $hooksInstalled
+        volunteerHours: $volunteerHours
+        workDate: $workDate
         description: $description
         approved: true
         image: { create: { image: $image, altText: $description } }
@@ -90,7 +110,7 @@ const ReportFormStyle = styled.form`
   padding-bottom: 2rem;
 `;
 const AddReportStyle = styled.div`
-  height: ${(props) => (props.className === "reportShow" ? "400px" : "0")};
+  height: ${(props) => (props.className === "reportShow" ? "750px" : "0")};
   overflow: hidden;
   transition: height 0.3s;
   margin-bottom: 2rem;
@@ -151,6 +171,11 @@ export default function AddReport({ climb, bolt, toggle }) {
         userId: "624e6165082c4ae24cc22513",
         description: inputs.description,
         image: inputs.image,
+        numReplaced: inputs.numReplaced,
+        typeOfBolts: inputs.typeOfBolts,
+        hooksInstalled: inputs.hooksInstalled,
+        volunteerHours: inputs.volunteerHours,
+        workDate: inputs.workDate,
       },
       refetchQueries: [
         { query: SINGLE_CLIMB_QUERY, variables: { id: climb.id } },
@@ -168,6 +193,11 @@ export default function AddReport({ climb, bolt, toggle }) {
         userId: "624e6165082c4ae24cc22513",
         description: inputs.description,
         image: inputs.image,
+        numReplaced: inputs.numReplaced,
+        typeOfBolts: inputs.typeOfBolts,
+        hooksInstalled: inputs.hooksInstalled,
+        volunteerHours: inputs.volunteerHours,
+        workDate: inputs.workDate,
       },
       refetchQueries: [
         { query: SINGLE_BOLT_QUERY, variables: { id: bolt?.id } },
@@ -211,7 +241,6 @@ export default function AddReport({ climb, bolt, toggle }) {
           onSubmit={async (e) => {
             e.preventDefault();
             // Submit the inputfields to the backend:
-
             const res = bolt ? await boltReport() : await climbReport();
             clearForm();
             console.log(res.data);
@@ -226,8 +255,61 @@ export default function AddReport({ climb, bolt, toggle }) {
           }}
         >
           <fieldset>
+            <label htmlFor="workDate">
+              What was the work date?
+              <input
+                type="date"
+                id="workDate"
+                name="workDate"
+                onChange={handleChange}
+              />
+            </label>
+            <label htmlFor="numReplaced">
+              How many fixed anchors were replaced?
+              <input
+                type="number"
+                id="numReplaced"
+                name="numReplaced"
+                onChange={handleChange}
+              />
+            </label>
+            <label htmlFor="typeOfBolts">
+              What type of bolts were used?
+              <select
+                type="select"
+                id="typeOfBolts"
+                name="typeOfBolts"
+                onChange={handleChange}
+              >
+                <option value="default" hidden>
+                  Choose a Type
+                </option>
+                <option value="mechanical">Mechanical</option>
+                <option value="gluein">Glue in</option>
+              </select>
+            </label>
+            <label htmlFor="hooksInstalled">
+              How many hooks/lower-offs were installed?
+              <input
+                type="number"
+                id="hooksInstalled"
+                name="hookInstalled"
+                onChange={handleChange}
+              />
+            </label>
+            <label htmlFor="volunteerHours">
+              How many hours did the project take?
+              <input
+                type="text"
+                id="volunteerHours"
+                name="volunteerHours"
+                onChange={handleChange}
+              />
+            </label>
             <label htmlFor="description">
-              Description
+              Notes? What type of hardware was placed? Did you replace the whole
+              route or just part of it? Are there fixed anchors that still need
+              replacement on the climb?
               <textarea
                 name="description"
                 id="description"

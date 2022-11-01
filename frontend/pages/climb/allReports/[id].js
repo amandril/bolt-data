@@ -13,6 +13,7 @@ const ALL_CLIMB_REPORTS = gql`
       fa
       name
       reports {
+        id
         image {
           image {
             publicUrlTransformed
@@ -25,6 +26,11 @@ const ALL_CLIMB_REPORTS = gql`
           pitch
           position
         }
+        numReplaced
+        typeOfBolts
+        hooksInstalled
+        volunteerHours
+        workDate
         description
         createdAt
       }
@@ -49,9 +55,10 @@ const BoltCardStyle = styled.div`
 `;
 
 const ReportStyle = styled.div`
-  background-color: pink;
+  background-color: #cdcdcd;
+  padding: 0 2rem;
   border-radius: 5px;
-  margin-bottom: 10px;
+  margin-bottom: 1rem;
 `;
 
 export default function AllReportsPage({ query }) {
