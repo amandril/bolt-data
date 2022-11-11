@@ -316,7 +316,7 @@ export default function AddReport({ climb, bolt, toggle }) {
                 onChange={handleChange}
               />
             </label>
-            <label htmlFor="photo">
+            <label htmlFor="image">
               Photo
               <input
                 type="file"

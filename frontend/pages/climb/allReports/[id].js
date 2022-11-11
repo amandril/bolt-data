@@ -33,6 +33,8 @@ const ALL_CLIMB_REPORTS = gql`
         workDate
         description
         createdAt
+        reportedHardware
+        typeOfReport
       }
       _reportsMeta {
         count

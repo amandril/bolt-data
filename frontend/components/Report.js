@@ -19,21 +19,22 @@ const ReportStyle = styled.div`
 export default function Report({ report, bolt }) {
   return (
     <ReportStyle>
-      <p>Report Id: {report.id}</p>
+      <p>
+        <em>ID: {report.id}</em>
+      </p>
       <div>
         <span>
-          <strong>
-            {dateHelper(Date.parse(report.createdAt)) || "[no date]"} by{" "}
-            {report.user?.name || "no name"}
-          </strong>
+          Created by {report.user?.name || "n/a"} on {report.createdAt || "n/a"}
         </span>
       </div>
-      <div>{report.description}</div>
-      <div>{report.numReplaced}</div>
-      <div>{report.hooksInstalled}</div>
-      <div>{report.workDate}</div>
-      <div>{report.typeOfBolts}</div>
-
+      <div>Type of report: {report.typeOfReport || "n/a"}</div>
+      <div>Reported Hardware: {report.reportedHardware || "n/a"}</div>
+      <div>Desc: {report.description}</div>
+      <div>Number Replaced: {report.numReplaced}</div>
+      <div>Hooks Installed: {report.hooksInstalled}</div>
+      <div>Work Date: {report.workDate}</div>
+      <div>Type of bolts: {report.typeOfBolts || "n/a"}</div>
+      Photos:
       <div className="reportThumbs">
         <img width="100%" src={report.image?.image?.publicUrlTransformed} />
       </div>

@@ -2,7 +2,7 @@
 
 import { useMutation, useQuery } from "@apollo/client";
 import gql from "graphql-tag";
-import { Router } from "next/router";
+import Router from "next/router";
 import styled from "styled-components";
 import useForm from "../lib/useForm";
 
@@ -25,7 +25,7 @@ const HARDWARE_REPORT_MUTATION = gql`
     $where: String
     $problem: String
     $description: String
-    $photo: Upload
+    $image: Upload
   ) {
     createReport(
       data: {
@@ -38,7 +38,7 @@ const HARDWARE_REPORT_MUTATION = gql`
         where: $where
         problem: $problem
         description: $description
-        image: { create: { image: $photo, altText: $description } }
+        image: { create: { image: $image, altText: $description } }
       }
     ) {
       climb {
@@ -172,7 +172,10 @@ const ConditionRadioStyles = styled.div`
 `;
 
 export default function HardwareReport({ climb, bolt }) {
-  const { inputs, handleChange, clearForm, resetForm } = useForm();
+  const { inputs, handleChange, clearForm, resetForm } = useForm({
+    description: "",
+    image: "",
+  });
 
   const { loading, data, error } = useQuery(GET_CLIMB, {
     variables: {
@@ -182,33 +185,37 @@ export default function HardwareReport({ climb, bolt }) {
 
   const [
     createHardwareReport,
-    { hardwareLoading, hardwareError, hardwareData },
-  ] = useMutation(HARDWARE_REPORT_MUTATION);
+    { hardwareLoading, hardwareData, hardwareError },
+  ] = useMutation(HARDWARE_REPORT_MUTATION, {
+    variables: {
+      id: climb.id,
+      name: inputs.name,
+      email: inputs.email,
+      reportedHardware: inputs.reportedHardware,
+      where: inputs.where,
+      problem: inputs.problem,
+      description: inputs.description,
+      image: inputs.image,
+    },
+  });
 
   if (loading) return <p>Loading...</p>;
   if (error) return error;
+
+  if (hardwareLoading) return <p>Loading create hardware report</p>;
+  if (hardwareError) return <p>Error for create hardware report</p>;
 
   return (
     <HardwareReportStyling
       onSubmit={async (e) => {
         e.preventDefault();
         // Submit the inputfields to the backend:
-        const res = await createHardwareReport({
-          variables: {
-            id: climb.id,
-            name: inputs.name,
-            email: inputs.email,
-            reportedHardware: inputs.reportedHardware,
-            where: inputs.where,
-            problem: inputs.problem,
-            description: inputs.description,
-            image: inputs.photo,
-          },
-        });
+        const res = await createHardwareReport();
+        console.log(res);
         clearForm();
         // Go to that route's page!
         Router.push({
-          pathname: `../${res.data.climb.id}`,
+          pathname: `../${res.data.createReport.climb.id}`,
         });
       }}
     >
