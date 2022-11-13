@@ -16,13 +16,6 @@ export const Report = list({
         displayMode: "select",
       },
     }),
-    // Useful if a report was created on a specific bolt - still shows up for climb queries
-    bolt: relationship({
-      ref: "Bolt.reports",
-      ui: {
-        displayMode: "select",
-      },
-    }),
     // Whether it came from a climber or from a rebolter/LCO
     typeOfReport: select({
       options: [
@@ -66,8 +59,8 @@ export const Report = list({
         displayMode: "select",
       },
     }),
-    workDate: text({
-      defaultValue: `${JSON.stringify(Date.now())}`,
+    workDate: timestamp({
+      defaultValue: `${Date.now()}`,
     }),
     numReplaced: integer(),
     typeOfBolts: select({

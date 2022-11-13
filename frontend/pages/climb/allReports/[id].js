@@ -19,6 +19,7 @@ const ALL_CLIMB_REPORTS = gql`
             publicUrlTransformed
           }
         }
+        name
         user {
           name
         }

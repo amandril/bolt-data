@@ -112,14 +112,14 @@ export default function AllBoltsPage() {
 
   return (
     <HomeStyles>
-      <HardwareBar
+      {/* <HardwareBar
         poorBolts={data.poorBolts}
         averageBolts={data.averageBolts}
         goodBolts={data.goodBolts}
         bomberBolts={data.bomberBolts}
         unknownBolts={data.unknownBolts}
         _boltsMeta={data._allBoltsMeta}
-      />
+      /> */}
       <div className="statGrid">
         <Link href="./unapprovedReports">
           <a>
@@ -149,10 +149,14 @@ export default function AllBoltsPage() {
             </div>
           </a>
         </Link>
-        <div className="stat">
-          <span className="num">{data.inProgress.count}</span>
-          <span>climbs in progress</span>
-        </div>
+        <Link href="./inProgress">
+          <a>
+            <div className="stat">
+              <span className="num">{data.inProgress.count}</span>
+              <span>climbs in progress</span>
+            </div>
+          </a>
+        </Link>
       </div>
 
       {/* <div>

@@ -65,7 +65,7 @@ export default function Report({ report, bolt }) {
           <div className="reportType work-report">Work</div>
           <div>
             {dateHelper(report.createdAt) || "n/a"} by{" "}
-            {report.user?.name || "n/a"}
+            {report.user?.name || report.name}
           </div>
         </div>
         <div>Work Date: {dateHelper(Math.floor(report.workDate))}</div>

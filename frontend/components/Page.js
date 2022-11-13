@@ -16,12 +16,6 @@ const GlobalStyles = createGlobalStyle`
       --bomberColor: #93bcfa;
       --unknownColor: #FFDEB7;
   }
-  ::selection {
-    background: #ed8b76; /* WebKit/Blink Browsers */
-  }
-  ::-moz-selection {
-    background: #ed8b76; /* Gecko Browsers */
-  }
   *, *:before, *:after {
       box-sizing:inherit;
   } 
@@ -124,6 +118,33 @@ const GlobalStyles = createGlobalStyle`
     color: #cdcdcd;
     line-height: 0.5rem;
   }
+  /* Forms */
+  label {
+      color: #222222;
+      font-size: .9rem;
+      display: grid;
+      grid-gap: 0.5rem;
+      grid-template-columns: 1fr;
+      justify-content: start;
+      width: 100%;
+      input {
+        height: 2rem;
+      }
+      input,
+      textarea,
+      select {
+        display: block;
+        padding: 1.5rem 1rem;
+        /* margin: 1rem; */
+        border-radius: 10px;
+        font-size: 1rem;
+        border: 2px solid #dddddd;
+      }
+      textarea {
+        height: 15rem;
+        resize: none;
+      }
+    }
 `;
 
 const InnerStyles = styled.div`

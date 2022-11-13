@@ -7,13 +7,12 @@ import ClimbTitle from "../../../components/ClimbTitle";
 import WorkReport from "../../../components/WorkReport";
 
 const BoltCardStyle = styled.div`
-  background-color: #ffffff;
+  background-color: #eeeeee;
   display: grid;
   grid-template-columns: 1fr;
   padding: 1rem;
   margin: 0 auto;
   border-radius: 5px;
-  width: 650px;
   .addReport {
     display: none;
   }
@@ -51,18 +50,20 @@ export default function workReportPage({ query }) {
   console.log(data);
 
   return (
-    <BoltCardStyle>
-      <div>
-        <PageTitle>
-          <div className="pageTitleType">Rebolt Tracking</div>
-          <Link href={`../${data.Climb.id}`}>
-            <a>
-              <ClimbTitle climb={data.Climb} />
-            </a>
-          </Link>
-        </PageTitle>
-        <WorkReport climb={data.Climb} />
-      </div>
-    </BoltCardStyle>
+    <>
+      <PageTitle>
+        <div className="pageTitleType">Rebolt Tracking 🛠️</div>
+        <Link href={`../${data.Climb.id}`}>
+          <a>
+            <ClimbTitle climb={data.Climb} />
+          </a>
+        </Link>
+      </PageTitle>
+      <BoltCardStyle>
+        <div>
+          <WorkReport climb={data.Climb} />
+        </div>
+      </BoltCardStyle>
+    </>
   );
 }

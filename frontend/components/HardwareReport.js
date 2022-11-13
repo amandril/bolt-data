@@ -65,32 +65,7 @@ const HardwareReportStyling = styled.form`
     justify-items: center;
     grid-gap: 40px;
     padding: 40px;
-    label {
-      color: #222222;
-      font-size: 1rem;
-      display: grid;
-      grid-gap: 0.5rem;
-      grid-template-columns: 1fr;
-      justify-content: start;
-      width: 100%;
-      input {
-        height: 2rem;
-      }
-      input,
-      textarea,
-      select {
-        display: block;
-        padding: 1.5rem 1rem;
-        /* margin: 1rem; */
-        border-radius: 5px;
-        font-size: 1rem;
-        border: 2px solid #dddddd;
-      }
-      textarea {
-        height: 15rem;
-        resize: none;
-      }
-    }
+
     button {
       color: green;
       background-color: lightgreen;
@@ -264,7 +239,7 @@ export default function HardwareReport({ climb, bolt }) {
 
         <label htmlFor="where">
           Where is it on the climb?
-          <div>example: 1st pitch 3rd bolt</div>
+          <div>Ex: 1st pitch, 3rd bolt</div>
           <input
             required
             type="text"

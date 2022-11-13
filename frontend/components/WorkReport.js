@@ -34,21 +34,31 @@ const GET_CLIMB = gql`
 const WORK_REPORT_MUTATION = gql`
   mutation WORK_REPORT_MUTATION(
     $id: ID!
-    $user: ID
-    # $reportedHardware: String
-    # $where: String
-    # $problem: String
+    # $user: ID
+    $name: String
+    $email: String
+    $workDate: String
+    $numReplaced: Int
+    $typeOfBolts: String
+    $hooksInstalled: Int
+    $volunteerHours: String
+    $otherVolunteers: String
     $description: String
     $image: Upload
   ) {
     createReport(
       data: {
         climb: { connect: { id: $id } }
-        typeOfReport: "report"
-        user: $user
-        # reportedHardware: $reportedHardware
-        # where: $where
-        # problem: $problem
+        typeOfReport: "work"
+        # user: $user
+        name: $name
+        email: $email
+        workDate: $workDate
+        numReplaced: $numReplaced
+        typeOfBolts: $typeOfBolts
+        hooksInstalled: $hooksInstalled
+        volunteerHours: $volunteerHours
+        otherVolunteers: $otherVolunteers
         description: $description
         image: { create: { image: $image, altText: $description } }
       }
@@ -77,42 +87,16 @@ const HardwareReportStyling = styled.form`
     justify-items: center;
     grid-gap: 40px;
     padding: 40px;
-    label {
-      color: #222222;
-      font-size: 1rem;
-      display: grid;
-      grid-gap: 0.5rem;
-      grid-template-columns: 1fr;
-      justify-content: start;
-      width: 100%;
-      input {
-        height: 2rem;
-      }
-      input,
-      textarea,
-      select {
-        display: block;
-        padding: 1.5rem 1rem;
-        /* margin: 1rem; */
-        border-radius: 5px;
-        font-size: 1rem;
-        border: 2px solid #dddddd;
-      }
-      textarea {
-        height: 15rem;
-        resize: none;
-      }
-    }
-    button {
-      color: green;
-      background-color: lightgreen;
-      padding: 1rem 2rem;
-      margin: 1rem 0;
-      font-size: 1rem;
-      font-weight: bold;
-      border-radius: 5px;
-      border: 0;
-    }
+  }
+  button {
+    color: green;
+    background-color: lightgreen;
+    padding: 1rem 2rem;
+    margin: 1rem 0;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 5px;
+    border: 0;
   }
 `;
 
@@ -186,7 +170,6 @@ const ConditionRadioStyles = styled.div`
 export default function WorkReport({ climb, bolt }) {
   const { inputs, handleChange, clearForm, resetForm } = useForm({
     description: "",
-    image: "",
   });
 
   const { loading, data, error } = useQuery(GET_CLIMB, {
@@ -200,9 +183,14 @@ export default function WorkReport({ climb, bolt }) {
     {
       variables: {
         id: climb.id,
-        // get the username somehow
+        name: inputs.name,
+        email: inputs.email,
+        numReplaced: inputs.numReplaced,
+        typeOfBolts: inputs.typeOfBolts,
+        hooksInstalled: inputs.hooksInstalled,
+        volunteerHours: inputs.volunteerHours,
+        otherVolunteers: inputs.otherVolunteers,
         description: inputs.description,
-        image: inputs.image,
       },
     }
   );
@@ -218,7 +206,7 @@ export default function WorkReport({ climb, bolt }) {
       onSubmit={async (e) => {
         e.preventDefault();
         // Submit the inputfields to the backend:
-        const res = await createHardwareReport();
+        const res = await createWorkReport();
         console.log(res);
         clearForm();
         // Go to that route's page!
@@ -250,60 +238,72 @@ export default function WorkReport({ climb, bolt }) {
           />
         </label>
 
-        <label htmlFor="reportedHardware">
-          What type of fixed hardware is it?
-          <select
-            type="select"
-            id="reportedHardware"
-            name="reportedHardware"
-            onChange={handleChange}
-          >
-            <option value="default" hidden>
-              Choose a Use
-            </option>
-            <option value="wedge">Wedge bolt</option>
-            <option value="fivepiece">5 piece bolt</option>
-            <option value="buttonhead">Button head bolt</option>
-            <option value="gluein">Glue in bolt</option>
-            <option value="other">Other</option>
-            <option value="unknown">I don't know</option>
-          </select>
-        </label>
-
-        <label htmlFor="where">
-          Where is it on the climb?
-          <div>example: 1st pitch 3rd bolt</div>
+        <label htmlFor="numReplaced">
+          How many fixed anchors were replaced?
           <input
-            required
-            type="text"
-            id="where"
-            name="where"
+            type="number"
+            id="numReplaced"
+            name="numReplaced"
             onChange={handleChange}
           />
         </label>
 
-        <label htmlFor="problem">
-          What is wrong with the fixed hardware?
+        <label htmlFor="typeOfBolts">
+          What type of bolts were used?
           <select
             type="select"
-            id="problem"
-            name="problem"
+            id="typeOfBolts"
+            name="typeOfBolts"
             onChange={handleChange}
           >
             <option value="default" hidden>
-              Select problem
+              Type of bolt
             </option>
-            <option value="rusty">Rusty</option>
-            <option value="spinner">Spinning hanger</option>
-            <option value="worn">Excessive wear</option>
-            <option value="missing">Missing (partially or fully)</option>
-            <option value="improper">Old or improper hardware</option>
-            <option value="other">Other</option>
+            <option value="mechanical">Mechanical</option>
+            <option value="gluein">Glue in</option>
           </select>
         </label>
 
+        <label htmlFor="hooksInstalled">
+          How many hooks/lower offs were installed?
+          <input
+            required
+            type="number"
+            id="hooksInstalled"
+            name="hooksInstalled"
+            onChange={handleChange}
+          />
+        </label>
+
+        <label htmlFor="volunteerHours">
+          How many hours did the project take?
+          <input
+            required
+            type="text"
+            id="volunteerHours"
+            name="volunteerHours"
+            onChange={handleChange}
+          />
+        </label>
+
+        <label htmlFor="otherVolunteers">
+          Please list other volunteers
+          <input
+            required
+            type="text"
+            id="otherVolunteers"
+            name="otherVolunteers"
+            onChange={handleChange}
+          />
+        </label>
+
         <label htmlFor="description">
-          Can you describe what you saw?
+          <div>Notes?</div>
+          <div>
+            What type of hardware was placed? Did you replace the whole route or
+            just part of it? Are there fixed anchors that still need replacement
+            on the climb?
+          </div>
           <textarea
             name="description"
             id="description"
@@ -312,7 +312,7 @@ export default function WorkReport({ climb, bolt }) {
         </label>
 
         <label htmlFor="photo">
-          Do you have a photo?
+          Any photos?
           <input type="file" name="image" id="image" onChange={handleChange} />
         </label>
 

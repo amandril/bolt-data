@@ -7,13 +7,12 @@ import ClimbTitle from "../../../components/ClimbTitle";
 import HardwareReport from "../../../components/HardwareReport";
 
 const BoltCardStyle = styled.div`
-  background-color: #ffffff;
+  background-color: #eeeeee;
   display: grid;
   grid-template-columns: 1fr;
   padding: 1rem;
   margin: 0 auto;
   border-radius: 5px;
-  width: 650px;
   .addReport {
     display: none;
   }
@@ -51,18 +50,20 @@ export default function hardwareReportPage({ query }) {
   console.log(data);
 
   return (
-    <BoltCardStyle>
-      <div>
-        <PageTitle>
-          <div className="pageTitleType">Report bad hardware</div>
-          <Link href={`../${data.Climb.id}`}>
-            <a>
-              <ClimbTitle climb={data.Climb} />
-            </a>
-          </Link>
-        </PageTitle>
-        <HardwareReport climb={data.Climb} />
-      </div>
-    </BoltCardStyle>
+    <>
+      <PageTitle>
+        <div className="pageTitleType">Report bad hardware 🔩 🧗</div>
+        <Link href={`../${data.Climb.id}`}>
+          <a>
+            <ClimbTitle climb={data.Climb} />
+          </a>
+        </Link>
+      </PageTitle>
+      <BoltCardStyle>
+        <div>
+          <HardwareReport climb={data.Climb} />
+        </div>
+      </BoltCardStyle>
+    </>
   );
 }
