@@ -12,7 +12,7 @@ const StatusStyle = styled.div`
 export default function ClimbStatus({ climb }) {
   return (
     <StatusStyle className={"status-" + climb.status}>
-      Status: {climb.status}
+      {climb.status}
     </StatusStyle>
   );
 }

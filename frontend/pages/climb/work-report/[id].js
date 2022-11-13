@@ -4,7 +4,7 @@ import gql from "graphql-tag";
 import styled from "styled-components";
 import Link from "next/link";
 import ClimbTitle from "../../../components/ClimbTitle";
-import HardwareReport from "../../../components/HardwareReport";
+import WorkReport from "../../../components/WorkReport";
 
 const BoltCardStyle = styled.div`
   background-color: #ffffff;
@@ -22,8 +22,8 @@ const BoltCardStyle = styled.div`
 const PageTitle = styled.div`
   padding: 5rem 0;
   display: grid;
-  justify-content: center;
   gap: 10px;
+  justify-content: center;
   .pageTitleType {
     font-family: "roboto condensed";
     font-size: 1.5rem;
@@ -40,7 +40,7 @@ const GET_CLIMB = gql`
   }
 `;
 
-export default function hardwareReportPage({ query }) {
+export default function workReportPage({ query }) {
   const { loading, data, error } = useQuery(GET_CLIMB, {
     variables: { id: query.id },
   });
@@ -54,14 +54,14 @@ export default function hardwareReportPage({ query }) {
     <BoltCardStyle>
       <div>
         <PageTitle>
-          <div className="pageTitleType">Report bad hardware</div>
+          <div className="pageTitleType">Rebolt Tracking</div>
           <Link href={`../${data.Climb.id}`}>
             <a>
               <ClimbTitle climb={data.Climb} />
             </a>
           </Link>
         </PageTitle>
-        <HardwareReport climb={data.Climb} />
+        <WorkReport climb={data.Climb} />
       </div>
     </BoltCardStyle>
   );

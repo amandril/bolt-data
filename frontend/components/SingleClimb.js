@@ -167,7 +167,6 @@ export default function SingleClimb({ id }) {
             <ClimbTitle climb={climb} />
           </a>
         </Link>
-        <HardwareBarBolts climb={climb} />
         <div className="statusAndReports">
           <Link href={{ pathname: `./edit/${id}`, query: climb }}>
             <a>
@@ -184,6 +183,7 @@ export default function SingleClimb({ id }) {
             </a>
           </Link>
         </div>
+        <HardwareBarBolts climb={climb} />
       </ClimbMain>
 
       <div className="boltSection">

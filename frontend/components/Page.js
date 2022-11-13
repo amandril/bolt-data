@@ -65,7 +65,7 @@ const GlobalStyles = createGlobalStyle`
     background-color: #93bcfa;
   }
   .status-assess {
-    background-color: yellow;
+    background-color: #ffe68e;
   }
   .status-requiresWork {
     background-color: red;
@@ -99,6 +99,11 @@ const GlobalStyles = createGlobalStyle`
       /* grid-template-columns: 600px; */
       grid-gap: 15px;
       margin: 2rem auto;
+    }
+    .hardwareBar {
+      background-color: #ffffff;
+      padding: 1rem;
+      border-radius:5px;
     }
   }
   

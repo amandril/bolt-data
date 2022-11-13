@@ -26,7 +26,7 @@ export const Report = list({
     // Whether it came from a climber or from a rebolter/LCO
     typeOfReport: select({
       options: [
-        { label: "Bad Hardware Report", value: "report" },
+        { label: "Bad Hardware Report", value: "hardware" },
         { label: "Rebolt Tracking", value: "work" },
       ],
     }),

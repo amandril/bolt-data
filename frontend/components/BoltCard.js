@@ -50,8 +50,6 @@ const BoltCardStyle = styled.div`
     gap: 1rem;
     align-items: center;
     padding: 1rem 0;
-    margin-bottom: 1rem;
-    border-bottom: 1px solid #cdcdcd;
   }
   /* .cardTop:hover > .editButtons {
     opacity: 1;
@@ -235,27 +233,6 @@ export default function BoltCard({ bolt }) {
             Remove
           </button>
         </div>
-      </div>
-      <div>
-        <AddReport climb={bolt.climb} bolt={bolt} toggle={true} />
-        <div className="cardLabel">
-          <div>
-            Reports for Pitch {bolt.pitch}, Position {bolt.position} -{" "}
-            <Link href={{ pathname: `../climb/allReports/${bolt.climb.id}` }}>
-              <span>View all reports for {bolt.climb.name}</span>
-            </Link>
-          </div>
-        </div>
-        {bolt.reports?.length > 0 ? (
-          bolt.reports.map((report) => (
-            <>
-              <Report report={report} />
-              <div className="bottomBorder"></div>
-            </>
-          ))
-        ) : (
-          <div>No reports</div>
-        )}
       </div>
     </BoltCardStyle>
   );

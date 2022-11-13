@@ -4,7 +4,7 @@ import styled from "styled-components";
 const ClimbBoltCardStyle = styled.div`
   background-color: #ffffff;
   display: grid;
-  grid-template-columns: 1fr 180px 1fr 1fr 160px 1fr;
+  grid-template-columns: 1fr 180px 1fr 1fr 160px;
   grid-gap: 2rem;
   padding: 0 2rem;
   justify-content: space-around;
@@ -78,10 +78,6 @@ export default function ClimbBoltCard({ bolt }) {
         <span className="boltStatValue description">
           {bolt.description || "n/a"}
         </span>
-      </div>
-      <div className="boltStat">
-        <span className="boltStatName">reports</span>
-        <span className="boltStatValue">{bolt._reportsMeta.count}</span>
       </div>
     </ClimbBoltCardStyle>
   );
