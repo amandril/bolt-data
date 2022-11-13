@@ -29,11 +29,12 @@ const ReportsStyle = styled.div`
 
 const GET_UNAPPROVED_REPORTS_QUERY = gql`
   query GET_UNAPPROVED_REPORTS_QUERY {
-    allUnapproved: allReports(where: { approved_not: true }) {
+    allUnapproved: allReports(where: { approved: false }) {
       id
       user {
         name
       }
+      email
       createdAt
       climb {
         openbetaClimbId
@@ -45,6 +46,7 @@ const GET_UNAPPROVED_REPORTS_QUERY = gql`
           publicUrlTransformed
         }
       }
+      typeOfReport
     }
   }
 `;
@@ -60,11 +62,12 @@ export default function unapprovedReports() {
   return (
     <div className="boltSection">
       <UnapprovedStyle>
-        <div>These are the unapproved reports</div>
+        <div>These reports require review</div>
         {reports?.length > 0 ? (
           reports.map((report) => (
             <ReportsStyle>
-              <Report report={report} />
+              Climb: {report.climb.name}
+              <Report report={report} key={report.id} />
               <div className="approveButtons">
                 {/* Modal for selecting climb condition */}
                 <ApproveReport className="approveButton" id={report.id} />
