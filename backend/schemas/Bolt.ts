@@ -9,20 +9,6 @@ export const Bolt = list({
         displayMode: "select",
       },
     }),
-    reports: relationship({
-      ref: "Report.bolt",
-      many: true,
-      // ui: {
-      //   displayMode: "cards",
-      //   cardFields: ["user", "image", "description", "createdAt"],
-      //   inlineCreate: {
-      //     fields: ["user", "image", "description", "createdAt"],
-      //   },
-      //   inlineEdit: {
-      //     fields: ["user", "image", "description", "createdAt"],
-      //   },
-      // },
-    }),
     pitch: integer(),
     use: select({
       options: [
