@@ -8,9 +8,59 @@ export async function insertSeedData(ks: any) {
   // TODO: Get climbs from the OpenBeta api and insert them into the Bolt-Data database
 
   // fetch a climb from OpenBeta
-  async function seedClimbs() {
-    console.log("1 - START");
+  // async function seedClimbs() {
+  //   console.log("1 - START");
 
+  //   const response = await fetch("https://api.openbeta.io", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({
+  //       query: `
+  //         query getClimbsFromOpenBeta {
+  //           area(uuid:"cd674f3c-8205-5aea-b926-ef2c3b804ed5") {
+  //             totalClimbs
+  //             areaName
+  //             children {
+  //               areaName
+  //               uuid
+  //               climbs {
+  //                 name
+  //               }
+  //             }
+  //           }
+  //         }
+  //       `,
+  //     }),
+  //   });
+
+  //   console.log("2 - After fetch");
+
+  //   // Not working, why?
+  //   // if (!response.ok) {
+  //   //   const message = `An error has occurred: ${response.status}`;
+  //   //   throw new Error(message);
+  //   // }
+
+  //   // This works fine
+  //   if (response.ok) {
+  //     console.log("Yes, it's working");
+  //   }
+
+  //   const area = await response.json();
+  //   // console.log(area);
+  //   // const climbs = area.data?.area?.children?.map((area) =>
+  //   //   area.climbs.map((climb) => climb)
+  //   // );
+  //   const children = area.data?.area?.children?.map((child) => child);
+
+  //   console.log("3 - END");
+  //   return area.data.area;
+  // }
+
+  // FETCH FUNCTION FOR QUERYING THE CLIMBS
+  async function queryClimbs(uuid) {
     const response = await fetch("https://api.openbeta.io", {
       method: "POST",
       headers: {
@@ -19,13 +69,16 @@ export async function insertSeedData(ks: any) {
       body: JSON.stringify({
         query: `
           query getClimbsFromOpenBeta {
-            areas(filter: {area_name: {match: "Left Hand Rock"}}) {
+            area(uuid:"${uuid}") {
+              uuid
               areaName
               totalClimbs
               climbs {
-                uuid
                 name
-                fa
+              }
+              children {
+                areaName
+                uuid
               }
             }
           }
@@ -33,43 +86,70 @@ export async function insertSeedData(ks: any) {
       }),
     });
 
-    console.log("2 - After fetch");
+    let area = await response.json();
+    let agg: any = [];
 
-    // Not working, why?
-    // if (!response.ok) {
-    //   const message = `An error has occurred: ${response.status}`;
-    //   throw new Error(message);
-    // }
-
-    // This works fine
-    if (response.ok) {
-      console.log("Yes, it's working");
+    if (area.data.area.climbs == false) {
+      for (const a of area.data.area.children) {
+        const climbs = await queryClimbs(a.uuid);
+        agg.push(climbs);
+      }
+    } else {
+      for (const climb of area.data.area.climbs) {
+        agg.push(climb);
+      }
     }
 
-    const area = await response.json();
-    const climbs = area.data.areas.map((area) =>
-      area.climbs.map((climb) => climb)
-    );
-
-    console.log("3 - END");
-    return climbs.flat();
+    return agg.flat();
   }
 
   console.log("Before the function calls");
 
   const { mongoose } = adapter;
 
-  const climbs = await seedClimbs();
+  // Calls the function and stores into variable
+  // const area = await seedClimbs();
 
-  console.log(climbs);
-  for (const climb of climbs) {
-    console.log("Inserting climb ", climb);
-    await mongoose.model("Climb").create({
-      name: climb.name,
-      fa: climb.fa,
-      openbetaClimbId: climb.uuid,
-    });
-  }
+  const areaClimbs = await queryClimbs("999af1f6-9a89-5316-b680-01294e8764bb");
+
+  console.log(areaClimbs);
+
+  // if (!area.climbs) {
+  //   console.log(
+  //     `${area.areaName} with ${area.children.length} areas, ${area.totalClimbs} total climbs, has no direct climbs`
+  //   );
+  //   for (const subarea of area.children) {
+  //     const data = await queryMoreClimbs(subarea.uuid);
+  //     console.log("Sub-area: ", data.areaName, " and climbs");
+  //     for (const climb of data.climbs) {
+  //       console.log("<> ", climb);
+  //     }
+  //   }
+  // }
+
+  // else {
+  //   for (const child of children) {
+  //     if (child.climbs) {
+  //       console.log(child, " has climbs");
+  //     }
+  //   }
+  // }
+
+  // console.log(climbs);
+
+  // for (const climb of climbs) {
+  //   console.log(`${climb.name} - ${climb.uuid}`);
+  // }
+
+  // ----- Actually adding the climbs to the database -------- //
+  // for (const climb of climbs) {
+  //   console.log("Inserting climb ", climb);
+  //   await mongoose.model("Climb").create({
+  //     name: climb.name,
+  //     fa: climb.fa,
+  //     openbetaClimbId: climb.uuid,
+  //   });
+  // }
 
   // await seedClimbs().then((climbs) =>
   //   console.log(
