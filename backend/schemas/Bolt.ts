@@ -52,7 +52,6 @@ export const Bolt = list({
         "type",
         "use",
         "climb",
-        "reports",
         "installDate",
         "lastUpdated",
       ],

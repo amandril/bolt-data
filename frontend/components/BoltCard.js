@@ -1,8 +1,6 @@
 import Link from "next/link";
 import styled from "styled-components";
 import React, { useState } from "react";
-import Report from "./Report.js";
-import AddReport from "./AddReport.js";
 import { gql, useMutation } from "@apollo/client";
 import Router from "next/router.js";
 

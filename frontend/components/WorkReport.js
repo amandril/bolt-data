@@ -185,6 +185,7 @@ export default function WorkReport({ climb, bolt }) {
         id: climb.id,
         name: inputs.name,
         email: inputs.email,
+        workDate: inputs.workDate,
         numReplaced: inputs.numReplaced,
         typeOfBolts: inputs.typeOfBolts,
         hooksInstalled: inputs.hooksInstalled,
@@ -238,6 +239,17 @@ export default function WorkReport({ climb, bolt }) {
           />
         </label>
 
+        <label htmlFor="workDate">
+          When was the work performed?
+          <input
+            required
+            type="date"
+            id="workDate"
+            name="workDate"
+            onChange={handleChange}
+          />
+        </label>
+
         <label htmlFor="numReplaced">
           How many fixed anchors were replaced?
           <input
@@ -267,7 +279,6 @@ export default function WorkReport({ climb, bolt }) {
         <label htmlFor="hooksInstalled">
           How many hooks/lower offs were installed?
           <input
-            required
             type="number"
             id="hooksInstalled"
             name="hooksInstalled"
@@ -289,7 +300,6 @@ export default function WorkReport({ climb, bolt }) {
         <label htmlFor="otherVolunteers">
           Please list other volunteers
           <input
-            required
             type="text"
             id="otherVolunteers"
             name="otherVolunteers"

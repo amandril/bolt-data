@@ -28,19 +28,6 @@ export const SINGLE_BOLT_QUERY = gql`
       condition
       description
       installDate
-      reports(sortBy: createdAt_DESC) {
-        id
-        user {
-          name
-        }
-        createdAt
-        description
-        image {
-          image {
-            publicUrlTransformed
-          }
-        }
-      }
     }
   }
 `;

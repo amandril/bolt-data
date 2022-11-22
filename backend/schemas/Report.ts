@@ -94,7 +94,7 @@ export const Report = list({
   },
   ui: {
     listView: {
-      initialColumns: ["climb", "bolt", "description"],
+      initialColumns: ["climb", "description"],
     },
   },
 });

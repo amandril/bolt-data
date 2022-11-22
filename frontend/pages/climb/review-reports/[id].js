@@ -24,10 +24,6 @@ const ALL_UNAPPROVED_REPORTS = gql`
           name
         }
         email
-        bolt {
-          pitch
-          position
-        }
         description
         createdAt
         reportedHardware
