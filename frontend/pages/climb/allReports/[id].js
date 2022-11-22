@@ -2,7 +2,6 @@ import Report from "../../../components/Report";
 import { useQuery } from "@apollo/client";
 import gql from "graphql-tag";
 import styled from "styled-components";
-import AddReport from "../../../components/AddReport";
 import Link from "next/link";
 import ClimbTitle from "../../../components/ClimbTitle";
 
@@ -20,14 +19,10 @@ const ALL_CLIMB_REPORTS = gql`
           }
         }
         name
-        user {
-          name
-        }
+        # user {
+        #   name
+        # }
         email
-        bolt {
-          pitch
-          position
-        }
         numReplaced
         typeOfBolts
         hooksInstalled
@@ -145,7 +140,6 @@ export default function AllReportsPage({ query }) {
       </PageTitle>
 
       <BoltCardStyle>
-        {/* <AddReport climb={data.Climb} toggle={true} /> */}
         <ReportButtons>
           <Link href={`../hardware-report/${data.Climb.id}`}>
             <button className="hardware">Add a hardware report</button>
