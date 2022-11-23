@@ -68,7 +68,8 @@ export default function Report({ report, bolt }) {
             {report.user?.name || report.name}
           </div>
         </div>
-        <div>Work Date: {dateHelper(Math.floor(report.workDate))}</div>
+        {/* <div>Work Date: {dateHelper(Math.floor(report.workDate))}</div> */}
+        <div>Work Date: {dateHelper(report.workDate)}</div>
         <div>Number Replaced: {report.numReplaced || "n/a"}</div>
         <div>Hooks Installed: {report.hooksInstalled || "n/a"}</div>
         <div>Type of bolts: {report.typeOfBolts || "n/a"}</div>

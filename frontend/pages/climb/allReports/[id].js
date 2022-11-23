@@ -162,19 +162,10 @@ export default function AllReportsPage({ query }) {
         <div>
           {data.Climb.reports?.length > 0 ? (
             data.Climb.reports.map((report) => (
-              <>
-                <table>
-                  <td>
-                    <input type="checkbox" />
-                  </td>
-                  <td>
-                    <ReportStyle>
-                      <Report key={report.id} report={report} />
-                      <div className="bottomBorder"></div>
-                    </ReportStyle>
-                  </td>
-                </table>
-              </>
+              <ReportStyle key={report.id}>
+                <Report key={report.id} report={report} />
+                <div className="bottomBorder"></div>
+              </ReportStyle>
             ))
           ) : (
             <div>No reports</div>
