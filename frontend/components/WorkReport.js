@@ -60,6 +60,7 @@ const WORK_REPORT_MUTATION = gql`
         volunteerHours: $volunteerHours
         otherVolunteers: $otherVolunteers
         description: $description
+        approved: true
         image: { create: { image: $image, altText: $description } }
       }
     ) {
