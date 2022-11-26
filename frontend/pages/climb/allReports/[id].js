@@ -60,7 +60,7 @@ const ReportBar = styled.div`
   background-color: #ffffff;
   border-radius: 5px;
   padding: 1rem 0;
-  font-weight: bold;
+  margin-bottom: 2rem;
 
   > * {
     padding: 0 1rem;
@@ -69,13 +69,21 @@ const ReportBar = styled.div`
   }
   .needsReview,
   .needsReview a {
+    color: red;
+  }
+  .needsReview .reviewNum {
     background-color: red;
     color: #ffffff;
+    padding: 3px 5px;
+    border-radius: 5px;
+    font-weight: bold;
   }
   .sortButton {
-    background-color: #bbbbbb;
+    background-color: #f4f5f7;
     font-size: 1rem;
     font-weight: bold;
+    border: none;
+    color: #999999;
   }
 `;
 
@@ -107,13 +115,6 @@ const BoltCardStyle = styled.div`
   .addReport {
     display: none;
   }
-`;
-
-const ReportStyle = styled.div`
-  background-color: #ffffff;
-  /* padding: 0 2rem; */
-  border-radius: 5px;
-  margin-bottom: 1rem;
 `;
 
 export default function AllReportsPage({ query }) {
@@ -149,11 +150,18 @@ export default function AllReportsPage({ query }) {
           </Link>
         </ReportButtons>
         <ReportBar>
-          <div>{data.Climb.totalReports.count} Reports Total</div>
+          <div>
+            <strong>{data.Climb.totalReports.count}</strong> total reports
+          </div>
 
           <div className="needsReview">
             <Link href={`../review-reports/${data.Climb.id}`}>
-              <a>{data.Climb.unapprovedReports.count} Need Review</a>
+              <a>
+                <span className="reviewNum">
+                  {data.Climb.unapprovedReports.count}
+                </span>{" "}
+                not reviewed
+              </a>
             </Link>
           </div>
 
@@ -162,10 +170,7 @@ export default function AllReportsPage({ query }) {
         <div>
           {data.Climb.reports?.length > 0 ? (
             data.Climb.reports.map((report) => (
-              <ReportStyle key={report.id}>
-                <Report key={report.id} report={report} />
-                <div className="bottomBorder"></div>
-              </ReportStyle>
+              <Report key={report.id} report={report} />
             ))
           ) : (
             <div>No reports</div>
