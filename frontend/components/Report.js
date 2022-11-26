@@ -2,41 +2,18 @@ import styled from "styled-components";
 import dateHelper from "../lib/dateHelper";
 
 const ReportStyle = styled.div`
-  font-size: 0.8rem;
-  padding: 2rem 2rem;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-  background-color: #ffffff;
-  border-radius: 5px;
-  /* border-bottom: 1px solid #dddddd; */
-  .reportThumbs {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-  .reportType {
-    padding: 5px;
-    border-radius: 5px;
-    font-weight: bold;
-  }
-  .hardware-report {
-    background-color: orange;
-  }
-  .work-report {
-    background-color: lightblue;
-  }
-`;
-
-const NewReportStyle = styled.div`
   background-color: #ffffff;
   padding: 2rem;
   border-radius: 5px;
   font-size: 0.9rem;
   margin: 2rem 0;
+  .noReportType {
+    color: red;
+  }
   table.reportTable {
     display: grid;
     grid-template-rows: auto;
-    gap: 1rem;
+    gap: 1.5rem;
     tr {
       display: grid;
       grid-template-columns: 130px 1fr;
@@ -97,7 +74,7 @@ export default function Report({ report, bolt }) {
   if (report.typeOfReport == "work")
     return (
       <>
-        <NewReportStyle>
+        <ReportStyle>
           <div>
             <table className="reportTable">
               <tr>
@@ -151,18 +128,20 @@ export default function Report({ report, bolt }) {
               </tr>
             </table>
           </div>
-        </NewReportStyle>
+        </ReportStyle>
       </>
     );
   else
     return (
       <ReportStyle>
         <div>
-          <strong>Report has no type</strong>
+          <strong className="noReportType">Report has no type</strong>
         </div>
+        <br />
         <div>
-          <strong>Created at:</strong> {report.createdAt}
+          <strong>Created:</strong> {dateHelper(report.createdAt)}
         </div>
+        <br />
         <div>
           <strong>Description:</strong> {report.description}
         </div>

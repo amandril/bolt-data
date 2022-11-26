@@ -4,6 +4,7 @@ import gql from "graphql-tag";
 import styled from "styled-components";
 import Link from "next/link";
 import ClimbTitle from "../../../components/ClimbTitle";
+import { ReportButton } from "../../../components/styles/Button";
 
 const ALL_CLIMB_REPORTS = gql`
   query ALL_CLIMB_REPORTS($id: ID!) {
@@ -53,6 +54,13 @@ const PageTitle = styled.div`
   }
 `;
 
+const ReportButtonSection = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 3rem 0;
+`;
+
 const ReportBar = styled.div`
   display: grid;
   grid-template-columns: auto auto auto;
@@ -84,23 +92,6 @@ const ReportBar = styled.div`
     font-weight: bold;
     border: none;
     color: #999999;
-  }
-`;
-
-const ReportButtons = styled.div`
-  display: grid;
-  grid-template-columns: auto auto;
-  justify-content: space-around;
-  button {
-    padding: 5px;
-    font-size: 1rem;
-    margin: 1rem;
-  }
-  button.hardware {
-    background-color: orange;
-  }
-  button.rebolt {
-    background-color: lightblue;
   }
 `;
 
@@ -141,14 +132,23 @@ export default function AllReportsPage({ query }) {
       </PageTitle>
 
       <BoltCardStyle>
-        <ReportButtons>
+        {/* New report buttons */}
+        <ReportButtonSection>
+          <Link href={`../hardware-report/${data.Climb.id}`}>
+            <ReportButton hardware>New Hardware Report</ReportButton>
+          </Link>
+          <Link href={`../work-report/${data.Climb.id}`}>
+            <ReportButton work>New Work Report</ReportButton>
+          </Link>
+        </ReportButtonSection>
+        {/* <ReportButtons>
           <Link href={`../hardware-report/${data.Climb.id}`}>
             <button className="hardware">Add a hardware report</button>
           </Link>
           <Link href={`../work-report/${data.Climb.id}`}>
             <button className="rebolt">Add a work report</button>
           </Link>
-        </ReportButtons>
+        </ReportButtons> */}
         <ReportBar>
           <div>
             <strong>{data.Climb.totalReports.count}</strong> total reports

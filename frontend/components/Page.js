@@ -24,7 +24,6 @@ const GlobalStyles = createGlobalStyle`
       padding: 0;
       margin: 0;
       font-size: 1rem;
-      line-height: 2;
   }
   section.main {
     max-width:800px;
