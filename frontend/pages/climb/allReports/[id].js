@@ -29,6 +29,8 @@ const ALL_CLIMB_REPORTS = gql`
         hooksInstalled
         volunteerHours
         workDate
+        where
+        problem
         description
         createdAt
         reportedHardware
