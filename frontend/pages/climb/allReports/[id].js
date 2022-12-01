@@ -20,9 +20,9 @@ const ALL_CLIMB_REPORTS = gql`
           }
         }
         name
-        # user {
-        #   name
-        # }
+        user {
+          name
+        }
         email
         numReplaced
         typeOfBolts
@@ -35,6 +35,7 @@ const ALL_CLIMB_REPORTS = gql`
         createdAt
         reportedHardware
         typeOfReport
+        otherVolunteers
       }
       totalReports: _reportsMeta {
         count
@@ -69,7 +70,7 @@ const ReportBar = styled.div`
   justify-content: space-between;
   background-color: #ffffff;
   border-radius: 5px;
-  padding: 1rem 0;
+  padding: 1.5rem 0;
   margin-bottom: 2rem;
 
   > * {
@@ -79,7 +80,7 @@ const ReportBar = styled.div`
   }
   .needsReview,
   .needsReview a {
-    color: red;
+    color: ${(props) => props.color};
   }
   .needsReview .reviewNum {
     background-color: red;
@@ -122,6 +123,8 @@ export default function AllReportsPage({ query }) {
 
   console.log(data);
 
+  const unapproved = data.Climb.unapprovedReports.count > 0;
+
   return (
     <>
       <PageTitle>
@@ -139,32 +142,28 @@ export default function AllReportsPage({ query }) {
           <Link href={`../hardware-report/${data.Climb.id}`}>
             <ReportButton hardware>New Hardware Report</ReportButton>
           </Link>
-          <Link href={`../work-report/${data.Climb.id}`}>
-            <ReportButton work>New Work Report</ReportButton>
+          <Link href={`../rebolt-report/${data.Climb.id}`}>
+            <ReportButton work>New Rebolt Report</ReportButton>
           </Link>
         </ReportButtonSection>
-        {/* <ReportButtons>
-          <Link href={`../hardware-report/${data.Climb.id}`}>
-            <button className="hardware">Add a hardware report</button>
-          </Link>
-          <Link href={`../work-report/${data.Climb.id}`}>
-            <button className="rebolt">Add a work report</button>
-          </Link>
-        </ReportButtons> */}
-        <ReportBar>
+        <ReportBar color={unapproved ? "red" : "green"}>
           <div>
             <strong>{data.Climb.totalReports.count}</strong> total reports
           </div>
 
           <div className="needsReview">
-            <Link href={`../review-reports/${data.Climb.id}`}>
-              <a>
-                <span className="reviewNum">
-                  {data.Climb.unapprovedReports.count}
-                </span>{" "}
-                not reviewed
-              </a>
-            </Link>
+            {unapproved ? (
+              <Link href={`../review-reports/${data.Climb.id}`}>
+                <a>
+                  <span className="reviewNum">
+                    {data.Climb.unapprovedReports.count}
+                  </span>{" "}
+                  not reviewed
+                </a>
+              </Link>
+            ) : (
+              <span>All reports reviewed</span>
+            )}
           </div>
 
           <button className="sortButton">Sort</button>

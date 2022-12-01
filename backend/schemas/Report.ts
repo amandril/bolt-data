@@ -20,7 +20,7 @@ export const Report = list({
     typeOfReport: select({
       options: [
         { label: "Bad Hardware Report", value: "hardware" },
-        { label: "Rebolt Tracking", value: "work" },
+        { label: "Rebolt Tracking", value: "rebolt" },
       ],
     }),
 

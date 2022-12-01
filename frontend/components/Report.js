@@ -25,7 +25,7 @@ const ReportStyle = styled.div`
         background-color: #e48f2b;
         color: #ffffff;
       }
-      .work-report {
+      .rebolt-report {
         background-color: #428dff;
         color: #ffffff;
       }
@@ -103,8 +103,8 @@ export default function Report({ report, bolt }) {
       </ReportStyle>
     );
 
-  // Work report rendering
-  if (report.typeOfReport == "work")
+  // Rebolt report rendering
+  if (report.typeOfReport == "rebolt")
     return (
       <ReportStyle>
         <div>
@@ -112,13 +112,26 @@ export default function Report({ report, bolt }) {
             <tr>
               <td>Report type</td>
               <td>
-                <div className="reportType work-report">Work</div>
+                <div className="reportType rebolt-report">Rebolt</div>
               </td>
             </tr>
-            <tr>
-              <td>Name</td>
-              <td>{report.name}</td>
-            </tr>
+            {report.user ? (
+              <tr>
+                <td>User</td>
+                <td>{report.user?.name}</td>
+              </tr>
+            ) : (
+              <>
+                <tr>
+                  <td>Name</td>
+                  <td>{report.name}</td>
+                </tr>
+                <tr>
+                  <td>Email</td>
+                  <td>{report.email}</td>
+                </tr>
+              </>
+            )}
             <tr>
               <td># Replaced</td>
               <td>{report.numReplaced}</td>

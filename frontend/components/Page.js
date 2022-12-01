@@ -20,7 +20,7 @@ const GlobalStyles = createGlobalStyle`
       box-sizing:inherit;
   } 
   body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      font-family: Roboto, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
       padding: 0;
       margin: 0;
       font-size: 1rem;
@@ -34,7 +34,6 @@ const GlobalStyles = createGlobalStyle`
       color:initial;
   }
   p {
-    line-height: 2.2rem;
   }
   // Bolt card styles
   .poor.poor {

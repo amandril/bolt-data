@@ -4,7 +4,7 @@ import gql from "graphql-tag";
 import styled from "styled-components";
 import Link from "next/link";
 import ClimbTitle from "../../../components/ClimbTitle";
-import WorkReport from "../../../components/WorkReport";
+import ReboltReport from "../../../components/ReboltReport";
 
 const BoltCardStyle = styled.div`
   background-color: #eeeeee;
@@ -39,7 +39,7 @@ const GET_CLIMB = gql`
   }
 `;
 
-export default function workReportPage({ query }) {
+export default function reboltReportPage({ query }) {
   const { loading, data, error } = useQuery(GET_CLIMB, {
     variables: { id: query.id },
   });
@@ -61,7 +61,7 @@ export default function workReportPage({ query }) {
       </PageTitle>
       <BoltCardStyle>
         <div>
-          <WorkReport climb={data.Climb} />
+          <ReboltReport climb={data.Climb} />
         </div>
       </BoltCardStyle>
     </>

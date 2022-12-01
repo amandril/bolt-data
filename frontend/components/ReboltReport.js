@@ -31,8 +31,8 @@ const GET_CLIMB = gql`
   }
 `;
 
-const WORK_REPORT_MUTATION = gql`
-  mutation WORK_REPORT_MUTATION(
+const REBOLT_REPORT_MUTATION = gql`
+  mutation REBOLT_REPORT_MUTATION(
     $id: ID!
     # $user: ID
     $name: String
@@ -49,7 +49,7 @@ const WORK_REPORT_MUTATION = gql`
     createReport(
       data: {
         climb: { connect: { id: $id } }
-        typeOfReport: "work"
+        typeOfReport: "rebolt"
         # user: $user
         name: $name
         email: $email
@@ -74,7 +74,7 @@ const WORK_REPORT_MUTATION = gql`
 `;
 
 // TODO: refactor styling for forms / share with AddHardwareToClimb styling
-const HardwareReportStyling = styled.form`
+const ReboltReportStyling = styled.form`
   display: grid;
   grid-template-columns: 1fr;
   justify-items: center;
@@ -205,7 +205,7 @@ const ConditionRadioStyles = styled.div`
   }
 `;
 
-export default function WorkReport({ climb, bolt }) {
+export default function ReboltReport({ climb, bolt }) {
   const { inputs, handleChange, clearForm, resetForm } = useForm({
     description: "",
   });
@@ -216,9 +216,8 @@ export default function WorkReport({ climb, bolt }) {
     },
   });
 
-  const [createWorkReport, { workLoading, workData, workError }] = useMutation(
-    WORK_REPORT_MUTATION,
-    {
+  const [createReboltReport, { reboltLoading, reboltData, reboltError }] =
+    useMutation(REBOLT_REPORT_MUTATION, {
       variables: {
         id: climb.id,
         name: inputs.name,
@@ -232,21 +231,20 @@ export default function WorkReport({ climb, bolt }) {
         description: inputs.description,
         image: inputs.image,
       },
-    }
-  );
+    });
 
   if (loading) return <p>Loading...</p>;
   if (error) return error;
 
-  if (workLoading) return <p>Loading create hardware report</p>;
-  if (workError) return <p>Error for create hardware report</p>;
+  if (reboltLoading) return <p>Loading create hardware report</p>;
+  if (reboltError) return <p>Error for create hardware report</p>;
 
   return (
-    <HardwareReportStyling
+    <ReboltReportStyling
       onSubmit={async (e) => {
         e.preventDefault();
         // Submit the inputfields to the backend:
-        const res = await createWorkReport();
+        const res = await createReboltReport();
         console.log(res);
         clearForm();
         // Go to that route's page!
@@ -395,6 +393,6 @@ export default function WorkReport({ climb, bolt }) {
 
         <button type="submit">Submit Report</button>
       </fieldset>
-    </HardwareReportStyling>
+    </ReboltReportStyling>
   );
 }
