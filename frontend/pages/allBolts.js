@@ -2,13 +2,17 @@ import { useQuery } from "@apollo/client";
 import gql from "graphql-tag";
 import styled from "styled-components";
 import dynamic from "next/dynamic";
-import testTest from "../components/BoltBar";
 import Link from "next/link";
 import HardwareBar from "../components/HardwareBar";
 
-const MyResponsiveBar = dynamic(() => import("../components/BoltBar"), {
+const Map = dynamic(() => import("../components/Map"), {
   ssr: false,
 });
+
+const MapContainerStyle = styled.div`
+  height: 600px;
+  width: 600px;
+`;
 
 const HomeStyles = styled.div`
   display: grid;
@@ -111,8 +115,9 @@ export default function AllBoltsPage() {
     });
 
   return (
-    <HomeStyles>
-      {/* <HardwareBar
+    <>
+      <HomeStyles>
+        {/* <HardwareBar
         poorBolts={data.poorBolts}
         averageBolts={data.averageBolts}
         goodBolts={data.goodBolts}
@@ -120,51 +125,55 @@ export default function AllBoltsPage() {
         unknownBolts={data.unknownBolts}
         _boltsMeta={data._allBoltsMeta}
       /> */}
-      <div className="statGrid">
-        <Link href="./unapprovedReports">
-          <a>
-            <div className="stat">
-              <span className="num">{data.unapproved.count}</span>
-              <span>unapproved reports</span>
-            </div>
-          </a>
-        </Link>
-        <Link href="./requiresWork">
-          <a>
-            <div className="stat">
-              <span className="num">{data.requiresWork.count}</span>
-              <span>
-                climb
-                {data.requiresWork.count < 1 ? "" : "s"} require
-                {data.requiresWork.count < 1 ? "s" : ""} work
-              </span>
-            </div>
-          </a>
-        </Link>
-        <Link href="./assessFurther">
-          <a>
-            <div className="stat">
-              <span className="num">{data.needAssessment.count}</span>
-              <span>climbs need assessment</span>
-            </div>
-          </a>
-        </Link>
-        <Link href="./inProgress">
-          <a>
-            <div className="stat">
-              <span className="num">{data.inProgress.count}</span>
-              <span>climbs in progress</span>
-            </div>
-          </a>
-        </Link>
-      </div>
+        <div className="statGrid">
+          <Link href="./unapprovedReports">
+            <a>
+              <div className="stat">
+                <span className="num">{data.unapproved.count}</span>
+                <span>unapproved reports</span>
+              </div>
+            </a>
+          </Link>
+          <Link href="./requiresWork">
+            <a>
+              <div className="stat">
+                <span className="num">{data.requiresWork.count}</span>
+                <span>
+                  climb
+                  {data.requiresWork.count < 1 ? "" : "s"} require
+                  {data.requiresWork.count < 1 ? "s" : ""} work
+                </span>
+              </div>
+            </a>
+          </Link>
+          <Link href="./assessFurther">
+            <a>
+              <div className="stat">
+                <span className="num">{data.needAssessment.count}</span>
+                <span>climbs need assessment</span>
+              </div>
+            </a>
+          </Link>
+          <Link href="./inProgress">
+            <a>
+              <div className="stat">
+                <span className="num">{data.inProgress.count}</span>
+                <span>climbs in progress</span>
+              </div>
+            </a>
+          </Link>
+        </div>
 
-      {/* <div>
+        {/* <div>
         <h3>All Hardware Conditions</h3>
         <BoltNivoStyles>
           <MyResponsiveBar data={boltsArray} />
         </BoltNivoStyles>
       </div> */}
-    </HomeStyles>
+      </HomeStyles>
+      <MapContainerStyle>
+        <Map />
+      </MapContainerStyle>
+    </>
   );
 }

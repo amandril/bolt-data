@@ -3,6 +3,10 @@ import styled, { createGlobalStyle } from "styled-components";
 import Header from "./Header";
 
 const GlobalStyles = createGlobalStyle`
+  .leaflet-container {
+      width: 100vw;
+      height: 100vh;
+    }
   html {
       --maxWidth: 1200px;
       margin: 0 auto;
@@ -155,6 +159,12 @@ export default function Page({ children }) {
   return (
     <div>
       <GlobalStyles />
+      <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+        crossorigin=""
+      />
       <Header />
       <InnerStyles>{children}</InnerStyles>
     </div>
