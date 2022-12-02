@@ -4,6 +4,7 @@ import gql from "graphql-tag";
 import styled from "styled-components";
 import Link from "next/link";
 import ClimbTitle from "../../../components/ClimbTitle";
+import { ReportButton } from "../../../components/styles/Button";
 
 const ALL_CLIMB_REPORTS = gql`
   query ALL_CLIMB_REPORTS($id: ID!) {
@@ -19,19 +20,22 @@ const ALL_CLIMB_REPORTS = gql`
           }
         }
         name
-        # user {
-        #   name
-        # }
+        user {
+          name
+        }
         email
         numReplaced
         typeOfBolts
         hooksInstalled
         volunteerHours
         workDate
+        where
+        problem
         description
         createdAt
         reportedHardware
         typeOfReport
+        otherVolunteers
       }
       totalReports: _reportsMeta {
         count
@@ -53,14 +57,21 @@ const PageTitle = styled.div`
   }
 `;
 
+const ReportButtonSection = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 3rem 0;
+`;
+
 const ReportBar = styled.div`
   display: grid;
   grid-template-columns: auto auto auto;
   justify-content: space-between;
   background-color: #ffffff;
   border-radius: 5px;
-  padding: 1rem 0;
-  font-weight: bold;
+  padding: 1.5rem 0;
+  margin-bottom: 2rem;
 
   > * {
     padding: 0 1rem;
@@ -69,30 +80,21 @@ const ReportBar = styled.div`
   }
   .needsReview,
   .needsReview a {
+    color: ${(props) => props.color};
+  }
+  .needsReview .reviewNum {
     background-color: red;
     color: #ffffff;
-  }
-  .sortButton {
-    background-color: #bbbbbb;
-    font-size: 1rem;
+    padding: 3px 5px;
+    border-radius: 5px;
     font-weight: bold;
   }
-`;
-
-const ReportButtons = styled.div`
-  display: grid;
-  grid-template-columns: auto auto;
-  justify-content: space-around;
-  button {
-    padding: 5px;
+  .sortButton {
+    background-color: #f4f5f7;
     font-size: 1rem;
-    margin: 1rem;
-  }
-  button.hardware {
-    background-color: orange;
-  }
-  button.rebolt {
-    background-color: lightblue;
+    font-weight: bold;
+    border: none;
+    color: #999999;
   }
 `;
 
@@ -109,13 +111,6 @@ const BoltCardStyle = styled.div`
   }
 `;
 
-const ReportStyle = styled.div`
-  background-color: #ffffff;
-  /* padding: 0 2rem; */
-  border-radius: 5px;
-  margin-bottom: 1rem;
-`;
-
 export default function AllReportsPage({ query }) {
   const id = query.id;
 
@@ -127,6 +122,8 @@ export default function AllReportsPage({ query }) {
   if (error) return <p>{error}</p>;
 
   console.log(data);
+
+  const unapproved = data.Climb.unapprovedReports.count > 0;
 
   return (
     <>
@@ -140,21 +137,33 @@ export default function AllReportsPage({ query }) {
       </PageTitle>
 
       <BoltCardStyle>
-        <ReportButtons>
+        {/* New report buttons */}
+        <ReportButtonSection>
           <Link href={`../hardware-report/${data.Climb.id}`}>
-            <button className="hardware">Add a hardware report</button>
+            <ReportButton hardware>New Hardware Report</ReportButton>
           </Link>
-          <Link href={`../work-report/${data.Climb.id}`}>
-            <button className="rebolt">Add a work report</button>
+          <Link href={`../rebolt-report/${data.Climb.id}`}>
+            <ReportButton work>New Rebolt Report</ReportButton>
           </Link>
-        </ReportButtons>
-        <ReportBar>
-          <div>{data.Climb.totalReports.count} Reports Total</div>
+        </ReportButtonSection>
+        <ReportBar color={unapproved ? "red" : "green"}>
+          <div>
+            <strong>{data.Climb.totalReports.count}</strong> total reports
+          </div>
 
           <div className="needsReview">
-            <Link href={`../review-reports/${data.Climb.id}`}>
-              <a>{data.Climb.unapprovedReports.count} Need Review</a>
-            </Link>
+            {unapproved ? (
+              <Link href={`../review-reports/${data.Climb.id}`}>
+                <a>
+                  <span className="reviewNum">
+                    {data.Climb.unapprovedReports.count}
+                  </span>{" "}
+                  not reviewed
+                </a>
+              </Link>
+            ) : (
+              <span>All reports reviewed</span>
+            )}
           </div>
 
           <button className="sortButton">Sort</button>
@@ -162,10 +171,7 @@ export default function AllReportsPage({ query }) {
         <div>
           {data.Climb.reports?.length > 0 ? (
             data.Climb.reports.map((report) => (
-              <ReportStyle key={report.id}>
-                <Report key={report.id} report={report} />
-                <div className="bottomBorder"></div>
-              </ReportStyle>
+              <Report key={report.id} report={report} />
             ))
           ) : (
             <div>No reports</div>

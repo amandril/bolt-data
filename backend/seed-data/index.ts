@@ -54,7 +54,7 @@ export async function insertSeedData(ks: any) {
 
   // Calls the query function and stores into variable
 
-  const areaClimbs = await queryClimbs("e519a674-a620-509c-9e86-a246f84a8e40");
+  const areaClimbs = await queryClimbs("d0ca78b6-a3cb-517c-adee-d9c6f8c2d2d8");
 
   // Let's check if the climbs here are already in the database
 
